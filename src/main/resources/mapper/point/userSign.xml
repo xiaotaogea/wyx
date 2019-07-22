@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.point.dao.UserSignMapper">
+
+	<resultMap type="com.zjwm.wyx.point.entity.UserSign"
+		id="userSignMap">
+		<result property="id" column="id" />
+		<result property="uid" column="uid" />
+		<result property="times" column="times" />
+		<result property="addTime" column="addtime" />
+	</resultMap>
+
+	<update id="update">
+		update hbb_sign set `times` =
+		#{times},addtime=${addTime} where uid = #{uid}
+	</update>
+	<select id="queryObject" resultMap="userSignMap">
+		select * from hbb_sign where
+		uid = #{uid}
+	</select>
+
+	<insert id="save">
+		insert into hbb_sign
+		(
+		`uid`,
+		`times`,
+		`add_time`
+		)
+		values
+		(
+		#{uid},
+		#{times},
+		#{addTime}
+		)
+	</insert>
+
+</mapper>

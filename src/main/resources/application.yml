@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://125.46.13.246/fwpt?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: p40xdP23H0NX
+mybatis:
+   mapper-locations: classpath:mapper/*/*.xml
+
+#pagehelper∑÷“≥≤Âº˛≈‰÷√
+pagehelper:
+   helperDialect: mysql
+
+

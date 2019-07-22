@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.point.dao.UserPointMapper">
+
+	<resultMap type="com.zjwm.wyx.point.entity.UserPoint"
+		id="userPointMap">
+		<result property="id" column="id" />
+		<result property="uid" column="uid" />
+		<result property="method" column="method" />
+		<result property="type" column="type" />
+		<result property="content" column="content" />
+		<result property="fen" column="fen" />
+		<result property="addTime" column="addtime" />
+	</resultMap>
+
+
+	<select id="queryByUid" resultMap="userPointMap">
+		select * from hbb_jifen where
+		uid=#{uid} order by addtime desc
+	</select>
+
+
+
+	<insert id="save">
+		insert into hbb_jifen
+		(
+		`uid`,
+		`method`,
+		`type`,
+		`content`,
+		`fen`,
+		`addtime`
+		)
+		values
+		(
+		#{uid},
+		#{method},
+		#{type},
+		#{content},
+		#{fen},
+		#{addTime}
+		)
+	</insert>
+
+
+
+
+
+</mapper>
