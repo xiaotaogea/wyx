@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.course.dao.HoldMapper">
+
+    <resultMap type="com.zjwm.wyx.course.entity.Hold" id="holdMap">
+        <result property="id" column="id"/>
+        <result property="wid" column="wid"/>
+        <result property="acid" column="acid"/>
+        <result property="clid" column="clid"/>
+        <result property="uid" column="uid"/>
+        <result property="eid" column="eid"/>
+        <result property="qid" column="qid"/>
+        <result property="addTime" column="addtime"/>
+        <association property="userHClass"
+                     javaType="com.zjwm.wyx.course.entity.UserHClass">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="img" column="img"/>
+            <result property="synopsic" column="abstract"/>
+            <result property="type" column="type"/>
+            <result property="price" column="price"/>
+            <result property="oldPrice" column="old_price"/>
+            <result property="snum" column="snum"/>
+        </association>
+    </resultMap>
+
+    <select id="holdList" resultMap="holdMap">
+		select a.uid,a.clid,a.addtime,c.name,c.type,c.abstract,c.price,c.old_price,c.num,c.snum,c.img
+		from hbb_hold a join hbb_class c on c.id=a.clid and a.eid=0 and
+		a.qid=0 and a.uid=#{uid} order by a.addtime desc
+
+	</select>
+    <delete id="delHold">
+		delete from hbb_hold where uid=#{uid} and clid=#{clid}
+	</delete>
+</mapper>

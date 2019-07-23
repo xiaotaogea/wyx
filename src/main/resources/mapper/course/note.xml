@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.course.dao.NoteMapper">
+
+	<resultMap type="com.zjwm.wyx.course.entity.Note" id="noteMap">
+		<result property="id" column="id" />
+		<result property="clid" column="clid" />
+		<result property="vid" column="vid" />
+		<result property="uid" column="uid" />
+		<result property="vTime" column="vtime" />
+		<result property="addTime" column="addtime" />
+		<result property="note" column="note" />
+
+		<association property="video"
+			javaType="com.zjwm.wyx.course.entity.Video">
+			<result property="id" column="id" />
+			<result property="clid" column="clid" />
+			<result property="vid" column="vid" />
+			<result property="vName" column="vName" />
+			<result property="address" column="address" />
+			<result property="time" column="time" />
+		</association>
+	</resultMap>
+
+	<select id="queryNotesByUid" parameterType="int"
+		resultMap="noteMap">
+		SELECT * FROM `hbb_note` where uid = #{uid} GROUP BY clid
+	</select>
+	<select id="queryNotesByUidAndCid" parameterType="int"
+		resultMap="noteMap">
+		SELECT * FROM `hbb_note` n JOIN hbb_video v on n.vid=v.id
+		and n.clid=#{clid} and n.uid = #{uid}
+	</select>
+	<select id="queryCount" parameterType="int" resultType="int">
+		SELECT
+		count(*) FROM `hbb_note` where uid = #{uid} and clid=#{clid}
+	</select>
+
+</mapper>

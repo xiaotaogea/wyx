@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.course.dao.CommentMapper">
+
+	<resultMap type="com.zjwm.wyx.course.entity.Comment" id="commentMap">
+		<result property="id" column="id" />
+		<result property="clid" column="clid" />
+		<result property="vid" column="vid" />
+		<result property="uid" column="uid" />
+		<result property="content" column="content" />
+		<result property="addTime" column="addtime" />
+		<result property="star" column="star" />
+		<association property="userHClass"
+			javaType="com.zjwm.wyx.course.entity.UserHClass">
+			<result property="id" column="id" />
+			<result property="name" column="name" />
+		</association>
+		<association property="userEntity"
+			javaType="com.zjwm.wyx.course.entity.UserEntity">
+			<result property="id" column="id" />
+			<result property="nick" column="nick" />
+			<result property="pic" column="pic" />
+		</association>
+	</resultMap>
+
+	<select id="queryList" resultMap="commentMap">
+		select
+		a.uid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
+		hbb_comment a
+		join
+		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
+		= a.clid and
+		a.uid=#{uid}
+	</select>
+	<select id="queryGoodList" resultMap="commentMap">
+		select
+		a.uid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
+		hbb_comment a
+		join
+		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
+		= a.clid and
+		a.uid=#{uid} and a.star>=4
+	</select>
+	<select id="queryMidList" resultMap="commentMap">
+		select
+		a.uid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
+		hbb_comment a
+		join
+		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
+		= a.clid and
+		a.uid=#{uid} and a.star between 2 and 3
+	</select>
+	<select id="queryBadList" resultMap="commentMap">
+		select
+		a.uid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
+		hbb_comment a
+		join
+		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
+		= a.clid and
+		a.uid=#{uid} and a.star=1
+	</select>
+
+</mapper>

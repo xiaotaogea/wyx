@@ -81,7 +81,6 @@ public class UserSignController {
 			try {
 				t = (int) (sdf.parse(d).getTime() / 1000);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -177,7 +176,6 @@ public class UserSignController {
 		try {
 			d = (int) (sdf.parse(twoTime).getTime() / 1000);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// 比较
