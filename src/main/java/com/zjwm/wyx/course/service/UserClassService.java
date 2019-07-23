@@ -2,8 +2,6 @@ package com.zjwm.wyx.course.service;
 
 import com.github.pagehelper.Page;
 import com.zjwm.wyx.course.entity.UserHClass;
-import com.zjwm.wyx.course.entity.UserWClass;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,13 +12,18 @@ import java.util.List;
 public interface UserClassService {
 	
 	Page<UserHClass> queryAll();
-	List<UserWClass> queryByUidAndStatusNo(int uid);
-	List<UserWClass> queryByUidAndStatusYes(int uid);
-	
+
 	UserHClass queryById(int cid);
 
+	/**
+	 * 网站名字
+	 * @return
+	 */
+	List<String> queryWebNames();
+	List<String> queryAcNames(int wid);
 
 	List<Integer> queryByTj(int wid, int acid);
-
+	String queryTimeByUidAndClid(int uid, int clid);
 	List<Integer> queryByTjAndUid(int wwid, int acid, int uid,int status);
+
 }

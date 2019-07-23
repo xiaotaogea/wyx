@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.course.dao.ClassMapper">
+
+    <resultMap type="com.zjwm.wyx.course.entity.UserWClass"
+               id="userWClassMap">
+        <result property="id" column="id" />
+        <result property="uid" column="uid" />
+        <result property="clid" column="clid" />
+        <result property="wTime" column="wtime" />
+        <result property="allTime" column="alltime" />
+        <result property="status" column="status" />
+    </resultMap>
+
+    <select id="queryTimeByUidAndClid" parameterType="string"
+            resultMap="userWClassMap">
+        select alltime from hbb_wclass where uid = ${uid} and clid=#{clid}
+    </select>
+
+
+</mapper>

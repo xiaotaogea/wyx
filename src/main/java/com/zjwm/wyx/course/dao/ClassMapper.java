@@ -13,15 +13,24 @@ import java.util.List;
  * 
  */
 @Mapper
-public interface UserHClassMapper extends BaseDao<UserHClass> {
+public interface ClassMapper extends BaseDao<UserHClass> {
 	/**
 	 * 全部课程
 	 * @return
 	 */
 	Page<UserHClass> queryAll();
-	
+
+	/**
+	 * 网站名字
+	 * @return
+	 */
+	List<String> queryWebNames();
+
+	List<String> queryAcNames(@Param("wid") int wid);
 
 	List<Integer> queryByTj(@Param("wwid")int wwid, @Param("acid")int acid);
 
 	List<Integer> queryByTjAndUid(@Param("wwid")int wwid, @Param("acid")int acid,@Param("userId")int uid,@Param("status") int status);
+
+	String queryTimeByUidAndClid(@Param("uid")int uid,@Param("clid")int clid);
 }

@@ -9,13 +9,13 @@ import com.zjwm.wyx.course.service.NoteService;
 import com.zjwm.wyx.course.service.UserClassService;
 import com.zjwm.wyx.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 课程
@@ -37,48 +37,61 @@ public class CourseController {
     private HoldService holdService;
 
     /**
+     * web名字列表
+     * @return
+     */
+    @RequestMapping("/webNames")
+    public List<String> getNames() {
+        return userClassService.queryWebNames();
+    }
+
+    @RequestMapping("/acNames")
+    public List<String> getAcNames(int wid) {
+        return userClassService.queryAcNames(wid);
+    }
+
+    /**
      * 我的课程
      *
      * @param currPage 当前页
      * @param parent   一级筛选
      * @param child    二级筛选
-     * @param status    课程完成情况
+     * @param status   课程完成情况
      * @return
      */
-    @PostMapping("/all")
+    @RequestMapping("/all")
     public PageInfo<UserHClass> getAllCourse(HttpServletRequest request, Integer currPage, Integer parent, Integer child, Integer status) {
         //从session里獲得用户id
         Integer uid = (Integer) request.getSession().getAttribute("userId");
         currPage = (currPage == null) ? 1 : currPage;
         PageHelper.startPage(currPage, 5);
+
         PageInfo<UserHClass> page = null;
         List<Integer> cids = null;
+
         List<UserHClass> hList = new ArrayList<>();
         // uid不为null时，为个人完成课程情况
-        if (uid != null && status != null) {
+        if (status != null) {
             //status为0时，未完成，为1时，已完成
-            cids = userClassService.queryByTjAndUid(parent, child, uid,status);
-            System.out.println(cids.size());
+            cids = userClassService.queryByTjAndUid(parent, child, uid, status);
 
             for (Integer cid : cids) {
                 UserHClass userHClass = userClassService.queryById(cid);
-
+                //得到每个用户每个课程的观看时间
+                String wTime = userClassService.queryTimeByUidAndClid(uid, cid);
+                userHClass.setWTime(Integer.valueOf(wTime));
                 hList.add(userHClass);
             }
             page = new PageInfo<>(hList);
 
-        } else if (uid == null && status == null){// 查全部课程
-            List<Integer> clids = null;
+        } else if (status == null) {// 查全部课程
+            List<Integer> clids = userClassService.queryByTj(parent, child);
 
-            if (parent == null && child == null) {
-                page = new PageInfo<>(userClassService.queryAll());
-            } else {
-                clids = userClassService.queryByTj(parent, child);
-                for (Integer clid : clids) {
-                    hList.add(userClassService.queryById(clid));
-                }
-                page = new PageInfo<>(hList);
+            for (Integer clid : clids) {
+                hList.add(userClassService.queryById(clid));
             }
+            page = new PageInfo<>(hList);
+
 
         }
 
@@ -155,6 +168,7 @@ public class CourseController {
         PageInfo<Comment> page = new PageInfo<>(comments);
         return page;
     }
+
     /**
      * 收藏课程
      *
@@ -169,6 +183,7 @@ public class CourseController {
         PageInfo<Hold> page = new PageInfo<>(list);
         return page;
     }
+
     /**
      * 取消收藏
      *

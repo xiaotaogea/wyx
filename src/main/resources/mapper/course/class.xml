@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zjwm.wyx.course.dao.UserHClassMapper">
+<mapper namespace="com.zjwm.wyx.course.dao.ClassMapper">
 
     <resultMap type="com.zjwm.wyx.course.entity.UserHClass"
                id="userHClassMap">
@@ -45,6 +45,12 @@
         </association>
     </resultMap>
 
+    <select id="queryWebNames" resultType="string">
+        select name from hbb_web
+    </select>
+    <select id="queryAcNames" resultType="string">
+        select name from hbb_all_class where wid=#{wid}
+    </select>
     <select id="queryByTj" resultType="int">
         select DISTINCT wc.clid
         from
