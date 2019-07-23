@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,14 +31,15 @@ public class UserSignController {
 	/**
 	 * 用户积分列表
 	 * 
-	 * @param uid
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public PageInfo<UserPoint> getList(int uid, Integer currPage) {
+	public PageInfo<UserPoint> getList(Integer currPage, HttpServletRequest request) {
 		currPage = (currPage == null) ? 1 : currPage;
 		PageHelper.startPage(currPage, 14);
-		List<UserPoint> pointList = userPointService.queryByUid(uid);
+		//从session里獲得用户id
+		Integer userId = (Integer) request.getSession().getAttribute("userId");
+		List<UserPoint> pointList = userPointService.queryByUid(userId);
 		for (UserPoint userPoint : pointList) {
 			long addTime = userPoint.getAddTime();
 			String f = DateUtils.timeStampToDate(String.valueOf(addTime), "yyyy-MM-dd HH:mm");
@@ -50,15 +52,16 @@ public class UserSignController {
 	/**
 	 * 签到
 	 * 
-	 * @param uid
 	 * @return
 	 */
 	@RequestMapping("/sign")
-	public Map<String, String> sign(String uid) {
+	public Map<String, String> sign(HttpServletRequest request) {
+		//从session里獲得用户id
+		Integer uid = (Integer) request.getSession().getAttribute("userId");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Map<String, String> map = new HashMap<>();
 		// 上次签到的时间
-		int addTime = userPointService.queryByUid(Integer.parseInt(uid)).get(0).getAddTime();
+		int addTime = userPointService.queryByUid(uid).get(0).getAddTime();
 		// 签到时间
 		int nowTime = (int) (System.currentTimeMillis() / 1000);
 		if (signToday(addTime, nowTime)) {
@@ -87,12 +90,12 @@ public class UserSignController {
 			boolean isYesterday = compareOneAndYesterday(t);
 
 			// 先判断签到表中是否存在该对象
-			UserSign us = userSignService.queryByUid(Integer.parseInt(uid));
+			UserSign us = userSignService.queryByUid(uid);
 			// 如果不存在，先创建一个,第一次签到
 			if (us == null) {
 				// 存入签到表
 				UserSign userSign = new UserSign();
-				userSign.setUid(Integer.parseInt(uid));
+				userSign.setUid(uid);
 				userSign.setTimes(1);
 				userSign.setAddTime(nowTime);
 				userSignService.save(userSign);

@@ -17,7 +17,7 @@
         <result property="snum" column="snum"/>
         <result property="addTime" column="addtime"/>
 
-        <association property="userEntity" javaType="com.zjwm.wyx.course.entity.UserEntity">
+        <association property="userEntity" javaType="com.zjwm.wyx.login.entity.UserEntity">
             <result property="userId" column="id"/>
             <result property="username" column="username"/>
             <result property="mobile" column="mobile"/>

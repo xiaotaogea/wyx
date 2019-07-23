@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -38,7 +39,6 @@ public class CourseController {
     /**
      * 我的课程
      *
-     * @param uid      用户id
      * @param currPage 当前页
      * @param parent   一级筛选
      * @param child    二级筛选
@@ -46,8 +46,9 @@ public class CourseController {
      * @return
      */
     @PostMapping("/all")
-    public PageInfo<UserHClass> getAllCourse(Integer uid, Integer currPage, Integer parent, Integer child, Integer status) {
-
+    public PageInfo<UserHClass> getAllCourse(HttpServletRequest request, Integer currPage, Integer parent, Integer child, Integer status) {
+        //从session里獲得用户id
+        Integer uid = (Integer) request.getSession().getAttribute("userId");
         currPage = (currPage == null) ? 1 : currPage;
         PageHelper.startPage(currPage, 5);
         PageInfo<UserHClass> page = null;

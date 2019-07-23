@@ -1,4 +1,4 @@
-package com.zjwm.wyx.course.entity;
+package com.zjwm.wyx.login.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

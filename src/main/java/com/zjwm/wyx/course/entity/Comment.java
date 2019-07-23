@@ -2,6 +2,7 @@ package com.zjwm.wyx.course.entity;
 
 import java.io.Serializable;
 
+import com.zjwm.wyx.login.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

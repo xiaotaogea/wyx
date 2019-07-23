@@ -17,7 +17,7 @@
 			<result property="name" column="name" />
 		</association>
 		<association property="userEntity"
-			javaType="com.zjwm.wyx.course.entity.UserEntity">
+			javaType="com.zjwm.wyx.login.entity.UserEntity">
 			<result property="id" column="id" />
 			<result property="nick" column="nick" />
 			<result property="pic" column="pic" />

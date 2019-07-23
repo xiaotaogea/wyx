@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjwm.wyx.recruitment.dao.ResumeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zjwm.wyx.recruitment.entity.Resume">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="resume_name" property="resumeName" />
+		<result column="user_name" property="userName" />
+		<result column="gender" property="gender" />
+		<result column="phone" property="phone" />
+		<result column="email" property="email" />
+		<result column="qq" property="qq" />
+		<result column="birthday" property="birthday"
+			jdbcType="TIMESTAMP" />
+		<result column="age" property="age" />
+		<result column="native_place" property="nativePlace" />
+		<result column="img" property="img" />
+		<result column="work_year" property="workYear" />
+		<result column="education" property="education" />
+		<result column="hiredate" property="hiredate" />
+		<result column="job_type" property="jobType" />
+		<result column="expect_area" property="expectArea" />
+		<result column="industry_id" property="industryId" />
+		<result column="expect_emolument_low"
+			property="expectEmolumentLow" />
+		<result column="expect_emolument_high"
+			property="expectEmolumentHigh" />
+		<result column="check_num" property="checkNum" />
+		<result column="download_num" property="downloadNum" />
+		<result column="status" property="status" />
+		<result column="skill" property="skill" jdbcType="LONGVARCHAR" />
+		<result column="evaluate" property="evaluate"
+			jdbcType="LONGVARCHAR" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+
+	<select id="queryList" resultMap="BaseResultMap">
+		select * from hbb_resume
+		where
+		user_id=#{userId}
+	</select>
+	<select id="queryCountByUid" resultType="int">
+		select count(*) from hbb_resume
+		where
+		user_id=#{userId}
+	</select>
+	<select id="queryNameByUid" resultType="string">
+		select resume_name from hbb_resume
+		where
+		user_id=#{userId}
+	</select>
+	<select id="queryObject" resultMap="BaseResultMap">
+		select *
+		from hbb_resume where
+		id = #{id}
+	</select>
+	<delete id="delete">
+		delete from hbb_resume where id=#{id}
+	</delete>
+	<insert id="insert" parameterType="com.zjwm.wyx.recruitment.entity.Resume">
+		insert into hbb_resume
+		(user_id, resume_name,
+		user_name, gender, phone,
+		email, qq, birthday,
+		age,
+		native_place, img, work_year,
+		education, hiredate, job_type,
+		expect_area, industry_id, expect_emolument_low,
+		expect_emolument_high,
+		check_num, download_num,
+		status, create_time, update_time,
+		skill,
+		evaluate)
+		values (#{userId,jdbcType=INTEGER},
+		#{resumeName,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR},
+		#{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR}, #{qq,jdbcType=INTEGER},
+		#{birthday,jdbcType=DATE}, #{age,jdbcType=INTEGER},
+		#{nativePlace,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR},
+		#{workYear,jdbcType=INTEGER},
+		#{education,jdbcType=INTEGER},
+		#{hiredate,jdbcType=INTEGER}, #{jobType,jdbcType=INTEGER},
+		#{expectArea,jdbcType=INTEGER}, #{industryId,jdbcType=INTEGER},
+		#{expectEmolumentLow,jdbcType=INTEGER},
+		#{expectEmolumentHigh,jdbcType=INTEGER}, #{checkNum,jdbcType=INTEGER},
+		#{downloadNum,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER},
+		#{skill,jdbcType=LONGVARCHAR}, #{evaluate,jdbcType=LONGVARCHAR})
+	</insert>
+</mapper>

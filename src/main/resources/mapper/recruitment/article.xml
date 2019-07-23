@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.recruitment.dao.ArticleMapper">
+
+	<resultMap type="com.zjwm.wyx.recruitment.entity.Article"
+		id="articleMap">
+		<result property="id" column="id" />
+		<result property="titleImg" column="title_img" />
+		<result property="company" column="company" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="pv" column="pv" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+
+	<select id="queryObject" resultMap="articleMap">
+		select * from
+		hbb_recruitment_article where id = #{id}
+	</select>
+	<select id="queryAll" resultMap="articleMap">
+		select a.title_img,a.company,a.title,a.content,a.pv,a.`status`,a.create_time
+		from
+		hbb_recruitment_article a ORDER BY a.create_time
+	</select>
+	<delete id="delete" parameterType="int">
+		delete from
+		hbb_recruitment_article where id = #{id}
+	</delete>
+
+</mapper>
