@@ -1,4 +1,4 @@
-package com.zjwm.wyx.course.entity;
+package com.zjwm.wyx.answer.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Hold implements Serializable {
+public class Answer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -17,14 +17,12 @@ public class Hold implements Serializable {
 	private int wid;//网站id
 	private int acid;//所属全部课程属性id
 	private int clid;//课程id
+	private int vid;//视频id
 	private int uid;//用户id
-	private int eid;//收藏的试卷id
-	private int qid;//收藏的试题id
-	//收藏时间
+	private String content;//内容
+
+	private int pid;//回复id
+	private String vTime;//视频播放时长
 	private int addTime;
 
-	private UserHClass userHClass;//收藏的课程
-
-
-	
 }

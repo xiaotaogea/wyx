@@ -22,7 +22,7 @@ public class UserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//用户id
-	private int userId;
+	private int id;
 	//用户名
 	private String username;
 	//昵称

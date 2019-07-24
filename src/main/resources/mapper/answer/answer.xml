@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.answer.dao.AnswerMapper">
+
+    <resultMap type="com.zjwm.wyx.answer.entity.Answer" id="answerMap">
+        <result property="id" column="id"/>
+        <result property="wid" column="wid"/>
+        <result property="acid" column="acid"/>
+        <result property="clid" column="clid"/>
+        <result property="vid" column="vid"/>
+        <result property="uid" column="uid"/>
+        <result property="content" column="content"/>
+        <result property="pid" column="pid"/>
+        <result property="vTime" column="vTime"/>
+        <result property="addTime" column="addtime"/>
+    </resultMap>
+
+    <select id="queryList" resultMap="answerMap">
+        select * from hbb_answer where 1=1
+        <if test="pid!=null">
+            and pid=#{pid}
+        </if>
+        and uid=#{uid}
+    </select>
+
+</mapper>

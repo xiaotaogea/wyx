@@ -31,4 +31,6 @@ public interface HoldMapper extends BaseDao<Hold> {
 	 * @param clid
 	 */
 	int delHold(int uid, int clid);
+
+
 }

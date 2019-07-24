@@ -2,8 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zjwm.wyx.course.dao.HoldMapper">
-
-    <resultMap type="com.zjwm.wyx.course.entity.Hold" id="holdMap">
+    <!--
+        收藏课程
+    -->
+    <resultMap type="com.zjwm.wyx.course.entity.Hold" id="holdCourseMap">
         <result property="id" column="id"/>
         <result property="wid" column="wid"/>
         <result property="acid" column="acid"/>
@@ -23,9 +25,12 @@
             <result property="oldPrice" column="old_price"/>
             <result property="snum" column="snum"/>
         </association>
+
     </resultMap>
 
-    <select id="holdList" resultMap="holdMap">
+
+    <!--课堂-->
+    <select id="holdList" resultMap="holdCourseMap">
 		select a.uid,a.clid,a.addtime,c.name,c.type,c.abstract,c.price,c.old_price,c.num,c.snum,c.img
 		from hbb_hold a join hbb_class c on c.id=a.clid and a.eid=0 and
 		a.qid=0 and a.uid=#{uid} order by a.addtime desc
@@ -34,4 +39,6 @@
     <delete id="delHold">
 		delete from hbb_hold where uid=#{uid} and clid=#{clid}
 	</delete>
+
+
 </mapper>

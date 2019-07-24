@@ -5,7 +5,7 @@
 
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.zjwm.wyx.login.entity.UserEntity" id="userMap">
-        <result property="userId" column="user_id"/>
+        <result property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="mobile" column="mobile"/>
         <result property="password" column="password"/>
@@ -13,7 +13,7 @@
     </resultMap>
 
 	<select id="queryObject" resultType="com.zjwm.wyx.login.entity.UserEntity">
-		select * from hbb_user where user_id = #{userId}
+		select * from hbb_user where id = #{id}
 	</select>
 
 

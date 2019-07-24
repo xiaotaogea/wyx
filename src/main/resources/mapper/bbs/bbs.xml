@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.bbs.dao.BbsMapper">
+
+    <resultMap type="com.zjwm.wyx.bbs.entity.Bbs" id="bbsMap">
+        <result property="id" column="id"/>
+        <result property="cateId" column="cate_id"/>
+        <result property="type" column="type"/>
+        <result property="fen" column="fen"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="uid" column="user_id"/>
+        <result property="pv" column="pv"/>
+        <result property="status" column="status"/>
+        <result property="label" column="label"/>
+        <result property="createTime" column="create_time"/>
+
+        <association property="userEntity"
+                     javaType="com.zjwm.wyx.login.entity.UserEntity">
+            <result property="id" column="id"/>
+            <result property="nick" column="nick"/>
+        </association>
+        <association property="bbsCategory"
+                     javaType="com.zjwm.wyx.bbs.entity.BbsCategory">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+        <association property="bbsReply"
+                     javaType="com.zjwm.wyx.bbs.entity.BbsReply">
+            <result property="id" column="id"/>
+            <result property="userId" column="user_id"/>
+            <result property="bbs_id" column="bbsId"/>
+        </association>
+    </resultMap>
+<!--帖子信息-->
+    <select id="queryList" resultMap="bbsMap">
+		SELECT
+		a.user_id,a.id,a.title,a.pv,a.create_time,b.name,a.reply_num,a.fen,c.nick,c.id uid,b.id bid
+		from
+		hbb_bbs a join
+		hbb_bbs_category b join
+		hbb_user c
+		on b.id = a.cate_id
+		and a.user_id = c.id and a.`status`=1 and a.user_id=#{uid} ORDER BY
+		a.create_time DESC
+	</select>
+
+    <select id="queryObject" resultMap="bbsMap">
+		SELECT * from hbb_bbs where id=#{Id}
+	</select>
+<!--回复-->
+    <select id="queryReply" resultMap="bbsMap">
+        SELECT
+		a.user_id,a.id,a.title,a.pv,a.create_time,b.name,a.reply_num,a.fen,c.nick
+		from
+		hbb_bbs a join
+		hbb_bbs_category b join
+		hbb_user c join
+		hbb_bbs_reply r
+		on b.id = a.cate_id and r.bbs_id=a.id
+		and a.user_id = c.id and a.`status`=1 and r.user_id=#{userId} ORDER BY
+		a.create_time DESC
+	</select>
+<!--种类-->
+    <select id="querycateParentName" resultType="string">
+        select name from hbb_bbs_category where pid=0
+    </select>
+
+    <select id="querycateChildName" resultType="string">
+        select name from hbb_bbs_category where pid=#{id}
+    </select>
+
+<!--标签-->
+    <select id="queryLabs" resultType="string">
+        select name from hbb_bbs_lab
+    </select>
+
+<!--发帖-->
+    <insert id="save" parameterType="com.zjwm.wyx.bbs.entity.Bbs">
+        insert into hbb_bbs(
+        type,fen,cate_id,title,content,user_id,lab,create_time)
+        values(
+        #{type},#{fen},#{cateId},#{title},#{content},#{userId},#{lab},#{createTime})
+    </insert>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

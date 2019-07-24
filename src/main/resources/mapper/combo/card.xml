@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.combo.dao.ComboMapper">
+
+    <resultMap type="com.zjwm.wyx.combo.entity.ComboCard" id="cardMap">
+        <result property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="cardNum" column="card_num"/>
+        <result property="cardPwd" column="card_pwd"/>
+        <result property="useTime" column="use_time"/>
+        <result property="did" column="did"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="queryBycardNum" resultMap="cardMap">
+        select * from hbb_combo_card where card_num=#{cardNum}
+    </select>
+</mapper>

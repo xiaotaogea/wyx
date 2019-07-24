@@ -7,11 +7,8 @@ import com.zjwm.wyx.utils.RRException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 
 @Service("userService")
@@ -45,7 +42,7 @@ public class UserServiceImpl implements UserService {
             throw new RRException("密码错误");
         }
 
-        return user.getUserId();
+        return user.getId();
     }
 
     @Override
