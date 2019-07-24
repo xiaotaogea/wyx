@@ -1,11 +1,11 @@
 package com.zjwm.wyx.course.entity;
 
-import java.io.Serializable;
-
 import com.zjwm.wyx.login.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * 课程评价
@@ -25,7 +25,6 @@ public class Comment implements Serializable {
 	private int uid;
 	//添加时间
 	private int addTime;
-	private String dateTime;
 	//内容
 	private String content;
 	//星数目

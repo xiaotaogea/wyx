@@ -20,6 +20,7 @@
             <result property="name" column="name"/>
             <result property="img" column="img"/>
             <result property="synopsic" column="abstract"/>
+            <result property="num" column="num"/>
             <result property="type" column="type"/>
             <result property="price" column="price"/>
             <result property="oldPrice" column="old_price"/>

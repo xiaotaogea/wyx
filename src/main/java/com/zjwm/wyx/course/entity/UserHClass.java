@@ -1,11 +1,10 @@
 package com.zjwm.wyx.course.entity;
 
-import java.io.Serializable;
-
-import com.zjwm.wyx.login.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 
 /**
@@ -43,6 +42,5 @@ public class UserHClass implements Serializable {
 	//笔记数量
 	private int noteNum;
 
-	private UserEntity userEntity;
 
 }

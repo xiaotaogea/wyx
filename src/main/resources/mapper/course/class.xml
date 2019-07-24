@@ -17,13 +17,6 @@
         <result property="snum" column="snum"/>
         <result property="addTime" column="addtime"/>
 
-        <association property="userEntity" javaType="com.zjwm.wyx.login.entity.UserEntity">
-            <result property="userId" column="id"/>
-            <result property="username" column="username"/>
-            <result property="mobile" column="mobile"/>
-            <result property="password" column="password"/>
-            <result property="createTime" column="create_time"/>
-        </association>
     </resultMap>
 
     <resultMap type="com.zjwm.wyx.course.entity.Web" id="webMap">
@@ -68,9 +61,7 @@
         <if test="acid != null">
             and wc.acid=#{acid}
         </if>
-        <if test="status != null">
-            and wc.status=#{status}
-        </if>
+
     </select>
 
     <select id="queryByTjAndUid" resultType="int">

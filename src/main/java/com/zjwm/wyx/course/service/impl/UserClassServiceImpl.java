@@ -35,24 +35,24 @@ public class UserClassServiceImpl implements UserClassService {
 	}
 
 	@Override
-	public List<String> queryAcNames(int wid) {
+	public List<String> queryAcNames(Integer wid) {
 		return classMapper.queryAcNames(wid);
 	}
 
 
 	@Override
-	public List<Integer> queryByTj(int wid, int acid) {
+	public List<Integer> queryByTj(Integer wid, Integer acid) {
 		// TODO Auto-generated method stub
 		return classMapper.queryByTj(wid, acid);
 	}
 
 	@Override
-	public String queryTimeByUidAndClid(int uid, int clid) {
+	public String queryTimeByUidAndClid(Integer uid, Integer clid) {
 		return classMapper.queryTimeByUidAndClid(uid,clid);
 	}
 
 	@Override
-	public List<Integer> queryByTjAndUid(int wwid, int acid, int uid,int status) {
+	public List<Integer> queryByTjAndUid(Integer wwid, Integer acid, Integer uid,Integer status) {
 		return classMapper.queryByTjAndUid(wwid,acid,uid,status);
 	}
 }

@@ -2,12 +2,14 @@ package com.zjwm.wyx.course.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.zjwm.wyx.course.entity.*;
+import com.zjwm.wyx.course.entity.Comment;
+import com.zjwm.wyx.course.entity.Hold;
+import com.zjwm.wyx.course.entity.Note;
+import com.zjwm.wyx.course.entity.UserHClass;
 import com.zjwm.wyx.course.service.CommentService;
 import com.zjwm.wyx.course.service.HoldService;
 import com.zjwm.wyx.course.service.NoteService;
 import com.zjwm.wyx.course.service.UserClassService;
-import com.zjwm.wyx.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,8 +86,8 @@ public class CourseController {
             }
             page = new PageInfo<>(hList);
 
-        } else if (status == null) {// 查全部课程
-            List<Integer> clids = userClassService.queryByTj(parent, child);
+        } else {// 查全部课程
+            List<Integer> clids = userClassService.queryByTj(parent,child);
 
             for (Integer clid : clids) {
                 hList.add(userClassService.queryById(clid));
@@ -105,7 +107,9 @@ public class CourseController {
      * @return
      */
     @RequestMapping("/note")
-    public PageInfo<?> getListNote(Integer currPage, Integer uid, String token) {
+    public PageInfo<?> getListNote(HttpServletRequest request,Integer currPage, String token) {
+        //从session里獲得用户id
+        Integer uid = (Integer) request.getSession().getAttribute("userId");
         currPage = (currPage == null) ? 1 : currPage;
         PageHelper.startPage(currPage, 8);
         List<UserHClass> hClass = new ArrayList<>();
@@ -138,7 +142,9 @@ public class CourseController {
      * @return
      */
     @RequestMapping("/comment")
-    public PageInfo<?> getListComment(Integer currPage, Integer uid, String type) {
+    public PageInfo<?> getListComment(Integer currPage, HttpServletRequest request, String type) {
+        //从session里獲得用户id
+        Integer uid = (Integer) request.getSession().getAttribute("userId");
         currPage = (currPage == null) ? 1 : currPage;
         type = (type == null) ? "all" : type;
         PageHelper.startPage(currPage, 2);
@@ -161,10 +167,7 @@ public class CourseController {
                 comments = commentService.queryBadList(uid);
                 break;
         }
-        for (Comment comment : comments) {
-            String dateTime = DateUtils.timeStampToDate(String.valueOf(comment.getAddTime()), "yyyy-MM-dd HH:mm:ss");
-            comment.setDateTime(dateTime);
-        }
+
         PageInfo<Comment> page = new PageInfo<>(comments);
         return page;
     }
@@ -175,7 +178,9 @@ public class CourseController {
      * @return
      */
     @RequestMapping("/hold")
-    public PageInfo<Hold> getAllCourse(Integer current, int uid) {
+    public PageInfo<Hold> getAllCourse(Integer current,HttpServletRequest request) {
+        //从session里獲得用户id
+        Integer uid = (Integer) request.getSession().getAttribute("userId");
         current = current == null ? 1 : current;
         PageHelper.startPage(current, 5);
         // 收藏的所有试课程

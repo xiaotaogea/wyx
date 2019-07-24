@@ -13,8 +13,8 @@
         <result property="status" column="status" />
     </resultMap>
 
-    <select id="queryTimeByUidAndClid" parameterType="string"
-            resultMap="userWClassMap">
+    <select id="queryTimeByUidAndClid"
+            resultType="string">
         select alltime from hbb_wclass where uid = ${uid} and clid=#{clid}
     </select>
 

@@ -20,10 +20,10 @@ public interface UserClassService {
 	 * @return
 	 */
 	List<String> queryWebNames();
-	List<String> queryAcNames(int wid);
+	List<String> queryAcNames(Integer wid);
 
-	List<Integer> queryByTj(int wid, int acid);
-	String queryTimeByUidAndClid(int uid, int clid);
-	List<Integer> queryByTjAndUid(int wwid, int acid, int uid,int status);
+	List<Integer> queryByTj(Integer wid, Integer acid);
+	String queryTimeByUidAndClid(Integer uid, Integer clid);
+	List<Integer> queryByTjAndUid(Integer wwid, Integer acid, Integer uid,Integer status);
 
 }
