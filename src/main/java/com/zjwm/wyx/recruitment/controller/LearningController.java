@@ -21,7 +21,7 @@ public class LearningController {
 	private LearningService learningService;
 	/**
 	 * 全部问题
-	 * @return
+     * @return
 	 */
 	@RequestMapping("/all")
 	public List<Learning> getAllCourse() {

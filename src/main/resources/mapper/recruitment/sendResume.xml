@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.recruitment.dao.SendResumeMapper">
+
+	<resultMap type="com.zjwm.wyx.recruitment.entity.SendResume"
+		id="sendResumeMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="resumeId" column="resume_id" />
+		<result property="companyId" column="company_id" />
+		<result property="jobId" column="job_id" />
+		<result property="type" column="type" />
+		<result property="status" column="status" />
+		<result property="createTime" column="create_time" />
+
+	</resultMap>
+
+
+	<select id="queryList" resultMap="sendResumeMap">
+		select * from hbb_send_resume
+		where user_id=#{userId}
+	</select>
+
+	<select id="querySeeList" resultMap="sendResumeMap">
+		select * from
+		hbb_send_resume where user_id=#{userId} and type=2
+	</select>
+	<select id="queryYesList" resultMap="sendResumeMap">
+		select * from
+		hbb_send_resume where user_id=#{userId} and type=3
+	</select>
+	<select id="queryNoList" resultMap="sendResumeMap">
+		select * from hbb_send_resume
+		where user_id=#{userId} and type=4
+	</select>
+</mapper>

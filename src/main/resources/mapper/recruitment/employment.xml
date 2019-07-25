@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.recruitment.dao.EmploymentMapper">
+
+	<resultMap type="com.zjwm.wyx.recruitment.entity.Employment"
+		id="empMap">
+		<result property="id" column="id" />
+		<result property="resumeId" column="resume_id" />
+		<result property="workArea" column="work_area" />
+		<result property="workCompany" column="work_company" />
+		<result property="workJob" column="work_job" />
+		<result property="workCompanyNature" column="work_company_nature" />
+		<result property="workEmployeesNumber" column="work_employees_number" />
+		<result property="workEmolumentLow" column="work_emolument_low" />
+		<result property="workEmolumentHigh" column="work_emolument_high" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+		<result property="responsibility" column="responsibility" />
+		<result property="status" column="status" />
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+	</resultMap>
+
+	<select id="queryObject" resultMap="empMap">
+		select * from
+		hbb_resume_employment where resume_id = #{resumeId}
+	</select>
+	<insert id="save">
+		insert into hbb_resume_employment(
+		resume_id,work_area,work_company,work_job,
+		work_emolument_low,work_emolument_high,
+		begin_time,end_time,responsibility,create_time,update_time
+		)
+		values(
+		#{resumeId},#{workArea},#{workCompany},#{workJob},
+		#{workEmolumentLow},#{workEmolumentHigh},
+		#{beginTime},#{endTime},#{responsibility},#{createTime},#{updateTime}
+		)
+	</insert>
+	<delete id="delete" parameterType="int">
+		delete from
+		hbb_resume_employment where resume_id = #{resumeId}
+	</delete>
+
+</mapper>

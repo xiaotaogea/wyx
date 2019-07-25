@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.recruitment.dao.JobMapper">
+
+    <resultMap type="com.zjwm.wyx.recruitment.entity.Job" id="jobMap">
+        <result property="id" column="id"/>
+        <result property="companyId" column="company_id"/>
+        <result property="jobName" column="job_name"/>
+        <result property="workArea" column="work_area"/>
+        <result property="number" column="number"/>
+        <result property="workYear" column="work_year"/>
+        <result property="education" column="education"/>
+        <result property="emolumentLow" column="emolument_low"/>
+        <result property="emolumentHigh" column="emolument_high"/>
+        <result property="intro" column="intro"/>
+        <result property="requirement" column="requirement"/>
+        <result property="welfare" column="welfare"/>
+        <result property="checkNum" column="check_num"/>
+        <result property="collectNum" column="collect_num"/>
+        <result property="state" column="state"/>
+        <result property="createTime" column="create_time"/>
+        <!--公司-->
+        <association property="company" javaType="com.zjwm.wyx.recruitment.entity.Company">
+            <result property="companyId" column="user_id"/>
+            <result property="companyName" column="company_name"/>
+        </association>
+    </resultMap>
+
+
+    <!--公司名称-->
+    <select id="queryCompanyName" resultType="string">
+		select company_name from hbb_company where user_id = ${userId}
+	</select>
+    <!--福利-->
+    <select id="queryWelfares" resultType="com.zjwm.wyx.recruitment.entity.Welfare">
+		select * from hbb_recruitment_welfare where id = ${id}
+	</select>
+
+    <select id="queryObject" resultMap="jobMap">
+		select j.*,c.company_name
+        from hbb_recruitment_jobs j join hbb_company c
+        on j.company_id=c.user_id
+        and j.id=#{id}
+	</select>
+
+
+
+    <!--浏览记录-->
+    <select id="queryHistory" resultMap="jobMap">
+        select j.id,j.job_name,c.company_name,j.create_time,j.check_num
+        from hbb_recruitment_history h join hbb_recruitment_jobs j join hbb_company c
+        on h.job_id=j.id
+        and h.company_id=c.user_id
+        and h.user_id=#{uid}
+        GROUP BY h.job_id
+    </select>
+    <!--我的收藏-->
+    <select id="queryCollect" resultMap="jobMap">
+        select j.id,j.job_name,c.company_name,j.create_time,j.check_num
+        from hbb_recruitment_collect h join hbb_recruitment_jobs j join hbb_company c
+        on h.job_id=j.id
+        and h.company_id=c.user_id
+        and h.user_id=#{uid}
+        GROUP BY h.job_id
+    </select>
+
+    <delete id="delete">
+		delete from hbb_recruitment_history where id = #{id}
+	</delete>
+    <delete id="deleteCollect">
+		delete from hbb_recruitment_collect where id = #{id}
+	</delete>
+
+</mapper>
