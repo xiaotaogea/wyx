@@ -17,5 +17,6 @@ import java.util.List;
 @Mapper
 public interface AnswerMapper extends BaseDao<Answer> {
 
-    List<Answer> queryList(@Param("pid") int pid,@Param("uid") int uid);
+    List<Answer> queryQList(@Param("uid") int uid);
+    List<Answer> queryAList(@Param("uid") int uid);
 }

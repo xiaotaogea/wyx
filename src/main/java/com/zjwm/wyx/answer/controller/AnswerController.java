@@ -32,7 +32,16 @@ public class AnswerController {
 	public PageInfo<Answer> getAllCourse(Integer current, int uid, Integer type) {
 		current = current == null ? 1 : current;
 		PageHelper.startPage(current, 10);
-		List<Answer> list = answerService.queryList(type,uid);
+		List<Answer> list = null;
+		switch (type){
+			case 1:
+				list = answerService.queryQList(uid);
+				break;
+			case 2:
+				list = answerService.queryAList(uid);
+				break;
+		}
+
 		PageInfo<Answer> page = new PageInfo<>(list);
 		return page;
 	}

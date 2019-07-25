@@ -16,16 +16,16 @@ public class AnswerServiceImpl implements AnswerService {
 	private AnswerMapper answerMapper;
 
 	@Override
-	public List<Answer> queryList(int pid,int uid) {
+	public List<Answer> queryQList(int uid) {
 		// TODO Auto-generated method stub
-		return answerMapper.queryList(pid,uid);
+		return answerMapper.queryQList(uid);
 	}
 
-//	@Override
-//	public List<Answer> queryAList(int uid) {
-//		// TODO Auto-generated method stub
-//		return answerMapper.queryAList(uid);
-//	}
+	@Override
+	public List<Answer> queryAList(int uid) {
+		// TODO Auto-generated method stub
+		return answerMapper.queryAList(uid);
+	}
 
 	
 

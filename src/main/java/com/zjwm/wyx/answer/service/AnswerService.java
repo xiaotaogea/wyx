@@ -14,7 +14,7 @@ import java.util.List;
 public interface AnswerService {
 
 
-	List<Answer> queryList(int pid,int uid);
-//	List<Answer> queryAList(int uid);
+	List<Answer> queryQList(int uid);
+	List<Answer> queryAList(int uid);
 
 }

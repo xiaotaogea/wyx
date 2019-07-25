@@ -16,12 +16,10 @@
         <result property="addTime" column="addtime"/>
     </resultMap>
 
-    <select id="queryList" resultMap="answerMap">
-        select * from hbb_answer where 1=1
-        <if test="pid!=null">
-            and pid=#{pid}
-        </if>
-        and uid=#{uid}
+    <select id="queryQList" resultMap="answerMap">
+        select * from hbb_answer where pid=0 and uid=#{uid}
     </select>
-
+    <select id="queryAList" resultMap="answerMap">
+        select * from hbb_answer where pid!=0 and uid=#{uid}
+    </select>
 </mapper>
