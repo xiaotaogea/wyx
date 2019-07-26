@@ -178,11 +178,11 @@ public class CourseController {
      * @return
      */
     @RequestMapping("/hold")
-    public PageInfo<Hold> getAllCourse(Integer current,HttpServletRequest request) {
+    public PageInfo<Hold> getAllCourse(Integer currPage,HttpServletRequest request) {
         //从session里獲得用户id
         Integer uid = (Integer) request.getSession().getAttribute("userId");
-        current = current == null ? 1 : current;
-        PageHelper.startPage(current, 5);
+        currPage = currPage == null ? 1 : currPage;
+        PageHelper.startPage(currPage, 5);
         // 收藏的所有试课程
         List<Hold> list = holdService.holdList(uid);
         PageInfo<Hold> page = new PageInfo<>(list);

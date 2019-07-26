@@ -30,9 +30,9 @@ public class ExamController {
      * @return
      */
     @RequestMapping("/exam")
-    public PageInfo<HoldExam> getAllExam(Integer current, int uid) {
-        current = current == null ? 1 : current;
-        PageHelper.startPage(current, 10);
+    public PageInfo<HoldExam> getAllExam(Integer currPage, int uid) {
+        currPage = currPage == null ? 1 : currPage;
+        PageHelper.startPage(currPage, 10);
         // 收藏的所有试卷
         List<HoldExam> list = holdExamService.queryEList(uid);
 
@@ -52,9 +52,9 @@ public class ExamController {
      * @return
      */
     @RequestMapping("/question")
-    public PageInfo<HoldQuestion> getAllQue(Integer current, int uid) {
-        current = current == null ? 1 : current;
-        PageHelper.startPage(current, 10);
+    public PageInfo<HoldQuestion> getAllQue(Integer currPage, int uid) {
+        currPage = currPage == null ? 1 : currPage;
+        PageHelper.startPage(currPage, 10);
         // 收藏的所有试卷
         List<HoldQuestion> list = holdExamService.queryQList(uid);
 
@@ -74,9 +74,9 @@ public class ExamController {
      * @return
      */
     @RequestMapping("/examDo")
-    public PageInfo<ExamDo> getExamDo(Integer current, int uid) {
-        current = current == null ? 1 : current;
-        PageHelper.startPage(current, 10);
+    public PageInfo<ExamDo> getExamDo(Integer currPage, int uid) {
+        currPage = currPage == null ? 1 : currPage;
+        PageHelper.startPage(currPage, 10);
         // 做过的试卷
         List<ExamDo> list = holdExamService.queryExamDo(uid);
         PageInfo<ExamDo> page = new PageInfo<>(list);

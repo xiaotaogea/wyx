@@ -29,9 +29,9 @@ public class AnswerController {
 	 * @return
 	 */
 	@RequestMapping("/all")
-	public PageInfo<Answer> getAllCourse(Integer current, int uid, Integer type) {
-		current = current == null ? 1 : current;
-		PageHelper.startPage(current, 10);
+	public PageInfo<Answer> getAllCourse(Integer currPage, int uid, Integer type) {
+        currPage = currPage == null ? 1 : currPage;
+		PageHelper.startPage(currPage, 10);
 		List<Answer> list = null;
 		switch (type){
 			case 1:

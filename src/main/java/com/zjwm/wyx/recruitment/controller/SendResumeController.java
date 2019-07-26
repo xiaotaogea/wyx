@@ -38,10 +38,10 @@ public class SendResumeController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	public PageInfo<SendResume> list(Integer uid, Integer current, Integer type) {
-		current = current == null ? 1 : current;
+	public PageInfo<SendResume> list(Integer uid, Integer currPage, Integer type) {
+        currPage = currPage == null ? 1 : currPage;
         type = type == null ? 1 : type;
-		PageHelper.startPage(current, 10);
+		PageHelper.startPage(currPage, 10);
 		List<SendResume> list = null;
 		switch (type) {
 		case 1:

@@ -1,5 +1,7 @@
 package com.zjwm.wyx.recruitment.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zjwm.wyx.recruitment.entity.Job;
 import com.zjwm.wyx.recruitment.entity.Welfare;
 import com.zjwm.wyx.recruitment.service.JobService;
@@ -28,17 +30,23 @@ public class JobController {
      * 浏览列表
      */
     @RequestMapping("/hostory")
-    public List<Job> getHostory(int uid) {
+    public PageInfo<Job> getHostory(int uid,Integer currPage) {
+        currPage = currPage == null ? 1 : currPage;
+        PageHelper.startPage(currPage, 5);
         List<Job> jobs = jobService.queryHistory(uid);
-        return jobs;
+        PageInfo<Job> page = new PageInfo<>(jobs);
+        return page;
     }
     /**
      * 收藏列表
      */
     @RequestMapping("/collect")
-    public List<Job> getCollect(int uid) {
-        List<Job> jobs = jobService.queryHistory(uid);
-        return jobs;
+    public PageInfo<Job> getCollect(int uid,Integer currPage) {
+        currPage = currPage == null ? 1 : currPage;
+        PageHelper.startPage(currPage, 5);
+        List<Job> jobs = jobService.queryCollect(uid);
+        PageInfo<Job> page = new PageInfo<>(jobs);
+        return page;
     }
 
     /**

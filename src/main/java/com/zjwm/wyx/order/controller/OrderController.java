@@ -23,9 +23,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @RequestMapping("list")
-    public PageInfo<Order> getList(int uid,Integer current,Integer status){
-        current = current == null ? 1 : current;
-        PageHelper.startPage(current, 10);
+    public PageInfo<Order> getList(int uid,Integer currPage,Integer status){
+        currPage = currPage == null ? 1 : currPage;
+        PageHelper.startPage(currPage, 10);
 
         List<Order> orders = orderService.queryPay(uid,status);
 
