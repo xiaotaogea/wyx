@@ -44,7 +44,7 @@ public class BbsController {
             case 1:
                 bbs = bbsService.queryList(uid);
                 break;
-            default:
+            case 2:
                 bbs = bbsService.queryReply(uid);
                 break;
         }
@@ -69,7 +69,7 @@ public class BbsController {
         bbs.setContent(bs.getContent());
         bbs.setTitle(bs.getTitle());
         bbs.setUid(userId);
-        bbs.setLable(bs.getLable());
+        bbs.setLabel(bs.getLabel());
         bbs.setCreateTime((int) (System.currentTimeMillis() / 1000));
         bbs.setType(bs.getType());
         int res = bbsService.save(bbs);
