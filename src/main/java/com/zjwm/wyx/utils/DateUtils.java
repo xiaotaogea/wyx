@@ -11,7 +11,7 @@ public class DateUtils {
 	 * 时间戳转换成日期格式字符串
 	 * 
 	 * @param seconds   精确到秒的字符串
-	 * @param formatStr
+	 * @param format
 	 * @return
 	 */
 	public static String timeStampToDate(String seconds, String format) {

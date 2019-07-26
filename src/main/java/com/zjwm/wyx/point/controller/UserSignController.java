@@ -2,6 +2,7 @@ package com.zjwm.wyx.point.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.point.entity.UserSign;
 import com.zjwm.wyx.point.service.UserPointService;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +31,8 @@ public class UserSignController {
 	private UserSignService userSignService;
 	@Autowired
 	private UserPointService userPointService;
-
+    @Autowired
+    private UserService userService;
 	/**
 	 * 用户积分列表
 	 * 
@@ -48,6 +53,32 @@ public class UserSignController {
 		PageInfo<UserPoint> page = new PageInfo<>(pointList);
 		return page;
 	}
+
+    /**
+     * 用户总积分
+     * @param uid
+     * @return
+     */
+    @RequestMapping("/sumPoint")
+    public Integer getSumPoint(int uid){
+        List<UserPoint> pointList = userPointService.queryByUid(uid);
+        //积分String
+        StringBuilder stringBuilder = new StringBuilder();
+        for (UserPoint userPoint : pointList) {
+            stringBuilder.append(userPoint.getFen());
+        }
+        //计算总积分
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+        Integer result = null;
+
+        try {
+            result = (Integer) engine.eval(new String(stringBuilder));
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 	/**
 	 * 签到

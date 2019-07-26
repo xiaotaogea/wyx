@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 /**
@@ -36,5 +35,6 @@ public class UserPoint implements Serializable {
 	private int addTime;
 	//时间戳转为日期
 	private String dateTime;
+
 
 }
