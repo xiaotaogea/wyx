@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjwm.wyx.charts.dao.TimeMapper">
+
+    <resultMap type="com.zjwm.wyx.charts.entity.Time" id="timeMap">
+        <result property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="studyTime" column="studytime"/>
+        <result property="addTime" column="addtime"/>
+    </resultMap>
+
+<!--七天-->
+    <select id="queryOnList" resultMap="timeMap">
+        select * from hbb_online_today where uid=#{uid} order by addTime desc limit 7
+    </select>
+
+    <select id="queryStudyList" resultMap="timeMap">
+        select * from hbb_study_today where uid=#{uid} order by addTime desc limit 7
+    </select>
+
+<!--一个月-->
+    <select id="queryOnMonthList" resultMap="timeMap">
+        select * from hbb_online_today where uid=#{uid} order by addTime desc limit 30
+    </select>
+
+    <select id="queryStudyMonthList" resultMap="timeMap">
+        select * from hbb_study_today where uid=#{uid} order by addTime desc limit 30
+    </select>
+
+<!--一年-->
+    <select id="queryOnYearList" resultMap="timeMap">
+        select * from hbb_online_today where uid=#{uid}
+    </select>
+
+    <select id="queryStudyYearList" resultMap="timeMap">
+        select * from hbb_study_today where uid=#{uid}
+    </select>
+</mapper>
