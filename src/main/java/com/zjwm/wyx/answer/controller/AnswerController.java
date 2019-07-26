@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 学习评估
+ * 课堂答疑
  *
  * @author Administrator
  */
