@@ -21,11 +21,11 @@
 
 <!--一个月-->
     <select id="queryOnMonthList" resultMap="timeMap">
-        select * from hbb_online_today where uid=#{uid} order by addTime desc limit 30
+        select * from hbb_online_today where uid=#{uid} order by addTime desc limit 31
     </select>
 
     <select id="queryStudyMonthList" resultMap="timeMap">
-        select * from hbb_study_today where uid=#{uid} order by addTime desc limit 30
+        select * from hbb_study_today where uid=#{uid} order by addTime desc limit 31
     </select>
 
 <!--一年-->
