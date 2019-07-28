@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Description: 统计周、月、年的学习和登录数据
- * version 2018.3
+ * @Description: 统计周、月、年的学习和登录数据
+ * @version 2018.3
  */
 @RestController
 @RequestMapping("/charts")
