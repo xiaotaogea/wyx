@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,12 +34,12 @@ public class UserSignController {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public PageInfo<UserPoint> getList(Integer currPage,int uid) {
+	public PageInfo<UserPoint> getList(Integer currPage, HttpServletRequest request) {
 		currPage = (currPage == null) ? 1 : currPage;
 		PageHelper.startPage(currPage, 14);
 		//从session里獲得用户id
-//		Integer userId = (Integer) request.getSession().getAttribute("userId");
-		List<UserPoint> pointList = userPointService.queryByUid(uid);
+		Integer userId = (Integer) request.getSession().getAttribute("userId");
+		List<UserPoint> pointList = userPointService.queryByUid(userId);
 		for (UserPoint userPoint : pointList) {
 			long addTime = userPoint.getAddTime();
 			String f = DateUtils.timeStampToDate(String.valueOf(addTime), "yyyy-MM-dd HH:mm");
@@ -54,9 +55,9 @@ public class UserSignController {
 	 * @return
 	 */
 	@RequestMapping("/sign")
-	public Map<String, String> sign(int uid) {
+	public Map<String, String> sign(HttpServletRequest request) {
 		//从session里獲得用户id
-//		Integer uid = (Integer) request.getSession().getAttribute("userId");
+		Integer uid = (Integer) request.getSession().getAttribute("userId");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Map<String, String> map = new HashMap<>();
 		// 上次签到的时间

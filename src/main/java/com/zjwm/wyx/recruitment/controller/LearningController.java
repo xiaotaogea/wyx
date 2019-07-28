@@ -16,17 +16,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/learning")
 public class LearningController {
-	
-	@Autowired
-	private LearningService learningService;
-	/**
-	 * 全部问题
+
+    @Autowired
+    private LearningService learningService;
+
+    /**
+     * 全部问题
+     *
      * @return
-	 */
-	@RequestMapping("/all")
-	public List<Learning> getAllCourse() {
-		List<Learning> list = learningService.queryList();
-		return list;	
-	}
-	
+     */
+    @RequestMapping("/all")
+    public List<Learning> getList() {
+        return learningService.queryList();
+    }
 }

@@ -24,7 +24,7 @@ public class Bbs implements Serializable {
 	private int uid;
 	private int pv;// 点击量
 	private int status;// 状态：1显示0隐藏
-	private String lable;//标签
+	private String label;//标签
 	private int createTime;
 	
 	private UserEntity userEntity;//用户

@@ -8,15 +8,25 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 用户
- *
- * @author czx
- * @email object_czx@163.com
- * @date 2017-10-23 21:23:54
+ * @author 王俊涛
+ * @date 2019/7/28 0028 16:02
  */
 @Mapper
 public interface AnswerMapper extends BaseDao<Answer> {
-
+    /**
+     *功能描述：根据用户id查找提问
+     *@author 王俊涛
+     *@version 2018.3
+     *@param uid 用户id
+     *@return
+     */
     List<Answer> queryQList(@Param("uid") int uid);
+    /**
+     *功能描述：根据用户id查找回答
+     *@author 王俊涛
+     *@version 2018.3
+     *@param uid 用户id
+     *@return
+     */
     List<Answer> queryAList(@Param("uid") int uid);
 }

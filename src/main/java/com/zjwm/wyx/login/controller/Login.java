@@ -42,7 +42,7 @@ public class Login {
 	public R pwd(@RequestParam String mobile, @RequestParam String pwd, HttpServletRequest request) {
         System.err.println(mobile+" "+pwd);
 		// 验证手机号和密码
-		long userid = userService.login(mobile, pwd);
+		int userid = userService.login(mobile, pwd);
 //		返回token user信息（用户名、用户头像、userId）
 		UserEntity userEntity = userService.queryObject(userid);
 		//把用户id存到session里

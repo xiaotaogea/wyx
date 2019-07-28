@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
-
 @Service("answerService")
 public class AnswerServiceImpl implements AnswerService {
 	@Autowired

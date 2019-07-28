@@ -29,22 +29,22 @@ public class BbsController {
     /**
      * 我的
      *
-     * @param current
+     * @param currPage
      * @param uid
      * @param type    1：我的帖子 其他：参与
      * @return
      */
     @RequestMapping("list")
-    private PageInfo<Bbs> getBbs(Integer current, int uid, Integer type) {
-        current = current == null ? 1 : current;
+    private PageInfo<Bbs> getBbs(Integer currPage, int uid, Integer type) {
+        currPage = currPage == null ? 1 : currPage;
         List<Bbs> bbs = null;
 
-        PageHelper.startPage(current, 5);
+        PageHelper.startPage(currPage, 5);
         switch (type) {
             case 1:
                 bbs = bbsService.queryList(uid);
                 break;
-            default:
+            case 2:
                 bbs = bbsService.queryReply(uid);
                 break;
         }
@@ -69,7 +69,7 @@ public class BbsController {
         bbs.setContent(bs.getContent());
         bbs.setTitle(bs.getTitle());
         bbs.setUid(userId);
-        bbs.setLable(bs.getLable());
+        bbs.setLabel(bs.getLabel());
         bbs.setCreateTime((int) (System.currentTimeMillis() / 1000));
         bbs.setType(bs.getType());
         int res = bbsService.save(bbs);

@@ -34,9 +34,9 @@ public class ResumeController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	public PageInfo<Resume> list(int uid, Integer current) {
-		current = current == null ? 1 : current;
-		PageHelper.startPage(current, 10);
+	public PageInfo<Resume> list(int uid, Integer currPage) {
+        currPage = currPage == null ? 1 : currPage;
+		PageHelper.startPage(currPage, 10);
         //从session里獲得用户id
 //        Integer uid = (Integer) request.getSession().getAttribute("userId");
 		List<Resume> resumes = resumeService.queryList(uid);

@@ -51,7 +51,7 @@ public class ExamController {
      *
      * @return
      */
-    @RequestMapping("/test")
+    @RequestMapping("/question")
     public PageInfo<HoldQuestion> getAllQue(Integer current, int uid) {
         current = current == null ? 1 : current;
         PageHelper.startPage(current, 10);

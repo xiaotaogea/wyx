@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public UserEntity queryObject(Long userId) {
+    public UserEntity queryObject(int userId) {
         return userDao.queryObject(userId);
     }
 
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long login(String mobile, String password) {
+    public int login(String mobile, String password) {
         UserEntity user = queryByMobile(mobile);
         if (user==null){
             return -1;
