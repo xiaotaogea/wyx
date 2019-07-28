@@ -32,8 +32,8 @@ public class DateUtils {
 	 * @param intervals intervals天内
 	 * @return 日期数组
 	 */
-	public static ArrayList<String> test(int intervals) {
-		ArrayList<String> pastDaysList = new ArrayList<>();
+	public static List<String> test(int intervals) {
+		List<String> pastDaysList = new ArrayList<>();
 		for (int i = 0; i < intervals; i++) {
 			pastDaysList.add(getPastDate(i));
 		}
