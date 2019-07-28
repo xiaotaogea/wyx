@@ -41,7 +41,7 @@ public class UserClassServiceImpl implements UserClassService {
 
 
 	@Override
-	public List<Integer> queryByTj(Integer wid, Integer acid) {
+	public List<UserHClass> queryByTj(Integer wid, Integer acid) {
 		// TODO Auto-generated method stub
 		return classMapper.queryByTj(wid, acid);
 	}

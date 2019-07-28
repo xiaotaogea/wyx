@@ -44,13 +44,13 @@
     <select id="queryAcNames" resultType="string">
         select name from hbb_all_class where wid=#{wid}
     </select>
-    <select id="queryByTj" resultType="int">
-        select DISTINCT wc.clid
+    <select id="queryByTj" resultMap="userHClassMap">
+        select DISTINCT c.*
         from
-        hbb_web w
+        hbb_class c
         join hbb_all_class ac
         join hbb_wclass wc
-        join hbb_class c
+        join hbb_web w
         on w.id=ac.wid
         and ac.id=wc.acid
         and wc.clid=c.id
