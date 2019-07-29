@@ -3,6 +3,7 @@ package com.zjwm.wyx.combo.controller;
 import com.zjwm.wyx.combo.entity.ComboCard;
 import com.zjwm.wyx.combo.entity.ComboCardOrder;
 import com.zjwm.wyx.combo.service.ComboService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/combo")
+@Api(description = "学习卡：功能未知没写全，暂停服务")
 public class ComboController {
 
     @Autowired

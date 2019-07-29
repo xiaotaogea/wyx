@@ -3,6 +3,7 @@ package com.zjwm.wyx.login.controller;
 import com.zjwm.wyx.login.entity.UserEntity;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.utils.R;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/login")
+@Api(description = "登录：加密方式未知，暂停服务")
 public class Login {
 	
 	@Autowired

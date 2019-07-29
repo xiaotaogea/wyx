@@ -33,10 +33,10 @@ public interface ResumeService {
 	List<String> queryPArea();
 	/**
 	 * 子地区
-	 * @param aid
+	 * @param pid
 	 * @return
 	 */
-	List<String> querySArea(Integer aid);
+	List<String> querySArea(Integer pid);
 
     /**
      * 用户简历列表

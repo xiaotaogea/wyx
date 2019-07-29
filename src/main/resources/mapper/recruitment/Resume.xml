@@ -60,7 +60,7 @@
 	<select id="querySArea" resultType="string">
 		select name
 		from hbb_area where
-		pid=#{aid}
+		pid=#{pid}
 	</select>
 	<!--职位分类-->
 	<select id="queryPName" resultType="string">
