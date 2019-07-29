@@ -1,3 +1,11 @@
+/*
+  Copyright: 2016-2019，中教网盟科技有限公司
+  FileName: ResumeController
+  Author: 王俊涛
+  Date：2019/7/28 0028 15:54
+  History:
+  <author>     <time>      <version>       <desc>
+ */
 package com.zjwm.wyx.recruitment.controller;
 
 import com.github.pagehelper.PageHelper;
@@ -6,6 +14,11 @@ import com.zjwm.wyx.recruitment.entity.Employment;
 import com.zjwm.wyx.recruitment.entity.Project;
 import com.zjwm.wyx.recruitment.entity.Resume;
 import com.zjwm.wyx.recruitment.service.ResumeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,14 +29,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 简历管理
- * 
- * @author czx
- * @email object_czx@163.com
- * @date 2017-10-23 21:23:54
+ * Description: 我的求职-简历管理：用户的简历列表，发布简历
+ * version 2018.3
  */
 @RestController
 @RequestMapping("/resume")
+@Api(description = "我的求职-简历管理")
 public class ResumeController {
 	
 	@Resource
@@ -31,9 +42,19 @@ public class ResumeController {
 
 
 	/**
-	 * 列表
+	 *功能描述：查询用户的所有简历
+	 *@author 王俊涛
+	 *@version 2018.3
+	 *@param uid 用户id
+	 *@param currPage 当前页，默认是1
+	 *@return com.github.pagehelper.PageInfo<com.zjwm.wyx.recruitment.entity.Resume>
 	 */
-	@RequestMapping("/list")
+	@GetMapping("/list")
+	@ApiOperation(value = "查询用户的所有简历")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如889", required = true, dataType = "int"),
+	})
 	public PageInfo<Resume> list(int uid, Integer currPage) {
         currPage = currPage == null ? 1 : currPage;
 		PageHelper.startPage(currPage, 10);
@@ -47,42 +68,50 @@ public class ResumeController {
     /**
      * 简历信息
      */
-    @RequestMapping("/info")
+    @GetMapping("/info")
+	@ApiOperation(value = "根据简历id查询简历信息")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "id", value = "简历id，如12", required = true, dataType = "int"),
+	})
     public Resume getInfo(Integer id){
         return resumeService.queryById(id);
     }
     /**
      * 删除简历
      */
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
+	@ApiOperation(value = "根据简历id删除简历")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "id", value = "简历id", required = true, dataType = "int"),
+	})
     public void delete(Integer id){
         resumeService.delete(id);
     }
 	/**
 	 * 父职位
 	 */
-	@RequestMapping("/pName")
+	@GetMapping("/pName")
 	public List<String> getPName(){
 		return resumeService.queryPName();
 	}
 	/**
 	 * 子职位
 	 */
-	@RequestMapping("/sName")
+	@GetMapping("/sName")
 	public List<String> getSName(Integer id){
 		return resumeService.querySName(id);
 	}
 	/**
 	 * 父地区
 	 */
-	@RequestMapping("/pArea")
+	@GetMapping("/pArea")
 	public List<String> getPArea(){
 		return resumeService.queryPArea();
 	}
 	/**
 	 * 子地区
 	 */
-	@RequestMapping("/sArea")
+	@GetMapping("/sArea")
 	public List<String> getSArea(Integer aid){
 		return resumeService.querySArea(aid);
 	}
@@ -91,7 +120,7 @@ public class ResumeController {
 	 *
 	 *  发布简历
 	 */
-	@RequestMapping("/create")
+	@GetMapping("/create")
 	public Map<String,String> createResume(HttpServletRequest request, Resume resume, Employment employment, Project project,Integer current){
         //从session里獲得用户id
         Integer uid = (Integer) request.getSession().getAttribute("userId");

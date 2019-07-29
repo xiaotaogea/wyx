@@ -19,7 +19,7 @@
 		hbb_recruitment_article where id = #{id}
 	</select>
 	<select id="queryAll" resultMap="articleMap">
-		select a.title_img,a.company,a.title,a.content,a.pv,a.`status`,a.create_time
+		select a.id,a.title_img,a.company,a.title,a.content,a.pv,a.`status`,a.create_time
 		from
 		hbb_recruitment_article a ORDER BY a.create_time
 	</select>
