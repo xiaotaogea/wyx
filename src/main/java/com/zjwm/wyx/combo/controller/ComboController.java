@@ -4,10 +4,11 @@ import com.zjwm.wyx.combo.entity.ComboCard;
 import com.zjwm.wyx.combo.entity.ComboCardOrder;
 import com.zjwm.wyx.combo.service.ComboService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,16 +23,16 @@ import java.util.Map;
 @Api(description = "学习卡：功能未知没写全，暂停服务")
 public class ComboController {
 
-    @Autowired
+    @Resource
     private ComboService comboService;
 
     /**
      * 卡片信息
-     * @param cardNum
-     * @param cardPwd
-     * @return
+     * @param cardNum 账号
+     * @param cardPwd 密码
+     * @return Map<String,String> 信息
      */
-    @RequestMapping("info")
+    @GetMapping("info")
     public Map<String,String> getInfo(int uid,String cardNum, String cardPwd){
         Map<String,String> map = new HashMap<>();
         // 1.接收卡片账号密码，并判断是否正确

@@ -43,15 +43,14 @@ public class ArticleController {
     @GetMapping("/list")
     @ApiOperation(value = "查询所有文章")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
     })
     public PageInfo<Article> list(Integer currPage) {
         currPage = (currPage == null) ? 1 : currPage;
         PageHelper.startPage(currPage, 14);
         // 查询列表数据
         List<Article> articles = articleService.queryList();
-        PageInfo<Article> page = new PageInfo<>(articles);
-        return page;
+        return new PageInfo<>(articles);
     }
 
     /**
@@ -68,9 +67,8 @@ public class ArticleController {
     })
 
     public Article info(Integer id) {
-        Article userArticle = articleService.queryObject(id);
 
-        return userArticle;
+        return articleService.queryObject(id);
     }
 
     /**

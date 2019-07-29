@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -95,17 +94,17 @@ public class CourseController {
     @GetMapping("/all")
     @ApiOperation(value = "课程管理：全部课程、用户课程列表接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如889", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "parent", value = "一级查询课程id，如3", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "child", value = "二级查询课程id，如24", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "status", value = "0用户未完成，1用户已完成", required = false, dataType = "int")
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如889", dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "parent", value = "一级查询课程id，如3", dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "child", value = "二级查询课程id，如24", dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "status", value = "0用户未完成，1用户已完成", dataType = "int")
     })
 
     public PageInfo<?> getAllCourse(Integer uid, Integer currPage, Integer parent, Integer child, Integer status) {
         currPage = (currPage == null) ? 1 : currPage;
 
-        PageInfo<UserHClass> page = null;
+        PageInfo<UserHClass> page;
         PageHelper.startPage(currPage, 5);
 
         // uid不为null时，为个人完成课程情况
@@ -121,7 +120,7 @@ public class CourseController {
             page = new PageInfo<>(classes);
 
         } else {// 查全部课程
-            List<UserHClass> hList = new ArrayList<>();
+            List<UserHClass> hList;
             if (parent == null && child == null) {
                 hList = userClassService.queryAll();
             } else {
@@ -147,13 +146,12 @@ public class CourseController {
     @ApiOperation(value = "课程笔记和详情接口")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如15443", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "token", value = "查看笔记详情时,必选值detail", required = false, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "token", value = "查看笔记详情时,必选值detail", dataType = "string"),
     })
     public PageInfo<?> getListNote(int uid, Integer currPage, String token) {
         currPage = (currPage == null) ? 1 : currPage;
         PageHelper.startPage(currPage, 8);
-        List<UserHClass> hClass = new ArrayList<>();
 
         // 用户所有笔记,按课程分组
         List<Note> notes = noteService.queryNotesByUid(uid);
@@ -167,14 +165,12 @@ public class CourseController {
             // 每个课程的笔记列表详情
             if (token != null && token.equals("detail")) {
                 List<Note> noteDetails = noteService.queryNotesByUidAndCid(uid, cid);
-                PageInfo<Note> page = new PageInfo<>(noteDetails);
-                return page;
+                return new PageInfo<>(noteDetails);
             }
 
         }
 
-        PageInfo<Note> page = new PageInfo<>(notes);
-        return page;
+        return new PageInfo<>(notes);
     }
 
     /**
@@ -191,8 +187,8 @@ public class CourseController {
     @ApiOperation(value = "课程评论接口")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如15443", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "type", value = "all:全部，good：好评，mid：中评,bad：差评  默认all", required = false, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "type", value = "all:全部，good：好评，mid：中评,bad：差评  默认all",  dataType = "string"),
     })
     public PageInfo<Comment> getListComment(int uid, Integer currPage, String type) {
         currPage = (currPage == null) ? 1 : currPage;
@@ -217,7 +213,9 @@ public class CourseController {
                 comments = commentService.queryBadList(uid);
                 break;
         }
-
+        if (comments == null){
+            return null;
+        }
         return new PageInfo<>(comments);
     }
 
@@ -241,8 +239,7 @@ public class CourseController {
         PageHelper.startPage(currPage, 5);
         // 收藏的所有试课程
         List<Hold> list = holdService.holdList(uid);
-        PageInfo<Hold> page = new PageInfo<>(list);
-        return page;
+        return new PageInfo<>(list);
     }
 
     /**
@@ -250,7 +247,6 @@ public class CourseController {
      *
      * @param uid  用户id
      * @param clid 要取消的课程id
-     * @return void
      * @author 王俊涛
      * @version 2018.3
      */

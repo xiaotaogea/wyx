@@ -13,7 +13,7 @@ public class DateUtils {
 	 * 时间戳转换成日期格式字符串
 	 * 
 	 * @param seconds   精确到秒的字符串
-	 * @return
+	 * @return 日期格式字符串
 	 */
 	public static String timeStampToDate(String seconds, String format) {
 		if (seconds == null || seconds.isEmpty() || seconds.equals("null")) {
@@ -43,27 +43,26 @@ public class DateUtils {
 	/**
 	 * 获取过去第几天的日期
 	 * 
-	 * @param past
-	 * @return
+	 * @param past 几天
+	 * @return 日期
 	 */
-	public static String getPastDate(int past) {
+	private static String getPastDate(int past) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - past);
 		Date today = calendar.getTime();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		String result = format.format(today);
-		return result;
+        return format.format(today);
 	}
 
     /**
      * 两段日期的中间日期数据(day)
      * @param start 开始日期
      * @param end 结束日期
-     * @return
+     * @return 之间的日期
      */
 
-    public static List<Date> getBetweenDates(Date start, Date end) {
-        List<Date> result = new ArrayList<Date>();
+    private static List<Date> getBetweenDates(Date start, Date end) {
+        List<Date> result = new ArrayList<>();
         Calendar tempStart = Calendar.getInstance();
         tempStart.setTime(start);
 
@@ -81,8 +80,7 @@ public class DateUtils {
     }
 
     /**
-     * 过去一个月的数据
-     * @return
+     * @return 过去一个月的数据
      */
     public static List<String> getDateStr(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -107,8 +105,7 @@ public class DateUtils {
 
         List<Date> betweenDates = getBetweenDates(prevTime, nowTime);
         List<String> dateStr = new ArrayList<>();
-        for (int i = 0; i < betweenDates.size(); i++) {
-            Date date = betweenDates.get(i);
+        for (Date date : betweenDates) {
             String format = dateFormat.format(date);
             dateStr.add(format);
         }
@@ -117,14 +114,14 @@ public class DateUtils {
 
 
     /**
-     * 两段日期的中间日期数据(Year)
+     *
      * @param start 开始日期
      * @param end 结束日期
-     * @return
+     * @return 两段日期的中间日期数据(Year)
      */
 
-    public static List<Date> getBetweenYears(Date start, Date end) {
-        List<Date> result = new ArrayList<Date>();
+    private static List<Date> getBetweenYears(Date start, Date end) {
+        List<Date> result = new ArrayList<>();
         Calendar tempStart = Calendar.getInstance();
         tempStart.setTime(start);
 
@@ -142,8 +139,8 @@ public class DateUtils {
     }
 
     /**
-     * 年之间的数据
-     * @return
+     *
+     * @return 年之间的数据
      */
     public static List<String> getYearStr(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
@@ -167,8 +164,7 @@ public class DateUtils {
         }
         List<Date> betweenDates = getBetweenYears(prevTime, nowTime);
         List<String> dateStr = new ArrayList<>();
-        for (int i = 0; i < betweenDates.size(); i++) {
-            Date date = betweenDates.get(i);
+        for (Date date : betweenDates) {
             String format = dateFormat.format(date);
             dateStr.add(format);
         }

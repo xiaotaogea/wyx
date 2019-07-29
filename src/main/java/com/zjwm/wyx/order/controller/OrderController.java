@@ -1,3 +1,11 @@
+/*
+  Copyright: 2016-2019，中教网盟科技有限公司
+  FileName: OrderController
+  Author: 王俊涛
+  Date：2019/7/28 0028 15:54
+  History:
+  <author>     <time>      <version>       <desc>
+ */
 package com.zjwm.wyx.order.controller;
 
 import com.github.pagehelper.PageHelper;
@@ -8,32 +16,27 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * 订单
- *
- * @author Administrator
- */
 
 @RestController
 @RequestMapping("/order")
 @Api(description = "我的订单")
 public class OrderController {
 
-    @Autowired
+    @Resource
     private OrderService orderService;
     @GetMapping("list")
     @ApiOperation(value = "订单管理：查询用户的所有订单")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如887", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "status", value = "1:未付款，2:已付款  默认1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "status", value = "1:未付款，2:已付款  默认1", dataType = "int"),
     })
     public PageInfo<Order> getList(int uid,Integer currPage,Integer status){
         currPage = currPage == null ? 1 : currPage;
@@ -42,8 +45,7 @@ public class OrderController {
 
         List<Order> orders = orderService.queryPay(uid,status);
 
-        PageInfo<Order> page = new PageInfo<>(orders);
-        return page;
+        return new PageInfo<>(orders);
     }
 
 

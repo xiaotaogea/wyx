@@ -34,7 +34,7 @@ public class LearningController {
     /**
      * 全部问题
      *
-     * @return
+     * @return 问题列表
      */
     @GetMapping("/all")
     @ApiOperation(value = "查询所有评估问题")

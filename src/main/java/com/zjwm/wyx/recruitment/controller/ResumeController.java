@@ -51,7 +51,7 @@ public class ResumeController {
 	@GetMapping("/list")
 	@ApiOperation(value = "查询用户的所有简历")
 	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
 			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如889", required = true, dataType = "int"),
 	})
 	public PageInfo<Resume> list(int uid, Integer currPage) {
@@ -60,8 +60,7 @@ public class ResumeController {
         //从session里獲得用户id
 //        Integer uid = (Integer) request.getSession().getAttribute("userId");
 		List<Resume> resumes = resumeService.queryList(uid);
-		PageInfo<Resume> page = new PageInfo<>(resumes);
-		return page;
+		return new PageInfo<>(resumes);
 		
 	}
     /**

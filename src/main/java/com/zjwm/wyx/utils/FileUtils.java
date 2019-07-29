@@ -15,7 +15,7 @@ public class FileUtils {
      * @param file 文件
      * @param path 文件存放路径
      * @param fileName 源文件名
-     * @return
+     * @return 上传是否成功
      */
     public static boolean upload(MultipartFile file, String path, String fileName){
 
@@ -37,11 +37,7 @@ public class FileUtils {
             //保存文件
             file.transferTo(dest);
             return true;
-        } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
+        } catch (IllegalStateException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return false;

@@ -50,9 +50,9 @@ public class SendResumeController {
 	@GetMapping("/list")
 	@ApiOperation(value = "查询所有投递的记录")
 	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
 			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如13932", required = true, dataType = "int"),
-			@ApiImplicitParam(paramType = "query", name = "type", value = "1:全部，2:已查看,3:约面试,4:拒绝 默认1", required = false, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "type", value = "1:全部，2:已查看,3:约面试,4:拒绝 默认1", dataType = "int"),
 	})
 	public PageInfo<SendResume> list(Integer uid, Integer currPage, Integer type) {
         currPage = currPage == null ? 1 : currPage;
@@ -76,6 +76,9 @@ public class SendResumeController {
 			// 拒绝
 			list = sendResumeService.queryNoList(uid);
 			break;
+		}
+		if (list == null){
+			return null;
 		}
 		//得到每条记录的具体信息
 		for (SendResume sendResume : list) {
@@ -107,16 +110,15 @@ public class SendResumeController {
 			if (welfare != null) {
 				String[] arr = welfare.split(",");
 				StringBuilder stringBuilder = new StringBuilder();
-				for (int i = 0, len = arr.length; i < len; i++) {
-					Welfare wel  = jobService.queryWelfares(Integer.valueOf(arr[i]));
-					stringBuilder.append(wel.getName() + " ");
+				for (String s : arr) {
+					Welfare wel = jobService.queryWelfares(Integer.valueOf(s));
+					stringBuilder.append(wel.getName()).append(" ");
 				}
 				job.setWelfare(new String(stringBuilder));
 			}
 			sendResume.setWelfare(job.getWelfare());
 		}
-		PageInfo<SendResume> page = new PageInfo<>(list);
-		return page;
+		return new PageInfo<>(list);
 
 	}
 

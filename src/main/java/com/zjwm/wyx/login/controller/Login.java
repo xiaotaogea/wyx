@@ -4,19 +4,19 @@ import com.zjwm.wyx.login.entity.UserEntity;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.utils.R;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * 
  * @ClassName:  Login   
  * @Description:登陆接口   
- * @author: Administrator
- * @date:   2019年6月10日 上午11:46:50   
+ * @author: 王俊涛
+ * @date:   2019/7/28 0028 15:54
  *     
  * @Copyright: 2019 www.zjwm.com Inc. All rights reserved. 
  *
@@ -26,16 +26,15 @@ import javax.servlet.http.HttpServletRequest;
 @Api(description = "登录：加密方式未知，暂停服务")
 public class Login {
 	
-	@Autowired
+	@Resource
 	private UserService userService;
 	/**
 	 * 
-	 * @Title: pwd   
-	 * @Description: 密码登陆   
-	 * @param: @param mobile
-	 * @param: @param pwd
-	 * @param: @return  
-	 * @author: Administrator 
+	 * @Description: 密码登陆
+	 * @param: @param mobile 手机号
+	 * @param: @param pwd 密码
+	 * @param: @return  R
+	 * @author: 王俊涛
 	 * @date:   2019年6月10日 上午11:48:03      
 	 * @return: R      
 	 * 
