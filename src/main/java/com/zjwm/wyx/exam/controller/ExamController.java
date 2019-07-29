@@ -49,8 +49,8 @@ public class ExamController {
     @GetMapping("/exam")
     @ApiOperation(value = "根据用户id查询收藏的试卷")
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认1", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如889", required = true, dataType = "int"),
     })
     public PageInfo<HoldExam> getAllExam(Integer currPage, int uid) {
         currPage = currPage == null ? 1 : currPage;
@@ -80,8 +80,8 @@ public class ExamController {
     @GetMapping("/test")
     @ApiOperation(value = "根据用户id查询收藏的试题")
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认1", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如889", required = true, dataType = "int"),
     })
     public PageInfo<HoldQuestion> getAllQue(Integer currPage, int uid) {
         currPage = currPage == null ? 1 : currPage;
@@ -104,8 +104,8 @@ public class ExamController {
     @GetMapping("/examDo")
     @ApiOperation(value = "根据用户id查询做题记录")
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认1", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如889", required = true, dataType = "int"),
     })
     public PageInfo<ExamDo> getExamDo(Integer currPage, int uid) {
         currPage = currPage == null ? 1 : currPage;

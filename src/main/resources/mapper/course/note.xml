@@ -21,6 +21,12 @@
 			<result property="address" column="address" />
 			<result property="time" column="time" />
 		</association>
+		<association property="userHClass" javaType="com.zjwm.wyx.course.entity.UserHClass">
+			<result property="id" column="id"/>
+			<result property="name" column="name"/>
+			<result property="img" column="img"/>
+			<result property="num" column="num"/>
+		</association>
 	</resultMap>
 
 	<select id="queryNotesByUid" parameterType="int"

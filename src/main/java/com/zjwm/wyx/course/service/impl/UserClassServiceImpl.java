@@ -52,7 +52,7 @@ public class UserClassServiceImpl implements UserClassService {
 	}
 
 	@Override
-	public List<Integer> queryByTjAndUid(Integer wwid, Integer acid, Integer uid,Integer status) {
-		return classMapper.queryByTjAndUid(wwid,acid,uid,status);
+	public List<UserHClass> queryByTjAndUid(Integer uid, Integer status, Integer parent, Integer child) {
+		return classMapper.queryByTjAndUid(uid,status,parent,child);
 	}
 }

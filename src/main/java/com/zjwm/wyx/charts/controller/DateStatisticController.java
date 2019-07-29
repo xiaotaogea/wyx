@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * @Description: 统计周、月、年的学习和登录数据
+ * @Description 统计周、月、年的学习和登录数据
  * @version 2018.3
  */
 @RestController
@@ -53,18 +53,13 @@ public class DateStatisticController {
     @SuppressWarnings("unchecked")
     @ApiOperation(value = "获取指定用户日期的登录和学习数据")
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如15443", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "num", value = "1是登录时间，2是学习时间", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "type", value = "week是一周，month是一月，year是一年", required = true, dataType = "string")
     })
     public Map<Object, Object> getTime(int uid, Integer num, String type) {
         //存放日期-时长,并进行日期排序
-        Map<Object, Object> map = new TreeMap(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o2.compareTo(o1);
-            }
-        });
+        Map<Object, Object> map = new TreeMap((Comparator<String>) (o1, o2) -> o2.compareTo(o1));
         List<Time> list = null;
         switch (num) {
             //获取指定登录日期数据

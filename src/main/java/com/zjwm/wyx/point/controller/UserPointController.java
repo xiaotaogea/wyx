@@ -53,7 +53,7 @@ public class UserPointController {
 	@ApiOperation(value = "根据用户id获得所有积分信息")
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = true, dataType = "int"),
-			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int")
+			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如15443", required = true, dataType = "int")
 	})
 	public PageInfo<UserPoint> getList(int uid,Integer currPage) {
 		currPage = (currPage == null) ? 1 : currPage;

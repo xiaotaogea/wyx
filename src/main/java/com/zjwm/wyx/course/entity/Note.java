@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 课程笔记
@@ -31,5 +30,9 @@ public class Note implements Serializable {
 	private String note;
 	//笔记视频
 	private Video video;
+	//笔记课程
+	private UserHClass userHClass;
+	//笔记数量
+	private int noteNum;
 
 }

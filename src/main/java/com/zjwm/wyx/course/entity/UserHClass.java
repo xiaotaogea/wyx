@@ -39,8 +39,7 @@ public class UserHClass implements Serializable {
 	private int snum;
 	//观看时长
 	private int wTime;
-	//笔记数量
-	private int noteNum;
+
 
 
 }

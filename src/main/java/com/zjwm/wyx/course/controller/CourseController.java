@@ -73,7 +73,7 @@ public class CourseController {
     @GetMapping("/acNames")
     @ApiOperation(value = "二级分类课程")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "wid", value = "一级课程id", required = true, dataType = "int")
+            @ApiImplicitParam(paramType = "query", name = "wid", value = "一级课程id,如3", required = true, dataType = "int")
     })
     public List<String> getAcNames(int wid) {
         return userClassService.queryAcNames(wid);
@@ -95,45 +95,40 @@ public class CourseController {
     @GetMapping("/all")
     @ApiOperation(value = "课程管理：全部课程、用户课程列表接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "parent", value = "一级查询课程id", required = false, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "child", value = "二级查询课程id", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如889", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "parent", value = "一级查询课程id，如3", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "child", value = "二级查询课程id，如24", required = false, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "status", value = "0用户未完成，1用户已完成", required = false, dataType = "int")
     })
 
     public PageInfo<?> getAllCourse(Integer uid, Integer currPage, Integer parent, Integer child, Integer status) {
         currPage = (currPage == null) ? 1 : currPage;
 
+        PageInfo<UserHClass> page = null;
+        PageHelper.startPage(currPage, 5);
 
-        PageInfo<?> page = null;
-        List<Integer> cids = null;
-        PageHelper.startPage(currPage, 4);
-        List<UserHClass> hList = new ArrayList<>();
         // uid不为null时，为个人完成课程情况
         if (status != null) {
             //status为0时，未完成，为1时，已完成
-            cids = userClassService.queryByTjAndUid(parent, child, uid, status);
-
-            for (Integer cid : cids) {
-                UserHClass userHClass = userClassService.queryById(cid);
+            List<UserHClass> classes = userClassService.queryByTjAndUid(uid, status, parent, child);
+            for (UserHClass hclass : classes) {
                 //得到每个用户每个课程的观看时间
-                String wTime = userClassService.queryTimeByUidAndClid(uid, cid);
-                userHClass.setWTime(Integer.valueOf(wTime));
-                hList.add(userHClass);
+                String wTime = userClassService.queryTimeByUidAndClid(uid, hclass.getId());
+                hclass.setWTime(Integer.valueOf(wTime));
+
             }
-            page = new PageInfo<>(hList);
+            page = new PageInfo<>(classes);
 
         } else {// 查全部课程
-            List<UserHClass> userHClass = null;
+            List<UserHClass> hList = new ArrayList<>();
             if (parent == null && child == null) {
-                userHClass = userClassService.queryAll();
+                hList = userClassService.queryAll();
             } else {
-                userHClass = userClassService.queryByTj(parent, child);
+                hList = userClassService.queryByTj(parent, child);
             }
-            page = new PageInfo<>(userHClass);
+            page = new PageInfo<>(hList);
         }
-        System.out.println(page.getList().size());
         return page;
 
     }
@@ -151,8 +146,8 @@ public class CourseController {
     @GetMapping("/note")
     @ApiOperation(value = "课程笔记和详情接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = true, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如15443", required = true, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = false, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "token", value = "查看笔记详情时,必选值detail", required = false, dataType = "string"),
     })
     public PageInfo<?> getListNote(int uid, Integer currPage, String token) {
@@ -166,9 +161,9 @@ public class CourseController {
         for (Note note : notes) {
             int cid = note.getClid();
             int noteNum = noteService.queryCount(uid, cid);
-            UserHClass classNote = userClassService.queryById(cid);
-            classNote.setNoteNum(noteNum);
-            hClass.add(classNote);
+            UserHClass userHClass = userClassService.queryById(cid);
+            note.setNoteNum(noteNum);
+            note.setUserHClass(userHClass);
             // 每个课程的笔记列表详情
             if (token != null && token.equals("detail")) {
                 List<Note> noteDetails = noteService.queryNotesByUidAndCid(uid, cid);
@@ -178,7 +173,7 @@ public class CourseController {
 
         }
 
-        PageInfo<UserHClass> page = new PageInfo<>(hClass);
+        PageInfo<Note> page = new PageInfo<>(notes);
         return page;
     }
 
@@ -195,8 +190,8 @@ public class CourseController {
     @GetMapping("/comment")
     @ApiOperation(value = "课程评论接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = true, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如15443", required = true, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", required = false, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "type", value = "all:全部，good：好评，mid：中评,bad：差评  默认all", required = false, dataType = "string"),
     })
     public PageInfo<Comment> getListComment(int uid, Integer currPage, String type) {
