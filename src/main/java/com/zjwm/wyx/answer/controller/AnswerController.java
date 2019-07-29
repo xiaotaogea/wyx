@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/answer")
+
 public class AnswerController {
 
 	@Autowired
@@ -29,6 +30,7 @@ public class AnswerController {
 	 * @return
 	 */
 	@RequestMapping("/all")
+
 	public PageInfo<Answer> getAllCourse(Integer currPage, int uid, Integer type) {
         currPage = currPage == null ? 1 : currPage;
 		PageHelper.startPage(currPage, 10);

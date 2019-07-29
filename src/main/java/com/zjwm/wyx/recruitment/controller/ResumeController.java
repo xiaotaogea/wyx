@@ -95,9 +95,9 @@ public class ResumeController {
 	public Map<String,String> createResume(HttpServletRequest request, Resume resume, Employment employment, Project project,Integer current){
         //从session里獲得用户id
         Integer uid = (Integer) request.getSession().getAttribute("userId");
-		Map<String,String> map = new HashMap<>();
-		int count = resumeService.queryCountByUid(uid);
-		if (count>5){
+        Map<String,String> map = new HashMap<>();
+        int count = resumeService.queryCountByUid(uid);
+        if (count>5){
 			map.put("msg","每个用户最多只能制作5份简历");
 			return map;
 		}
