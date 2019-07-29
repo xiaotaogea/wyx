@@ -22,7 +22,7 @@ public class UserPoint implements Serializable {
 	
 	private int id;
 	//用户id
-	private Long uid;
+	private int uid;
 	//方式
 	private String method;
 	//类型 0：加，1：减

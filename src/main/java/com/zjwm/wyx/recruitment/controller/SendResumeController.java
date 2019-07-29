@@ -1,3 +1,11 @@
+/*
+  Copyright: 2016-2019，中教网盟科技有限公司
+  FileName: SendResumeController
+  Author: 王俊涛
+  Date：2019/7/28 0028 15:54
+  History:
+  <author>     <time>      <version>       <desc>
+ */
 package com.zjwm.wyx.recruitment.controller;
 
 import com.github.pagehelper.PageHelper;
@@ -9,7 +17,11 @@ import com.zjwm.wyx.recruitment.entity.Welfare;
 import com.zjwm.wyx.recruitment.service.JobService;
 import com.zjwm.wyx.recruitment.service.ResumeService;
 import com.zjwm.wyx.recruitment.service.SendResumeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,17 +29,15 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 简历投递
- * 
- * @author czx
- * @email object_czx@163.com
- * @date 2017-10-23 21:23:54
+ * Description: 我的求职-投递记录
+ * version 2018.3
  */
 @RestController
 @RequestMapping("/sendResume")
+@Api(description = "我的求职-投递记录")
 public class SendResumeController {
 
-	@Autowired
+	@Resource
 	private SendResumeService sendResumeService;
 	@Resource
 	private JobService jobService;
@@ -37,7 +47,13 @@ public class SendResumeController {
 	/**
 	 * 列表
 	 */
-	@RequestMapping("/list")
+	@GetMapping("/list")
+	@ApiOperation(value = "查询所有投递的记录")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如13932", required = true, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "type", value = "1:全部，2:已查看,3:约面试,4:拒绝 默认1", required = false, dataType = "int"),
+	})
 	public PageInfo<SendResume> list(Integer uid, Integer currPage, Integer type) {
         currPage = currPage == null ? 1 : currPage;
         type = type == null ? 1 : type;
@@ -70,9 +86,15 @@ public class SendResumeController {
 			sendResume.setCompanyName(companyName);
 			// 简历id
 			int resumeId = sendResume.getResumeId();
+
             Resume re = resumeService.queryById(resumeId);
-			// 简历名称
-			String resumeName = re.getResumeName();
+			String resumeName;
+            if (re==null){
+            	resumeName = "简历已删除";
+			}else {
+				// 简历名称
+				resumeName = re.getResumeName();
+			}
 			sendResume.setResumeName(resumeName);
 			// 职位id
 			int jobId = sendResume.getJobId();

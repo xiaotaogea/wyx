@@ -1,94 +1,85 @@
+/*
+  Copyright: 2016-2019，中教网盟科技有限公司
+  FileName: UserPointController
+  Author: 王俊涛
+  Date：2019/7/28 0028 15:54
+  History:
+  <author>     <time>      <version>       <desc>
+ */
 package com.zjwm.wyx.point.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.point.entity.UserSign;
 import com.zjwm.wyx.point.service.UserPointService;
 import com.zjwm.wyx.point.service.UserSignService;
 import com.zjwm.wyx.utils.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * 用户积分
- * 
+ * Description: 用户积分列表，签到
+ * version 2018.3
  */
 @RestController
-@RequestMapping("/point")
-public class UserSignController {
-	@Autowired
+@RequestMapping("point")
+@Api(description = "我的积分")
+public class UserPointController {
+	@Resource
 	private UserSignService userSignService;
-	@Autowired
+	@Resource
 	private UserPointService userPointService;
-    @Autowired
-    private UserService userService;
+
 	/**
-	 * 用户积分列表
-	 * 
-	 * @return
+	 *功能描述：根据用户id获得所有积分信息
+	 *@author 王俊涛
+	 *@version 2018.3
+	 *@param uid 用户id
+	 *@param currPage 当前页，默认是1
+	 *@return com.github.pagehelper.PageInfo<com.zjwm.wyx.point.entity.UserPoint>
 	 */
-	@RequestMapping("/list")
-	public PageInfo<UserPoint> getList(Integer currPage, HttpServletRequest request) {
+	@GetMapping("list")
+	@ApiOperation(value = "根据用户id获得所有积分信息")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = true, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如15443", required = true, dataType = "int")
+	})
+	public PageInfo<UserPoint> getList(int uid,Integer currPage) {
 		currPage = (currPage == null) ? 1 : currPage;
 		PageHelper.startPage(currPage, 14);
-		//从session里獲得用户id
-		Integer userId = (Integer) request.getSession().getAttribute("userId");
-		List<UserPoint> pointList = userPointService.queryByUid(userId);
+		List<UserPoint> pointList = userPointService.queryByUid(uid);
 		for (UserPoint userPoint : pointList) {
 			long addTime = userPoint.getAddTime();
 			String f = DateUtils.timeStampToDate(String.valueOf(addTime), "yyyy-MM-dd HH:mm");
 			userPoint.setDateTime(f);
 		}
-		PageInfo<UserPoint> page = new PageInfo<>(pointList);
-		return page;
+		return new PageInfo<>(pointList);
 	}
 
-    /**
-     * 用户总积分
-     * @param uid
-     * @return
-     */
-    @RequestMapping("/sumPoint")
-    public Integer getSumPoint(int uid){
-        List<UserPoint> pointList = userPointService.queryByUid(uid);
-        //积分String
-        StringBuilder stringBuilder = new StringBuilder();
-        for (UserPoint userPoint : pointList) {
-            stringBuilder.append(userPoint.getFen());
-        }
-        //计算总积分
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("js");
-        Integer result = null;
-
-        try {
-            result = (Integer) engine.eval(new String(stringBuilder));
-        } catch (ScriptException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
 	/**
-	 * 签到
-	 * 
-	 * @return
+	 *功能描述：根据用户id操作签过流程
+	 *@author 王俊涛
+	 *@version 2018.3
+	 *@param uid 用户id
+	 *@return java.util.Map<java.lang.String,java.lang.String>
 	 */
-	@RequestMapping("/sign")
-	public Map<String, String> sign(HttpServletRequest request) {
-		//从session里獲得用户id
-		Integer uid = (Integer) request.getSession().getAttribute("userId");
+	@GetMapping("/sign")
+	@ApiOperation(value = "根据用户id操作签过流程")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int")
+	})
+	public Map<String, String> sign(int uid) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Map<String, String> map = new HashMap<>();
 		// 上次签到的时间
@@ -101,7 +92,7 @@ public class UserSignController {
 		} else {
 			// 积分表
 			UserPoint userPoint = new UserPoint();
-			userPoint.setUid(Long.valueOf(uid));
+			userPoint.setUid(uid);
 			userPoint.setMethod("每日签到");
 			userPoint.setType(0);
 
@@ -156,7 +147,7 @@ public class UserSignController {
 					userPoint.setContent("连续签到5天");
 					userPoint.setFen("+10");
 					userPointService.insertUserPoint(userPoint);
-				} else if (times > 5 && times <= 30) {
+				} else if (times <= 30) {
 					// 连续签到6-30天，每年积分+5
 					userPoint.setContent("签到成功");
 					userPoint.setFen("+5");
@@ -191,12 +182,10 @@ public class UserSignController {
 
 	/**
 	 * 判断是否是昨天
-	 * 
-	 * @param oneTime
-	 * @return
-	 * @throws ParseException
+	 * @param oneTime 要判断的时间
+	 * @return boolean
 	 */
-	public static boolean compareOneAndYesterday(int oneTime) {
+	private static boolean compareOneAndYesterday(int oneTime) {
 
 		// 获得昨天的值
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -216,19 +205,17 @@ public class UserSignController {
 		return oneTime == d;
 	}
 
-	/**
-	 * 检验今天是否签到
-	 * 
-	 * @return
-	 */
 
-	public boolean signToday(int yesterday, int today) {
+	/**
+	 * 判段今天是否签到
+	 * @param yesterday 昨天的时间
+	 * @param today 今天的时间
+	 * @return boolean
+	 */
+	private boolean signToday(int yesterday, int today) {
 		String yesStr = DateUtils.timeStampToDate(String.valueOf(yesterday), "yyyy-MM-dd");
 		String todayStr = DateUtils.timeStampToDate(String.valueOf(today), "yyyy-MM-dd");
-		if (yesStr.equals(todayStr)) {
-			return true;
-		}
-		return false;
+		return yesStr.equals(todayStr);
 	}
 
 }

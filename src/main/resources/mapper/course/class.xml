@@ -27,6 +27,7 @@
             <result property="id" column="id"/>
             <result property="acid" column="acid"/>
             <result property="wid" column="wid"/>
+            <result property="uid" column="uid"/>
             <result property="clid" column="clid"/>
             <result property="status" column="status" />
         </association>
@@ -44,13 +45,13 @@
     <select id="queryAcNames" resultType="string">
         select name from hbb_all_class where wid=#{wid}
     </select>
-    <select id="queryByTj" resultType="int">
-        select DISTINCT wc.clid
+    <select id="queryByTj" resultMap="userHClassMap">
+        select c.*
         from
-        hbb_web w
+        hbb_class c
         join hbb_all_class ac
         join hbb_wclass wc
-        join hbb_class c
+        join hbb_web w
         on w.id=ac.wid
         and ac.id=wc.acid
         and wc.clid=c.id
@@ -64,26 +65,22 @@
 
     </select>
 
-    <select id="queryByTjAndUid" resultType="int">
-        select DISTINCT wc.clid
+    <select id="queryByTjAndUid" resultMap="userHClassMap">
+        select c.*
         from
-        hbb_web w
+        hbb_class c
         join hbb_all_class ac
         join hbb_wclass wc
-        join hbb_class c
-        join hbb_user u
+        join hbb_web w
         on w.id=ac.wid
         and ac.id=wc.acid
         and wc.clid=c.id
-        and wc.uid=u.id
+        and wc.uid=#{uid}
         <if test="wwid != null">
             and w.id=#{wwid}
         </if>
         <if test="acid != null">
             and wc.acid=#{acid}
-        </if>
-        <if test="userId != null">
-            and u.id=#{userId}
         </if>
         <if test="status != null">
             and wc.status=#{status}

@@ -28,9 +28,9 @@ public interface ClassMapper extends BaseDao<UserHClass> {
 
 	List<String> queryAcNames(@Param("wid") Integer wid);
 
-	List<Integer> queryByTj(@Param("wwid")Integer wwid, @Param("acid")Integer acid);
+	List<UserHClass> queryByTj(@Param("wwid")Integer wwid, @Param("acid")Integer acid);
 
-	List<Integer> queryByTjAndUid(@Param("wwid")Integer wwid, @Param("acid")Integer acid,@Param("userId")Integer uid,@Param("status") Integer status);
+	List<UserHClass> queryByTjAndUid(@Param("uid")Integer uid,@Param("status") Integer status,@Param("wwid")Integer wwid,@Param("acid") Integer acid);
 
 	String queryTimeByUidAndClid(@Param("uid")Integer uid,@Param("clid")Integer clid);
 }
