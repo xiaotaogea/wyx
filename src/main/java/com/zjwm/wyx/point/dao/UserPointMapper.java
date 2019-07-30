@@ -19,5 +19,6 @@ import java.util.List;
 public interface UserPointMapper extends BaseDao<UserPoint> {
 
 	List<UserPoint> queryByUid(@Param("uid") int uid);
+	List<UserPoint> queryPointList(@Param("uid") int uid,@Param("fen") String fen);
 
 }

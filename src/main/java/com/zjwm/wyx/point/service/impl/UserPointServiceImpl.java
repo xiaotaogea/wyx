@@ -15,6 +15,12 @@ public class UserPointServiceImpl implements UserPointService {
 	@Autowired
 	private UserPointMapper userPointMapper;
 
+
+	@Override
+	public List<UserPoint> queryPointList(int uid, String fen) {
+		return userPointMapper.queryPointList(uid,fen);
+	}
+
 	@Override
 	public void insertUserPoint(UserPoint userPoint) {
 		// TODO Auto-generated method stub
