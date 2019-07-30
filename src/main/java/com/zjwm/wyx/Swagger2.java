@@ -1,4 +1,4 @@
-package com.zjwm.wyx.config;
+package com.zjwm.wyx;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
