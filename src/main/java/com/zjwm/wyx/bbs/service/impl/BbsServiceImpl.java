@@ -3,15 +3,25 @@ package com.zjwm.wyx.bbs.service.impl;
 import com.zjwm.wyx.bbs.dao.BbsMapper;
 import com.zjwm.wyx.bbs.entity.Bbs;
 import com.zjwm.wyx.bbs.service.BbsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zjwm.wyx.login.dao.UserDao;
+import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.point.dao.UserPointMapper;
+import com.zjwm.wyx.point.entity.UserPoint;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service("bbsService")
 public class BbsServiceImpl implements BbsService {
-    @Autowired
+    @Resource
     private BbsMapper bbsMapper;
+    @Resource
+    private UserPointMapper pointMapper;
+    @Resource
+    private UserDao userDao;
+
 
     @Override
     public List<Bbs> queryList(int uid) {
@@ -44,9 +54,13 @@ public class BbsServiceImpl implements BbsService {
         return bbsMapper.queryLabs();
     }
 
+    @Transactional
     @Override
-    public int save(Bbs bbs) {
-       return bbsMapper.save(bbs);
+    public int save(Bbs bbs, UserPoint userPoint, UserEntity userEntity) {
+        int res1 = bbsMapper.save(bbs);
+        int res2 = pointMapper.save(userPoint);
+        int res3 = userDao.updateFen(userEntity);
+        return res1 + res2 + res3;
     }
 
 }

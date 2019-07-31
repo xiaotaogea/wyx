@@ -12,6 +12,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zjwm.wyx.bbs.entity.Bbs;
 import com.zjwm.wyx.bbs.service.BbsService;
+import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.service.UserService;
+import com.zjwm.wyx.point.entity.UserPoint;
+import com.zjwm.wyx.point.service.UserPointService;
+import com.zjwm.wyx.utils.CountUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -37,13 +42,17 @@ public class BbsController {
 
     @Resource
     private BbsService bbsService;
+    @Resource
+    private UserService userService;
+    @Resource
+    private UserPointService pointService;
 
     /**
      * 我的帖子
      *
      * @param currPage 当前页，默认是1
-     * @param uid 用户id
-     * @param type 1：我的帖子 其他：参与
+     * @param uid      用户id
+     * @param type     1：我的帖子 其他：参与
      * @return 帖子分页数据
      */
     @GetMapping("list")
@@ -66,7 +75,7 @@ public class BbsController {
                 bbs = bbsService.queryReply(uid);
                 break;
         }
-        if (bbs==null){
+        if (bbs == null) {
             return null;
         }
         return new PageInfo<>(bbs);
@@ -74,34 +83,55 @@ public class BbsController {
     }
 
     /**
-     * 发帖
+     * 发帖，同时添加到积分表里,同时用户表的总积分改变
      *
      * @param uid 用户id
-     * @param bs 帖子对象
-     * @return Map<String, String>
+     * @param bbs  帖子对象
+     * @return Map<String   ,       String>
      */
     @GetMapping("save")
     @ApiOperation(value = "发帖")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如889", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "bs", value = "帖子对象", required = true, dataType = "com.zjwm.wyx.bbs.entity.Bbs"),
+            @ApiImplicitParam(paramType = "query", name = "bbs", value = "帖子对象", required = true, dataType = "com.zjwm.wyx.bbs.entity.Bbs"),
     })
-    public Map<String, String> save(int uid, Bbs bs) {
+    public Map<String, String> save(int uid, Bbs bbs) {
         Map<String, String> map = new HashMap<>();
-        Bbs bbs = new Bbs();
-        bbs.setCateId(bs.getCateId());
-        bbs.setFen(bs.getFen());
-        bbs.setContent(bs.getContent());
-        bbs.setTitle(bs.getTitle());
         bbs.setUid(uid);
-        bbs.setLabel(bs.getLabel());
-     bbs.setCreateTime((int) (System.currentTimeMillis() / 1000));
-        bbs.setType(bs.getType());
-        int res = bbsService.save(bbs);
-        if (res==1){
-            map.put("data","发表成功");
-        }else {
-            map.put("data","发表失败");
+        bbs.setCreateTime((int) (System.currentTimeMillis() / 1000));
+        //积分表对象
+        UserPoint userPoint = new UserPoint();
+        userPoint.setUid(uid);
+        userPoint.setAddTime((int) (System.currentTimeMillis() / 1000));
+        int type = bbs.getType();
+        switch (type){
+            case 1:
+                userPoint.setMethod("帖子加精奖励");
+                userPoint.setType(0);
+                userPoint.setContent("帖子:"+bbs.getId()+"-"+bbs.getTitle());
+                userPoint.setFen("+10");
+                break;
+            case 2:
+                userPoint.setMethod("悬赏贴");
+                userPoint.setType(1);
+                userPoint.setContent("发布悬赏贴");
+                userPoint.setFen("-10");
+                break;
+        }
+        UserEntity userEntity = userService.queryObject(uid);
+        List<String> points = pointService.queryFen(uid);
+        StringBuilder builder = null;
+        for (String point : points) {
+            builder.append(point);
+        }
+        //计算总积分，set到用户表
+        Object total = CountUtil.total(new String(builder));
+        userEntity.setFen((String) total);
+        int res = bbsService.save(bbs,userPoint,userEntity);
+        if (res == 3) {
+            map.put("data", "发表成功");
+        } else {
+            map.put("data", "发表失败");
         }
         return map;
     }

@@ -55,4 +55,9 @@ public class UserServiceImpl implements UserService {
         userDao.save(userEntity);
     }
 
+    @Override
+    public int updateFen(UserEntity userEntity) {
+        return userDao.updateFen(userEntity);
+    }
+
 }

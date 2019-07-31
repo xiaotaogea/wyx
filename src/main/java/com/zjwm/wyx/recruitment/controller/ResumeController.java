@@ -155,54 +155,23 @@ public class ResumeController {
             return map;
         }
         //创建简历对象
-        Resume res = new Resume();
-		res.setUserId(uid);
-		res.setResumeName(resume.getResumeName());
-		res.setUserName(resume.getUserName());
-		res.setGender(resume.getGender());
-		res.setPhone(resume.getPhone());
-		res.setQq(resume.getQq());
-		res.setEmail(resume.getEmail());
-		res.setBirthday(resume.getBirthday());
-		res.setWorkYear(resume.getWorkYear());
-		res.setEducation(resume.getEducation());
-		res.setAge(resume.getAge());
-		res.setSkill(resume.getSkill());
-		res.setIndustryId(resume.getIndustryId());
-		res.setJobType(resume.getJobType());
-		res.setExpectEmolumentLow(resume.getExpectEmolumentLow());
-		res.setExpectEmolumentHigh(resume.getExpectEmolumentHigh());
-		res.setHiredate(resume.getHiredate());
-		res.setCreateTime((int) (System.currentTimeMillis()/1000));
-		res.setUpdateTime((int) (System.currentTimeMillis()/1000));
-        //创建工作经验对象
-        Employment emp = new Employment();
-        emp.setResumeId(res.getId());
-        emp.setBeginTime(employment.getBeginTime());
-        emp.setEndTime(employment.getEndTime());
-        emp.setWorkCompany(employment.getWorkCompany());
-        emp.setWorkJob(employment.getWorkJob());
-        emp.setWorkEmolumentLow(employment.getWorkEmolumentLow());
-        emp.setWorkEmolumentHigh(employment.getWorkEmolumentHigh());
-        emp.setResponsibility(employment.getResponsibility());
-        emp.setCreateTime((int) (System.currentTimeMillis()/1000));
-        emp.setUpdateTime((int) (System.currentTimeMillis()/1000));
-        //创建项目经验对象
-        Project pro = new Project();
-        pro.setResumeId(res.getId());
-        pro.setBeginTime(project.getBeginTime());
-        pro.setEndTime(project.getEndTime());
-        pro.setProjectName(project.getProjectName());
-        pro.setIntro(project.getIntro());
-        pro.setResponsibility(project.getResponsibility());
-        pro.setCreateTime((int) (System.currentTimeMillis()/1000));
-        pro.setUpdateTime((int) (System.currentTimeMillis()/1000));
 
-        int rest = resumeService.save(res,emp,pro);
+		resume.setCreateTime((int) (System.currentTimeMillis()/1000));
+		resume.setUpdateTime((int) (System.currentTimeMillis()/1000));
+        //创建工作经验对象
+		employment.setResumeId(resume.getId());
+		employment.setCreateTime((int) (System.currentTimeMillis()/1000));
+		employment.setUpdateTime((int) (System.currentTimeMillis()/1000));
+        //创建项目经验对象
+		project.setResumeId(resume.getId());
+		project.setCreateTime((int) (System.currentTimeMillis()/1000));
+		project.setUpdateTime((int) (System.currentTimeMillis()/1000));
+
+        int rest = resumeService.save(resume,employment,project);
         if (rest!=3){
-            map.put("data","添加失败");
+            map.put("data","发布失败");
         }else {
-            map.put("data","添加成功");
+            map.put("data","发布成功");
         }
 		return map;
 	}

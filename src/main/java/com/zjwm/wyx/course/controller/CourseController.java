@@ -184,7 +184,7 @@ public class CourseController {
      * @version 2018.3
      */
     @GetMapping("/comment")
-    @ApiOperation(value = "课程评论接口")
+    @ApiOperation(value = "课程评价接口")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如15443", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", dataType = "int"),
@@ -193,7 +193,7 @@ public class CourseController {
     public PageInfo<Comment> getListComment(int uid, Integer currPage, String type) {
         currPage = (currPage == null) ? 1 : currPage;
         type = (type == null) ? "all" : type;
-        PageHelper.startPage(currPage, 2);
+        PageHelper.startPage(currPage, 5);
         List<Comment> comments = null;
         switch (type) {
             // 全部

@@ -18,7 +18,6 @@ public interface UserPointService {
 
 	void insertUserPoint(UserPoint userPoint);
 
-	int queryTotal();
-	
 
+	List<String> queryFen( int uid);
 }

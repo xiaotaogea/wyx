@@ -24,4 +24,6 @@ public interface UserService {
 	int login(String mobile, String password);
 
 	void save(String mobile, String password);
+
+	int updateFen(UserEntity userEntity);
 }

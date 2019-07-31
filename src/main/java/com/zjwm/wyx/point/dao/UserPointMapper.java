@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * 用户积分
- * 
+ *
  * @author czx
  * @email object_czx@163.com
  * @date 2017-10-23 21:23:54
@@ -18,7 +18,10 @@ import java.util.List;
 @Mapper
 public interface UserPointMapper extends BaseDao<UserPoint> {
 
-	List<UserPoint> queryByUid(@Param("uid") int uid);
-	List<UserPoint> queryPointList(@Param("uid") int uid,@Param("fen") String fen);
+    List<UserPoint> queryByUid(@Param("uid") int uid);
+
+    List<UserPoint> queryPointList(@Param("uid") int uid, @Param("fen") String fen);
+
+    List<String> queryFen(@Param("uid") int uid);
 
 }

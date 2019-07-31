@@ -22,7 +22,9 @@
 		select * from hbb_user where mobile = #{mobile}
 	</select>
 	 
-
+    <update id="updateFen">
+        update from hbb_user set fen=#{fen} where id=#{id}
+    </update>
 
 
 

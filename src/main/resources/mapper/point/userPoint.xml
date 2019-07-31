@@ -20,6 +20,9 @@
 		uid=#{uid} and fen like #{fen} order by addtime desc
 	</select>
 
+	<select id="queryFen" resultType="string">
+		select fen from hbb_jifen where uid=#{uid}
+	</select>
 	<select id="queryByUid" resultMap="userPointMap">
 		select * from hbb_jifen where
 			uid=#{uid} order by addtime desc

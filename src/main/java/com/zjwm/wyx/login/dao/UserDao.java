@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户
- * 
+ *
  * @author czx
  * @email object_czx@163.com
  * @date 2017-10-23 21:23:54
@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserDao extends BaseDao<UserEntity> {
     UserEntity queryByMobile(@Param("mobile") String mobile);
+
+    int updateFen(UserEntity userEntity);
 }
