@@ -10,6 +10,8 @@ package com.zjwm.wyx.point.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.point.entity.UserSign;
 import com.zjwm.wyx.point.service.UserPointService;
@@ -40,6 +42,8 @@ public class UserPointController {
     private UserSignService userSignService;
     @Resource
     private UserPointService userPointService;
+    @Resource
+    private UserService userService;
 
     /**
      * 功能描述：根据用户id获得所有积分信息
@@ -51,7 +55,7 @@ public class UserPointController {
      * @version 2018.3
      */
     @GetMapping("list")
-    @ApiOperation(value = "根据用户id获得所有积分信息")
+    @ApiOperation(value = "根据用户id得到用户获取和消费积分列表")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如887", required = true, dataType = "int"),
@@ -77,6 +81,22 @@ public class UserPointController {
             userPoint.setDateTime(f);
         }
         return new PageInfo<>(pointList);
+    }
+
+    /**
+     *功能描述：根据用户id得到用户的总积分
+     *@author 王俊涛
+     *@version 2018.3
+     *@return 用户积分
+     */
+    @GetMapping("sum")
+    @ApiOperation(value = "根据用户id得到用户的总积分")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如15443", required = true, dataType = "int"),
+    })
+    public String getSumPoint(int uid){
+        UserEntity userEntity = userService.queryObject(uid);
+        return userEntity.getFen();
     }
 
     /**

@@ -33,6 +33,8 @@ public class UserEntity implements Serializable {
 	private String mobile;
 	//密码
 	private String password;
+	//总积分
+	private String fen;
 	//创建时间
 	private Date createTime;
 
