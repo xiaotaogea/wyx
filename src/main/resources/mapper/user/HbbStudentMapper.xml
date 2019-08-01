@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjwm.wyx.user.dao.HbbStudentMapper">
+    <resultMap id="BaseResultMap" type="com.zjwm.wyx.user.entity.HbbStudent">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="snum" property="snum" jdbcType="VARCHAR"/>
+        <result column="qq" property="qq" jdbcType="VARCHAR"/>
+        <result column="weixin" property="weixin" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="stu_address" property="stuAddress" jdbcType="VARCHAR"/>
+        <result column="sch_name" property="schName" jdbcType="VARCHAR"/>
+        <result column="sch_sheng" property="schSheng" jdbcType="VARCHAR"/>
+        <result column="sch_shi" property="schShi" jdbcType="VARCHAR"/>
+        <result column="sch_qu" property="schQu" jdbcType="VARCHAR"/>
+        <result column="sch_address" property="schAddress" jdbcType="VARCHAR"/>
+        <result column="fanwei" property="fanwei" jdbcType="VARCHAR"/>
+        <result column="cengci" property="cengci" jdbcType="VARCHAR"/>
+        <result column="grade" property="grade" jdbcType="VARCHAR"/>
+        <result column="major" property="major" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="BaseResultMap">
+        select *
+        from hbb_student
+        where user_id = #{userId}
+    </select>
+    <update id="update">
+        update hbb_student
+        set
+            name        = #{name,jdbcType=VARCHAR},
+            sex         = #{sex,jdbcType=INTEGER},
+            snum        = #{snum,jdbcType=VARCHAR},
+            qq          = #{qq,jdbcType=VARCHAR},
+            weixin      = #{weixin,jdbcType=VARCHAR},
+            phone       = #{phone,jdbcType=VARCHAR},
+            stu_address = #{stuAddress,jdbcType=VARCHAR},
+            sch_name    = #{schName,jdbcType=VARCHAR},
+            sch_sheng   = #{schSheng,jdbcType=VARCHAR},
+            sch_shi     = #{schShi,jdbcType=VARCHAR},
+            sch_qu      = #{schQu,jdbcType=VARCHAR},
+            sch_address = #{schAddress,jdbcType=VARCHAR},
+            fanwei      = #{fanwei,jdbcType=VARCHAR},
+            cengci      = #{cengci,jdbcType=VARCHAR},
+            grade       = #{grade,jdbcType=VARCHAR},
+            major       = #{major,jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+</mapper>

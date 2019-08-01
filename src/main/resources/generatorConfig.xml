@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<context id="testTables" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- 连接方式   mysql -->
+		<jdbcConnection 
+			driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://125.46.13.246/fwpt"
+			userId="root"
+			password="p40xdP23H0NX">
+		</jdbcConnection>
+		<!-- 连接方式 oracle -->
+		<!-- <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:yycg" 
+			userId="yycg"
+			password="yycg">
+		</jdbcConnection> -->
+		
+		
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+	    <!-- 逆向生成的实体类  保存位置 -->
+		<javaModelGenerator targetPackage="main.java.com.zjwm.wyx.user.entity"
+			targetProject=".\src">
+			<property name="enableSubPackages" value="false" />
+			<property name="trimStrings" value="true" />  
+		</javaModelGenerator>
+		<!-- 逆向生成的  mapper接口位置  -->
+		<sqlMapGenerator targetPackage="main.java.com.zjwm.wyx.user.dao"
+			targetProject=".\src">
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		<!-- 逆向生成的  mapperxml位置  -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="main.java.com.zjwm.wyx.user.dao"
+			targetProject=".\src">
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		<!-- 逆向哪些表 -->
+		
+		<table tableName="hbb_student"></table>
+		<!-- 有些表的字段需要指定java类型
+		 <table schema="" tableName="">
+			<columnOverride column="" javaType="" />
+		</table> -->
+	</context>
+</generatorConfiguration>
