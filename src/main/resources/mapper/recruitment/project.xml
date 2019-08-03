@@ -23,7 +23,7 @@
 	</select>
 	<insert id="save">
 		insert into hbb_resume_project(
-		resume_id,project_name,intro
+		resume_id,project_name,intro,
 		begin_time,end_time,responsibility,create_time,update_time
 		)
 		values(

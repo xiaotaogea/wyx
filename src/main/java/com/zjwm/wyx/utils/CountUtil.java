@@ -1,5 +1,5 @@
-/**
- * @Copyright: 2016-2019，中教网盟科技有限公司
+/*
+  @Copyright: 2016-2019，中教网盟科技有限公司
  * @FileName: CountUtil
  * @Author: 王俊涛
  * @Date：2019/7/31 0031 10:04
@@ -31,31 +31,29 @@ public class CountUtil {
     }
 
     /**
-     * 验证码:数字、大写字母、小写字母拆分来随机
-     *
-     * @return
+     * @return 验证码:数字、大写字母、小写字母拆分来随机
      */
     public static String verifyCode() {
         Random random = new Random();
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (int i = 0; i < 6; i++) {
             int key = random.nextInt(3);
             switch (key) {
                 case 0:
                     int code1 = random.nextInt(10);
-                    str += code1;
+                    str.append(code1);
                     break;
                 case 1:
                     char code2 = (char) (random.nextInt(26) + 65);
-                    str += code2;
+                    str.append(code2);
                     break;
                 case 2:
                     char code3 = (char) (random.nextInt(26) + 97);
-                    str += code3;
+                    str.append(code3);
                     break;
             }
         }
-        return str;
+        return str.toString();
     }
 
 

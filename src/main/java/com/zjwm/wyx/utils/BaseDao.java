@@ -25,5 +25,4 @@ public interface BaseDao<T> {
 	List<T> queryList(Object id);
 
 
-	int queryTotal();
 }

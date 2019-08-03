@@ -120,7 +120,7 @@ public class BbsController {
         }
         HbbUser hbbUser = userService.queryObject(uid);
         List<String> points = pointService.queryFen(uid);
-        StringBuilder builder = null;
+        StringBuilder builder = new StringBuilder();
         for (String point : points) {
             builder.append(point);
         }

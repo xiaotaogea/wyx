@@ -46,7 +46,7 @@ public class AnswerController {
     @GetMapping("/all")
     @ApiOperation(value = "获取所有的提问和回答信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "type", value = "1是提问，2是回答", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如889", required = true, dataType = "int")
     })

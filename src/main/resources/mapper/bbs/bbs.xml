@@ -79,9 +79,9 @@
 <!--发帖-->
     <insert id="save" parameterType="com.zjwm.wyx.bbs.entity.Bbs">
         insert into hbb_bbs(
-        type,fen,cate_id,title,content,user_id,lab,create_time)
+        type,fen,cate_id,title,content,user_id,label,create_time)
         values(
-        #{type},#{fen},#{cateId},#{title},#{content},#{userId},#{lab},#{createTime})
+        #{type},#{fen},#{cateId},#{title},#{content},#{userId},#{label},#{createTime})
     </insert>
 
 

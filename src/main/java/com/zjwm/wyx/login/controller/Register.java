@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * @description:
+ * @description: 手机号注册，发送验证码
  * @author: 王俊涛
  * @date: 2019/8/3 11:09
  */
@@ -41,6 +41,7 @@ public class Register {
     private MessageUser messageUser;
     @Resource
     private UserPointService pointService;
+
     /**
      * 短信验证码发送
      */
@@ -56,41 +57,31 @@ public class Register {
 
         //主IP信息  必填
         String masterIpAddress = messageUser.getMasterIpAddress();
-        //备IP1  选填
-        String ipAddress1 = "";
-        //备IP2  选填
-        String ipAddress2 = null;
-        //备IP3  选填
-        String ipAddress3 = null;
         //设置IP
-        ConfigManager.setIpInfo(masterIpAddress, ipAddress1, ipAddress2, ipAddress3);
+        ConfigManager.setIpInfo(masterIpAddress, "", null, null);
 
         //密码是否加密   true：密码加密;false：密码不加密
-        ConfigManager.IS_ENCRYPT_PWD = true;
-        boolean isEncryptPwd = ConfigManager.IS_ENCRYPT_PWD;
+//        ConfigManager.IS_ENCRYPT_PWD = true;
+//        boolean isEncryptPwd = true;
         //验证码
         String phoneCode = CountUtil.verifyCode();
         // 单条发送
-        singleSend(userid, pwd, isEncryptPwd,phoneCode,mobile);
+        singleSend(userid, pwd, phoneCode, mobile);
         // 验证码放redis设置储存时间五分钟
-        redisService.setKey(mobile+"phoneCode", phoneCode);
+        redisService.setKey(mobile + "phoneCode", phoneCode);
         //返回验证
         return R.ok().put("data", phoneCode);
     }
 
     /**
-     *
-     * @description  单条发送
-     * @param userid  用户账号
-     * @param pwd 用户密码
-     * @param isEncryptPwd 密码是否加密   true：密码加密;false：密码不加密
+     * @param userid 用户账号
+     * @param pwd    用户密码
+     * @description 单条发送
      */
-    private static void singleSend(String userid, String pwd, boolean isEncryptPwd, String phoneCode, String mobile)
-    {
+    private static void singleSend(String userid, String pwd, String phoneCode, String mobile) {
         // 日期格式定义
-        SimpleDateFormat sdf	= new SimpleDateFormat("MMddHHmmss");
-        try
-        {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMddHHmmss");
+        try {
             // 参数类
             Message message = new Message();
             // 实例化短信处理对象
@@ -99,24 +90,17 @@ public class Register {
             // 设置账号   将 userid转成大写,以防大小写不一致
             message.setUserid(userid.toUpperCase());
 
-            //判断密码是否加密。
             //密码加密，则对密码进行加密
-            if(isEncryptPwd)
-            {
-                // 设置时间戳
-                String timestamp = sdf.format(Calendar.getInstance().getTime());
-                message.setTimestamp(timestamp);
 
-                // 对密码进行加密
-                String encryptPwd = cHttpPost.encryptPwd(message.getUserid(),pwd, message.getTimestamp());
-                // 设置加密后的密码
-                message.setPwd(encryptPwd);
+            // 设置时间戳
+            String timestamp = sdf.format(Calendar.getInstance().getTime());
+            message.setTimestamp(timestamp);
 
-            }else
-            {
-                // 设置密码
-                message.setPwd(pwd);
-            }
+            // 对密码进行加密
+            String encryptPwd = cHttpPost.encryptPwd(message.getUserid(), pwd, message.getTimestamp());
+            // 设置加密后的密码
+            message.setPwd(encryptPwd);
+
 
             // 设置手机号码 此处只能设置一个手机号码
             message.setMobile(mobile);
@@ -137,24 +121,20 @@ public class Register {
             // 发送短信
             int result = cHttpPost.singleSend(message, msgId);
             // result为0:成功;非0:失败
-            if(result == 0)
-            {
+            if (result == 0) {
                 System.out.println("单条发送提交成功！");
 
                 System.out.println(msgId.toString());
 
-            }
-            else
-            {
+            } else {
                 System.out.println("单条发送提交失败,错误码：" + result);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             //异常处理
             e.printStackTrace();
         }
     }
+
     /**
      * 手机号注册
      */
@@ -168,14 +148,14 @@ public class Register {
             @ApiImplicitParam(paramType = "query", name = "code", value = "验证码", required = true, dataType = "string"),
             @ApiImplicitParam(paramType = "query", name = "type", value = "注册类型：0学生，1教师，2企业", required = true, dataType = "int")
     })
-    public R register(String nick,String mobile,String password,String email, String code,Integer type) {
-        if (mobile== null){
+    public R register(String nick, String mobile, String password, String email, String code, Integer type) {
+        if (mobile == null) {
             return R.error("手机号不能为空");
         }
-        if (password== null){
+        if (password == null) {
             return R.error("密码不能为空");
         }
-        if (code== null){
+        if (code == null) {
             return R.error("验证码不能为空");
         }
 //        if (!"/^1[3-9][0-9]\\d{8}$/".matches(mobile)){
@@ -184,28 +164,28 @@ public class Register {
 
         // 验证输入验证码
 
-        String phoneCode = redisService.getValue(mobile+"phoneCode");
+        String phoneCode = redisService.getValue(mobile + "phoneCode");
         System.out.println(phoneCode);
-        if(phoneCode!=null && !phoneCode.equals(code)) {
+        if (phoneCode != null && !phoneCode.equals(code)) {
             return R.error("验证码不正确");
         }
         HbbUser user = userService.queryByMobile(mobile);
-        if (user!=null){
+        if (user != null) {
             return R.error("用户已存在");
         }
         HbbUser user1 = userService.queryByEmail(email);
-        if (user1!=null){
+        if (user1 != null) {
             return R.error("邮箱已存在");
         }
 
-        if (password.length()<6){
+        if (password.length() < 6) {
             return R.error("密码不能少于6位");
         }
         //密码强度
         int streng;
-        if ("/^[0-9]+$/".matches(password) || "/^[a-zA-Z]+$/".matches(password) && password.length()<14){
+        if ("/^[0-9]+$/".matches(password) || "/^[a-zA-Z]+$/".matches(password) && password.length() < 14) {
             streng = 1;
-        }else if ("/^[0-9a-z]+$/".matches(password)) {
+        } else if ("/^[0-9a-z]+$/".matches(password)) {
             streng = 2;
         } else if ("/^[0-9A-Z]+$/".matches(password) && (password.length() <= 10)) {
             streng = 2;
@@ -225,8 +205,8 @@ public class Register {
         hbbUser.setPic(null);
         hbbUser.setFen("10");
         hbbUser.setMethod("页面注册");
-        hbbUser.setCreateTime((int) (System.currentTimeMillis()/1000));
-        hbbUser.setUpdateTime((int) (System.currentTimeMillis()/1000));
+        hbbUser.setCreateTime((int) (System.currentTimeMillis() / 1000));
+        hbbUser.setUpdateTime((int) (System.currentTimeMillis() / 1000));
         userService.save(hbbUser);
 
         //加积分
@@ -237,7 +217,7 @@ public class Register {
         userPoint.setType(0);
         userPoint.setContent("注册成功");
         userPoint.setFen("+10");
-        userPoint.setAddTime((int) (System.currentTimeMillis()/1000));
+        userPoint.setAddTime((int) (System.currentTimeMillis() / 1000));
         pointService.insertUserPoint(userPoint);
 
         // 返回token

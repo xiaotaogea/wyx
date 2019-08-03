@@ -25,10 +25,9 @@ public class RedisConfig {
     //缓存管理器
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        RedisCacheManager cacheManager = RedisCacheManager.create(connectionFactory);
         //设置缓存过期时间
         //cacheManager.setDefaultExpiration(20);
-        return cacheManager;
+        return RedisCacheManager.create(connectionFactory);
     }
 
     @Bean

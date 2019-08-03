@@ -30,8 +30,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id
-        ,
+        id,
         wx_unionid,
         mobile,
         username,
@@ -88,10 +87,10 @@
                               fen, method,
                               create_time,
                               update_time)
-        values (#{mobile,jdbcType=VARCHAR},#{wxUnionid},#{username},#{truename}
+        values (#{mobile,jdbcType=VARCHAR},#{wxUnionid},#{username},#{truename},
                 #{nick,jdbcType=VARCHAR},
                 #{email,jdbcType=VARCHAR}, #{streng,jdbcType=BIT}, #{password,jdbcType=VARCHAR},
-                #{type,jdbcType=INTEGER},#{pic}
+                #{type,jdbcType=INTEGER},#{pic},
                 #{fen,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR},
                 #{createTime,jdbcType=INTEGER},
                 #{updateTime,jdbcType=INTEGER})
@@ -128,6 +127,6 @@
     </update>
 
     <update id="updateFen">
-        update hbb_user set fen=#{fen} where id={id}
+        update hbb_user set fen=#{fen} where id=#{id}
     </update>
 </mapper>
