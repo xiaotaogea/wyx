@@ -7,13 +7,13 @@ public interface ComboService {
 
     /**
      * @param cardNum 账号
-     * @return
+     * @return 卡信息
      */
     ComboCard queryBycardNum(String cardNum);
     /**
      * 正在用
      * @param uid
-     * @return
+     * @return 正在用的学习卡
      */
     ComboCardOrder queryByUid(int uid);
 }
