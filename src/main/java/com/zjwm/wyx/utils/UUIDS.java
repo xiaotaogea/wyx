@@ -39,7 +39,5 @@ public class UUIDS {
         return YY + "" + MM + "" + DD + number;
     }
     
-    public static  void main(String args[]) {
-    	System.out.print(OutTradeNo());
-    }
+
 }

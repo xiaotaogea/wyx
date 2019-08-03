@@ -27,7 +27,7 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 	    <!-- 逆向生成的实体类  保存位置 -->
-		<javaModelGenerator targetPackage="main.java.com.zjwm.wyx.user.entity"
+		<javaModelGenerator targetPackage="com.zjwm.wyx.user.entity"
 			targetProject=".\src">
 			<property name="enableSubPackages" value="false" />
 			<property name="trimStrings" value="true" />  

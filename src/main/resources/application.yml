@@ -16,5 +16,10 @@ pagehelper:
    helperDialect: mysql
 
 
-
+#redis
+#redis:
+#  #redis机器ip
+#  hostname: 192.168.
+#  #redis端口
+#  port: 6379
 
