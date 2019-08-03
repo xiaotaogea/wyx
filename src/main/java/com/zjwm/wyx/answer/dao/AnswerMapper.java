@@ -18,7 +18,7 @@ public interface AnswerMapper extends BaseDao<Answer> {
      *@author 王俊涛
      *@version 2018.3
      *@param uid 用户id
-     *@return
+     *@return 提问列表
      */
     List<Answer> queryQList(@Param("uid") int uid);
     /**
@@ -26,7 +26,7 @@ public interface AnswerMapper extends BaseDao<Answer> {
      *@author 王俊涛
      *@version 2018.3
      *@param uid 用户id
-     *@return
+     *@return 回答列表
      */
     List<Answer> queryAList(@Param("uid") int uid);
 }
