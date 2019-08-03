@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjwm.wyx.login.dao.HbbUserMapper">
+    <resultMap id="BaseResultMap" type="com.zjwm.wyx.login.entity.HbbUser">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="wx_unionid" property="wxUnionid" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="truename" property="truename" jdbcType="VARCHAR"/>
+        <result column="nick" property="nick" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="streng" property="streng" jdbcType="BIT"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="vip" property="vip" jdbcType="INTEGER"/>
+        <result column="fen" property="fen" jdbcType="VARCHAR"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+        <result column="adduser" property="adduser" jdbcType="VARCHAR"/>
+        <result column="loginip" property="loginip" jdbcType="VARCHAR"/>
+        <result column="logintime" property="logintime" jdbcType="INTEGER"/>
+        <result column="cookid" property="cookid" jdbcType="VARCHAR"/>
+        <result column="cookwapid" property="cookwapid" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+        <result column="over_time" property="overTime" jdbcType="INTEGER"/>
+        <result column="user_source" property="userSource" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,
+        wx_unionid,
+        mobile,
+        username,
+        truename,
+        nick,
+        email,
+        streng,
+        password,
+        type,
+        pic,
+        status,
+        state,
+        vip,
+        fen,
+        method,
+        adduser,
+        loginip,
+        logintime,
+        cookid,
+        cookwapid,
+        create_time,
+        update_time,
+        over_time,
+        user_source
+    </sql>
+
+    <select id="queryObject" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from hbb_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryByMobile" resultMap="BaseResultMap" parameterType="string">
+        select
+        *
+        from hbb_user
+        where mobile = #{mobile}
+    </select>
+    <select id="queryByEmail" resultMap="BaseResultMap" parameterType="string">
+        select
+            *
+        from hbb_user
+        where email = #{email}
+    </select>
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into hbb_user (mobile,
+                              wx_unionid,
+                              username,
+                              truename,
+                              nick,
+                              email, streng, password,
+                              type,pic,
+                              fen, method,
+                              create_time,
+                              update_time)
+        values (#{mobile,jdbcType=VARCHAR},#{wxUnionid},#{username},#{truename}
+                #{nick,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{streng,jdbcType=BIT}, #{password,jdbcType=VARCHAR},
+                #{type,jdbcType=INTEGER},#{pic}
+                #{fen,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR},
+                #{createTime,jdbcType=INTEGER},
+                #{updateTime,jdbcType=INTEGER})
+    </insert>
+
+
+    <update id="updateByPrimaryKey">
+        update hbb_user
+        set wx_unionid  = #{wxUnionid,jdbcType=VARCHAR},
+            mobile      = #{mobile,jdbcType=VARCHAR},
+            username    = #{username,jdbcType=VARCHAR},
+            truename    = #{truename,jdbcType=VARCHAR},
+            nick        = #{nick,jdbcType=VARCHAR},
+            email       = #{email,jdbcType=VARCHAR},
+            streng      = #{streng,jdbcType=BIT},
+            password    = #{password,jdbcType=VARCHAR},
+            type        = #{type,jdbcType=INTEGER},
+            pic         = #{pic,jdbcType=VARCHAR},
+            status      = #{status,jdbcType=INTEGER},
+            state       = #{state,jdbcType=INTEGER},
+            vip         = #{vip,jdbcType=INTEGER},
+            fen         = #{fen,jdbcType=VARCHAR},
+            method      = #{method,jdbcType=VARCHAR},
+            adduser     = #{adduser,jdbcType=VARCHAR},
+            loginip     = #{loginip,jdbcType=VARCHAR},
+            logintime   = #{logintime,jdbcType=INTEGER},
+            cookid      = #{cookid,jdbcType=VARCHAR},
+            cookwapid   = #{cookwapid,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=INTEGER},
+            update_time = #{updateTime,jdbcType=INTEGER},
+            over_time   = #{overTime,jdbcType=INTEGER},
+            user_source = #{userSource,jdbcType=TINYINT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateFen">
+        update hbb_user set fen=#{fen} where id={id}
+    </update>
+</mapper>
