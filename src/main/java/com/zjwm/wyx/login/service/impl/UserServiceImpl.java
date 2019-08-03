@@ -3,9 +3,12 @@ package com.zjwm.wyx.login.service.impl;
 import com.zjwm.wyx.login.dao.HbbUserMapper;
 import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.UserService;
+import com.zjwm.wyx.point.dao.UserPointMapper;
+import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.utils.RRException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -16,6 +19,8 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private HbbUserMapper userMapper;
+    @Resource
+    private UserPointMapper pointMapper;
 
     @Override
     public HbbUser queryObject(int userId) {
@@ -30,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int login(String mobile, String password) {
         HbbUser user = queryByMobile(mobile);
-        if (user==null){
+        if (user == null) {
             return -1;
         }
 
@@ -44,10 +49,10 @@ public class UserServiceImpl implements UserService {
         return user.getId();
     }
 
+    @Transactional
     @Override
-    public int save(HbbUser hbbUser) {
-
-        return userMapper.save(hbbUser);
+    public int save(HbbUser hbbUser, UserPoint userPoint) {
+        return userMapper.save(hbbUser) + pointMapper.save(userPoint);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.zjwm.wyx.login.service;
 
 import com.zjwm.wyx.login.entity.HbbUser;
+import com.zjwm.wyx.point.entity.UserPoint;
 
 /**
  * 用户
@@ -23,7 +24,7 @@ public interface UserService {
 	 */
 	int login(String mobile, String password);
 
-	int save(HbbUser hbbUser);
+	int save(HbbUser hbbUser, UserPoint userPoint);
 
     HbbUser queryByEmail(String email);
 

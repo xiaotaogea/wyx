@@ -207,7 +207,7 @@ public class Register {
         hbbUser.setMethod("页面注册");
         hbbUser.setCreateTime((int) (System.currentTimeMillis() / 1000));
         hbbUser.setUpdateTime((int) (System.currentTimeMillis() / 1000));
-        userService.save(hbbUser);
+
 
         //加积分
         UserPoint userPoint = new UserPoint();
@@ -218,10 +218,12 @@ public class Register {
         userPoint.setContent("注册成功");
         userPoint.setFen("+10");
         userPoint.setAddTime((int) (System.currentTimeMillis() / 1000));
-        pointService.insertUserPoint(userPoint);
-
-        // 返回token
-        return R.ok().put("data", phoneCode);
+        int res = userService.save(hbbUser,userPoint);
+        if (res==2){
+            // 返回token
+            return R.ok().put("data", phoneCode);
+        }
+        return R.error("注册失败");
     }
 
 }
