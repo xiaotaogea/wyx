@@ -3,16 +3,16 @@ package com.zjwm.wyx.recruitment.service.impl;
 import com.zjwm.wyx.recruitment.dao.ArticleMapper;
 import com.zjwm.wyx.recruitment.entity.Article;
 import com.zjwm.wyx.recruitment.service.ArticleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
 
 @Service("articleService")
 public class ArticleServiceImpl implements ArticleService {
-	@Autowired
+	@Resource
 	private ArticleMapper articleMapper;
 
 	@Override

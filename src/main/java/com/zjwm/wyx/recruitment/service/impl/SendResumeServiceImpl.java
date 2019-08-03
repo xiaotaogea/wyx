@@ -3,16 +3,16 @@ package com.zjwm.wyx.recruitment.service.impl;
 import com.zjwm.wyx.recruitment.dao.SendResumeMapper;
 import com.zjwm.wyx.recruitment.entity.SendResume;
 import com.zjwm.wyx.recruitment.service.SendResumeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
 
 @Service("sendResumeService")
 public class SendResumeServiceImpl implements SendResumeService {
-	@Autowired
+	@Resource
 	private SendResumeMapper sendResumeMapper;
 
 	@Override

@@ -7,19 +7,19 @@ import com.zjwm.wyx.recruitment.entity.Employment;
 import com.zjwm.wyx.recruitment.entity.Project;
 import com.zjwm.wyx.recruitment.entity.Resume;
 import com.zjwm.wyx.recruitment.service.ResumeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service("resumeService")
 public class ResumeServiceImpl implements ResumeService {
-    @Autowired
+    @Resource
     private ResumeMapper resumeMapper;
-    @Autowired
+    @Resource
     private EmploymentMapper employmentMapper;
-    @Autowired
+    @Resource
     private ProjectMapper projectMapper;
 
     @Override

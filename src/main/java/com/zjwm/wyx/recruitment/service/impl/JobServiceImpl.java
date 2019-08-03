@@ -4,15 +4,15 @@ import com.zjwm.wyx.recruitment.dao.JobMapper;
 import com.zjwm.wyx.recruitment.entity.Job;
 import com.zjwm.wyx.recruitment.entity.Welfare;
 import com.zjwm.wyx.recruitment.service.JobService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
 @Service("jobService")
 public class JobServiceImpl implements JobService {
-	@Autowired
+	@Resource
 	private JobMapper jobMapper;
 
 
