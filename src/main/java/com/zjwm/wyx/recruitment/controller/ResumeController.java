@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,7 @@ public class ResumeController {
 	@GetMapping("/list")
 	@ApiOperation(value = "查询用户的所有简历")
 	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
 			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如889", required = true, dataType = "int"),
 	})
 	public PageInfo<Resume> list(int uid, Integer currPage) {
@@ -61,8 +60,7 @@ public class ResumeController {
         //从session里獲得用户id
 //        Integer uid = (Integer) request.getSession().getAttribute("userId");
 		List<Resume> resumes = resumeService.queryList(uid);
-		PageInfo<Resume> page = new PageInfo<>(resumes);
-		return page;
+		return new PageInfo<>(resumes);
 		
 	}
     /**
@@ -91,6 +89,7 @@ public class ResumeController {
 	 * 父职位
 	 */
 	@GetMapping("/pName")
+	@ApiOperation(value = "查询一级职位列表")
 	public List<String> getPName(){
 		return resumeService.queryPName();
 	}
@@ -98,6 +97,10 @@ public class ResumeController {
 	 * 子职位
 	 */
 	@GetMapping("/sName")
+	@ApiOperation(value = "根据父级职位id查出子类职位列表")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "id", value = "父级id，如45查询二级职位分类，46查三级职位分类", required = true, dataType = "int"),
+	})
 	public List<String> getSName(Integer id){
 		return resumeService.querySName(id);
 	}
@@ -105,6 +108,7 @@ public class ResumeController {
 	 * 父地区
 	 */
 	@GetMapping("/pArea")
+	@ApiOperation(value = "查询一级地区列表")
 	public List<String> getPArea(){
 		return resumeService.queryPArea();
 	}
@@ -112,21 +116,36 @@ public class ResumeController {
 	 * 子地区
 	 */
 	@GetMapping("/sArea")
-	public List<String> getSArea(Integer aid){
-		return resumeService.querySArea(aid);
+	@ApiOperation(value = "根据父级地区id查出子类地区列表")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "pid", value = "父级id,如1532", required = true, dataType = "int"),
+	})
+	public List<String> getSArea(Integer pid){
+		return resumeService.querySArea(pid);
 	}
 
 	/**
-	 *
-	 *  发布简历
+	 *功能描述：发布简历，用事物同时添加到三张表里
+	 *@author 王俊涛
+	 *@version 2018.3
+	 *@param uid 用户id
+	 *@param resume 简历表实体对象
+	 *@param employment 工作经验对象
+	 *@param project 项目经验对象
+	 *@return java.util.Map<java.lang.String,java.lang.String>
 	 */
 	@GetMapping("/create")
-	public Map<String,String> createResume(HttpServletRequest request, Resume resume, Employment employment, Project project,Integer current){
-        //从session里獲得用户id
-        Integer uid = (Integer) request.getSession().getAttribute("userId");
-        Map<String,String> map = new HashMap<>();
-        int count = resumeService.queryCountByUid(uid);
-        if (count>5){
+	@ApiOperation(value = "发布简历")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "query", name = "uid", value = "用户id", required = true, dataType = "int"),
+			@ApiImplicitParam(paramType = "query", name = "resume", value = "简历表实体对象", required = true, dataType = "com.zjwm.wyx.recruitment.entity.Resume"),
+			@ApiImplicitParam(paramType = "query", name = "employment", value = "工作经验对象", required = true, dataType = "com.zjwm.wyx.recruitment.entity.Employment"),
+			@ApiImplicitParam(paramType = "query", name = "project", value = "项目经验对象", required = true, dataType = "com.zjwm.wyx.recruitment.entity.Project"),
+	})
+	public Map<String,String> createResume(int uid, Resume resume, Employment employment, Project project){
+		Map<String,String> map = new HashMap<>();
+		int count = resumeService.queryCountByUid(uid);
+		if (count>5){
 			map.put("msg","每个用户最多只能制作5份简历");
 			return map;
 		}

@@ -43,8 +43,8 @@ public interface ResumeMapper extends BaseDao<Resume> {
 
     /**
      * 子地区
-     * @param aid
+     * @param pid
      * @return
      */
-    List<String> querySArea(Integer aid);
+    List<String> querySArea(Integer pid);
 }

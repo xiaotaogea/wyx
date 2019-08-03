@@ -2,9 +2,7 @@ package com.zjwm.wyx.utils;
 
 import java.util.Calendar;
 
-/**
- * Created by czx on 2017/9/19.
- */
+
 public class UUIDS {
 
     public static String getDateUUID(){

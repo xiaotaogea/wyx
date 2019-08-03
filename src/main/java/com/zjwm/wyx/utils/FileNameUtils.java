@@ -3,18 +3,18 @@ package com.zjwm.wyx.utils;
 public class FileNameUtils {
 
     /**
-     * 获取文件后缀
-     * @param fileName
-     * @return
+     *
+     * @param fileName 文件名
+     * @return 获取文件后缀
      */
-    public static String getSuffix(String fileName){
+    private static String getSuffix(String fileName){
         return fileName.substring(fileName.lastIndexOf("."));
     }
 
     /**
      * 生成新的文件名
      * @param fileOriginName 源文件名
-     * @return
+     * @return 新的文件名
      */
     public static String getFileName(String fileOriginName){
         return UUIDS.getDateTime() + FileNameUtils.getSuffix(fileOriginName);

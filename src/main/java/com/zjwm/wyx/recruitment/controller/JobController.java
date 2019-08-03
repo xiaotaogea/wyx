@@ -44,15 +44,14 @@ public class JobController {
     @GetMapping("/history")
     @ApiOperation(value = "查询用户浏览过的职位")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如15443", required = true, dataType = "int"),
     })
     public PageInfo<Job> getHostory(int uid,Integer currPage) {
         currPage = currPage == null ? 1 : currPage;
         PageHelper.startPage(currPage, 5);
         List<Job> jobs = jobService.queryHistory(uid);
-        PageInfo<Job> page = new PageInfo<>(jobs);
-        return page;
+        return new PageInfo<>(jobs);
     }
     /**
      * 收藏列表
@@ -60,15 +59,14 @@ public class JobController {
     @GetMapping("/collect")
     @ApiOperation(value = "查询用户收藏过的职位")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", required = false, dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如13932", required = true, dataType = "int"),
     })
     public PageInfo<Job> getCollect(int uid,Integer currPage) {
         currPage = currPage == null ? 1 : currPage;
         PageHelper.startPage(currPage, 5);
         List<Job> jobs = jobService.queryCollect(uid);
-        PageInfo<Job> page = new PageInfo<>(jobs);
-        return page;
+        return new PageInfo<>(jobs);
     }
 
     /**
@@ -87,8 +85,8 @@ public class JobController {
         if (welfare != null) {
             String[] arr = welfare.split(",");
             List<Welfare> welfares = new ArrayList<>();
-            for (int i = 0, len = arr.length; i < len; i++) {
-                Welfare wel = jobService.queryWelfares(Integer.valueOf(arr[i]));
+            for (String s : arr) {
+                Welfare wel = jobService.queryWelfares(Integer.valueOf(s));
                 welfares.add(wel);
             }
             job.setWelfares(welfares);

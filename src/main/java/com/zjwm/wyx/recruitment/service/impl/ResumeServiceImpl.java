@@ -44,8 +44,8 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<String> querySArea(Integer aid) {
-        return resumeMapper.querySArea(aid);
+    public List<String> querySArea(Integer pid) {
+        return resumeMapper.querySArea(pid);
     }
 
     @Override

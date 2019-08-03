@@ -14,8 +14,7 @@ mybatis:
 #pagehelper分页
 pagehelper:
    helperDialect: mysql
-server:
-  port: 8282
+
 
 
 

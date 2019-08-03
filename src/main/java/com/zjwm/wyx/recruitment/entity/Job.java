@@ -39,5 +39,7 @@ public class Job implements Serializable {
 	private Company company;
 	private List<Welfare> welfares;//福利集合
 
-	
+
+
+
 }
