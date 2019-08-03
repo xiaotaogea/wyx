@@ -3,13 +3,13 @@ package com.zjwm.wyx.order.service.impl;
 import com.zjwm.wyx.order.entity.Order;
 import com.zjwm.wyx.order.mapper.OrderMapper;
 import com.zjwm.wyx.order.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 @Service("orderService")
 public class OrderServiceImpl implements OrderService {
-    @Autowired
+    @Resource
     private OrderMapper orderMapper;
 
 
