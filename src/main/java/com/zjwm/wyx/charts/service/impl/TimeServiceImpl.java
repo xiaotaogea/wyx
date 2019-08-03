@@ -3,14 +3,14 @@ package com.zjwm.wyx.charts.service.impl;
 import com.zjwm.wyx.charts.dao.TimeMapper;
 import com.zjwm.wyx.charts.entity.Time;
 import com.zjwm.wyx.charts.service.TimeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service("timeService")
 public class TimeServiceImpl implements TimeService {
-    @Autowired
+    @Resource
     private TimeMapper timeMapper;
 
     @Override
