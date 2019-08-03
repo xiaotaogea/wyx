@@ -39,7 +39,7 @@
 		</sqlMapGenerator>
 		<!-- 逆向生成的  mapperxml位置  -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="main.resources.mapper.user"
+			targetPackage="main.java.com.zjwm.wyx.user.dao"
 			targetProject=".\src">
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>

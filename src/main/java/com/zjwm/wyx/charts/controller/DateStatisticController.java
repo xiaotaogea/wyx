@@ -10,6 +10,7 @@ package com.zjwm.wyx.charts.controller;
 
 import com.zjwm.wyx.charts.entity.Time;
 import com.zjwm.wyx.charts.service.TimeService;
+import com.zjwm.wyx.utils.CountUtil;
 import com.zjwm.wyx.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -30,8 +28,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * @Description 统计周、月、年的学习和登录数据
  * @version 2018.3
+ * @Description 统计周、月、年的学习和登录数据
  */
 @RestController
 @RequestMapping("/charts")
@@ -45,7 +43,7 @@ public class DateStatisticController {
      *
      * @param uid  用户id
      * @param type 1：登录时间 2：学习时间
-     * @return java.util.Map<java.lang.Object,java.lang.Object >  日期 -- 学习、登录时间                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               java.lang.Object>
+     * @return java.util.Map<java.lang.Object , java.lang.Object  >  日期 -- 学习、登录时间                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               java.lang.Object>
      * @author 王俊涛
      * @version 2018.3
      */
@@ -139,15 +137,8 @@ public class DateStatisticController {
             //年统计，把每月的数据相加
             if (type.equals("year")) {
                 //计算总时间
-                ScriptEngineManager manager = new ScriptEngineManager();
-                ScriptEngine engine = manager.getEngineByName("js");
-                Object result = null;
-                try {
-                    result = engine.eval(new String(stringBuilder));
-                } catch (ScriptException e) {
-                    e.printStackTrace();
-                }
-                map.put(past, result);
+                Object total = CountUtil.total(new String(stringBuilder));
+                map.put(past, total);
             }
 
 

@@ -1,9 +1,9 @@
 package mapper.user;
 
-import java.util.List;
 import main.java.com.zjwm.wyx.user.entity.HbbStudent;
-import main.java.com.zjwm.wyx.user.entity.HbbStudentExample;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface HbbStudentMapper {
     int countByExample(HbbStudentExample example);

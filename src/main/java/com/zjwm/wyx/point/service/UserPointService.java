@@ -14,10 +14,10 @@ import java.util.List;
 public interface UserPointService {
 	
 	List<UserPoint> queryByUid(int uid);
+	List<UserPoint> queryPointList(int uid,String fen);
 
 	void insertUserPoint(UserPoint userPoint);
 
-	int queryTotal();
-	
 
+	List<String> queryFen( int uid);
 }

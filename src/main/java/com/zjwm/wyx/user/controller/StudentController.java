@@ -1,6 +1,8 @@
 package com.zjwm.wyx.user.controller;
 
-import com.zjwm.wyx.user.service.StudentService;
+
+import com.zjwm.wyx.user.service.HbbStudentService;
+import com.zjwm.wyx.user.entity.HbbStudent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -9,24 +11,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
- * description
- *
- * @author 王俊涛
- * @date 2019/7/30 16:06
+ * @version 2018.3
+ * @Description: 根据用户id对用户进行操作
  */
 @RestController
 @RequestMapping("student")
-@Api(description = "个人信息-学生")
+@Api(description = "学生信息")
 public class StudentController {
 
     @Resource
-    private StudentService studentService;
+    private HbbStudentService studentService;
+
     @GetMapping("info")
-    @ApiOperation(value = "根据学生id查询信息")
-    @ApiImplicitParam(paramType = "query",name = "uid",value = "学生id",required = true,dataType = "int")
-    public Student getInfo(int uid){
+    @ApiOperation("根据用户id获取信息")
+    @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如15499", required = true, dataType = "int")
+    public HbbStudent getInfo(int uid) {
+
         return studentService.queryById(uid);
     }
+
+    @GetMapping("update")
+    @ApiOperation("根据用户id修改信息")
+    @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如15499", required = true, dataType = "int")
+    public Map<String, String> updateInfo(int uid) {
+        Map<String, String> map = new HashMap<>();
+        int res = studentService.updateStudent(studentService.queryById(uid));
+        if (res == 1) {
+            map.put("msg", "修改成功");
+        } else {
+            map.put("msg", "修改失败");
+        }
+        return map;
+    }
+
 }

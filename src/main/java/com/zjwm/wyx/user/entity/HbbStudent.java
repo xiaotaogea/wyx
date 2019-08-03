@@ -1,4 +1,4 @@
-package main.java.com.zjwm.wyx.user.entity;
+package com.zjwm.wyx.user.entity;
 
 public class HbbStudent {
     private Integer id;

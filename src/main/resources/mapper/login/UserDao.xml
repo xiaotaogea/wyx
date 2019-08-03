@@ -9,6 +9,7 @@
         <result property="username" column="username"/>
         <result property="mobile" column="mobile"/>
         <result property="password" column="password"/>
+        <result property="fen" column="fen"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
@@ -21,7 +22,9 @@
 		select * from hbb_user where mobile = #{mobile}
 	</select>
 	 
-
+    <update id="updateFen">
+        update from hbb_user set fen=#{fen} where id=#{id}
+    </update>
 
 
 

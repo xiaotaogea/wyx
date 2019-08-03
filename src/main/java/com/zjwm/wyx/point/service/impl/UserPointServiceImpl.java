@@ -15,6 +15,12 @@ public class UserPointServiceImpl implements UserPointService {
 	@Autowired
 	private UserPointMapper userPointMapper;
 
+
+	@Override
+	public List<UserPoint> queryPointList(int uid, String fen) {
+		return userPointMapper.queryPointList(uid,fen);
+	}
+
 	@Override
 	public void insertUserPoint(UserPoint userPoint) {
 		// TODO Auto-generated method stub
@@ -22,10 +28,10 @@ public class UserPointServiceImpl implements UserPointService {
 	}
 
 	@Override
-	public int queryTotal() {
-		// TODO Auto-generated method stub
-		return userPointMapper.queryTotal();
+	public List<String> queryFen(int uid) {
+		return userPointMapper.queryFen(uid);
 	}
+
 
 	@Override
 	public List<UserPoint> queryByUid(int uid) {
