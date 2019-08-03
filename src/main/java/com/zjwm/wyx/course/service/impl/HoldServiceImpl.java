@@ -3,16 +3,16 @@ package com.zjwm.wyx.course.service.impl;
 import com.zjwm.wyx.course.dao.HoldMapper;
 import com.zjwm.wyx.course.entity.Hold;
 import com.zjwm.wyx.course.service.HoldService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
 
 @Service("holdService")
 public class HoldServiceImpl implements HoldService {
-	@Autowired
+	@Resource
 	private HoldMapper holdMapper;
 
 

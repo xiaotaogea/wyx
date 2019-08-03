@@ -15,10 +15,7 @@ public interface UserClassService {
 
 	UserHClass queryById(int cid);
 
-	/**
-	 * 网站名字
-	 * @return
-	 */
+
 	List<String> queryWebNames();
 	List<String> queryAcNames(Integer wid);
 

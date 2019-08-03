@@ -17,5 +17,4 @@ public interface NoteService {
 	List<Note> queryNotesByUid(@Param("uid") Integer uid);
 	List<Note> queryNotesByUidAndCid(@Param("uid") Integer uid, @Param("clid") Integer cid);
 	int queryCount(int uid, int clid);
-	Note queryVideo(int cid);
 }

@@ -16,26 +16,26 @@ public interface CommentService {
 	List<Comment> queryList(int uid);
 
 	/**
-	 * 好评
+	 *
 	 * 
-	 * @param uid
-	 * @return
+	 * @param uid 用户id
+	 * @return 好评
 	 */
 	List<Comment> queryGoodList(int uid);
 
 	/**
-	 * 中评
+	 *
 	 * 
-	 * @param uid
-	 * @return
+	 * @param uid 用户id
+	 * @return 中评
 	 */
 	List<Comment> queryMidList(int uid);
 
 	/**
-	 * 差评
+	 *
 	 * 
-	 * @param uid
-	 * @return
+	 * @param uid 用户id
+	 * @return  差评
 	 */
 	List<Comment> queryBadList(int uid);
 

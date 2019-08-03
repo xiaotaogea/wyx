@@ -4,16 +4,16 @@ import com.github.pagehelper.Page;
 import com.zjwm.wyx.course.dao.ClassMapper;
 import com.zjwm.wyx.course.entity.UserHClass;
 import com.zjwm.wyx.course.service.UserClassService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
 
 @Service("userClassService")
 public class UserClassServiceImpl implements UserClassService {
-	@Autowired
+	@Resource
 	private ClassMapper classMapper;
 
 	@Override

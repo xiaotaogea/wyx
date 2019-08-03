@@ -3,14 +3,14 @@ package com.zjwm.wyx.course.service.impl;
 import com.zjwm.wyx.course.dao.CommentMapper;
 import com.zjwm.wyx.course.entity.Comment;
 import com.zjwm.wyx.course.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
-	@Autowired
+	@Resource
 	private CommentMapper commentMapper;
 
 	@Override
