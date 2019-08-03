@@ -5,15 +5,15 @@ import com.zjwm.wyx.exam.entity.ExamDo;
 import com.zjwm.wyx.exam.entity.HoldExam;
 import com.zjwm.wyx.exam.entity.HoldQuestion;
 import com.zjwm.wyx.exam.service.HoldExamService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
 @Service("holdExamService")
 public class HoldExamServiceImpl implements HoldExamService {
-	@Autowired
+	@Resource
 	private HoldExamMapper holdExamMapper;
 
 

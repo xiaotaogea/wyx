@@ -17,23 +17,22 @@ public interface HoldExamService {
 
 
 	/**
-	 * 收藏试卷
 	 *
-	 * @param uid
-	 * @return
+	 * @param uid 用户id
+	 * @return 收藏试卷
 	 */
 	List<HoldExam> queryEList(int uid);
 	/**
-	 * 收藏试题
-	 * @param uid
-	 * @return
+	 *
+	 * @param uid 用户id
+	 * @return 收藏试题
 	 */
 	List<HoldQuestion> queryQList(int uid);
 	/**
-	 * 做题记录
 	 *
-	 * @param uid
-	 * @return
+	 *
+	 * @param uid 用户id
+	 * @return 做题记录
 	 */
 	List<ExamDo> queryExamDo(int uid);
 
