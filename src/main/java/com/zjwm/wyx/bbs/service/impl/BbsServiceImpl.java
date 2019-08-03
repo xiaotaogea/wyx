@@ -54,6 +54,13 @@ public class BbsServiceImpl implements BbsService {
         return bbsMapper.queryLabs();
     }
 
+    /**
+     *
+     * @param bbs 帖子
+     * @param userPoint 积分
+     * @param hbbUser 用户
+     * @return 事物保存三张表
+     */
     @Transactional
     @Override
     public int save(Bbs bbs, UserPoint userPoint, HbbUser hbbUser) {

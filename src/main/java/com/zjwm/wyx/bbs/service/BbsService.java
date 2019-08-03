@@ -6,13 +6,6 @@ import com.zjwm.wyx.point.entity.UserPoint;
 
 import java.util.List;
 
-/**
- * 用户
- * 
- * @author Andy
- * @email andyeasons@163.com
- * @date 2017-10-23 21:23:54
- */
 public interface BbsService {
 
 
@@ -20,9 +13,9 @@ public interface BbsService {
 
 	Bbs queryById(int id);
 	/**
-	 * 参与
-	 * @param userId
-	 * @return
+	 *
+	 * @param userId 用户id
+	 * @return 参与列表
 	 */
 	List<Bbs> queryReply(int userId);
     /**
@@ -31,21 +24,22 @@ public interface BbsService {
      */
     List<String> querycateParentName();
     /**
-     * 帖子的子类
-     * @param id
-     * @return
+     *
+     * @param id 父种类id
+     * @return 帖子的子类列表
      */
     List<String> querycateChildName(int id);
     /**
-     * 标签
-     * @return
+     * @return 标签
      */
     List<String> queryLabs();
 
     /**
-     * 发帖
-     * @param bbs
-     * @return
+     * 发帖，改积分
+     * @param bbs 帖子
+     * @param userPoint 积分
+     * @param hbbUser 用户
+     * @return 保存
      */
     int save(Bbs bbs, UserPoint userPoint, HbbUser hbbUser);
 
