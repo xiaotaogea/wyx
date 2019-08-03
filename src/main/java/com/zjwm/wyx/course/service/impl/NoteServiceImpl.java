@@ -33,10 +33,5 @@ public class NoteServiceImpl implements NoteService {
 		return noteMapper.queryNotesByUidAndCid(uid, cid);
 	}
 
-	@Override
-	public Note queryVideo(int cid) {
-		// TODO Auto-generated method stub
-		return noteMapper.queryVideo(cid);
-	}
-	
+
 }
