@@ -1,36 +1,35 @@
 package com.zjwm.wyx.login.service.impl;
 
-import com.zjwm.wyx.login.dao.UserDao;
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.dao.HbbUserMapper;
+import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.utils.RRException;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import javax.annotation.Resource;
 
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
 
-    @Autowired
-    private UserDao userDao;
+    @Resource
+    private HbbUserMapper userMapper;
 
     @Override
-    public UserEntity queryObject(int userId) {
-        return userDao.queryObject(userId);
+    public HbbUser queryObject(int userId) {
+        return userMapper.queryObject(userId);
     }
 
     @Override
-    public UserEntity queryByMobile(String mobile) {
-        return userDao.queryByMobile(mobile);
+    public HbbUser queryByMobile(String mobile) {
+        return userMapper.queryByMobile(mobile);
     }
 
     @Override
     public int login(String mobile, String password) {
-        UserEntity user = queryByMobile(mobile);
+        HbbUser user = queryByMobile(mobile);
         if (user==null){
             return -1;
         }
@@ -46,18 +45,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(String mobile, String password) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setMobile(mobile);
-        userEntity.setPassword(password);
-        userEntity.setPassword(DigestUtils.sha256Hex(userEntity.getPassword()));
-        userEntity.setCreateTime(new Date());
-        userDao.save(userEntity);
+    public int save(HbbUser hbbUser) {
+
+        return userMapper.save(hbbUser);
     }
 
     @Override
-    public int updateFen(UserEntity userEntity) {
-        return userDao.updateFen(userEntity);
+    public HbbUser queryByEmail(String email) {
+        return userMapper.queryByEmail(email);
     }
+
 
 }

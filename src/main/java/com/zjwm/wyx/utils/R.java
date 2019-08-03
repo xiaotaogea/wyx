@@ -24,6 +24,11 @@ public class R extends HashMap<String, Object> {
 		r.put("msg", msg);
 		return r;
 	}
+    public static R error(String msg) {
+        R r = new R();
+        r.put("msg", msg);
+        return r;
+    }
 	public static R ok(Map<String, Object> map) {
 		R r = new R();
 		r.putAll(map);

@@ -1,4 +1,4 @@
-package com.zjwm.wyx.swagger_config;
+package com.zjwm.wyx.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

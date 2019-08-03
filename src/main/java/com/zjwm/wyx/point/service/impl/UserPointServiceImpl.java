@@ -3,16 +3,16 @@ package com.zjwm.wyx.point.service.impl;
 import com.zjwm.wyx.point.dao.UserPointMapper;
 import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.point.service.UserPointService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
 
 @Service("userPointService")
 public class UserPointServiceImpl implements UserPointService {
-	@Autowired
+	@Resource
 	private UserPointMapper userPointMapper;
 
 
@@ -22,9 +22,9 @@ public class UserPointServiceImpl implements UserPointService {
 	}
 
 	@Override
-	public void insertUserPoint(UserPoint userPoint) {
+	public int insertUserPoint(UserPoint userPoint) {
 		// TODO Auto-generated method stub
-		userPointMapper.save(userPoint);
+		return userPointMapper.save(userPoint);
 	}
 
 	@Override

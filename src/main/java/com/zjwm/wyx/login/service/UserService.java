@@ -1,6 +1,6 @@
 package com.zjwm.wyx.login.service;
 
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.entity.HbbUser;
 
 /**
  * 用户
@@ -11,9 +11,9 @@ import com.zjwm.wyx.login.entity.UserEntity;
  */
 public interface UserService {
 	
-	UserEntity queryObject(int userId);
+	HbbUser queryObject(int userId);
 
-	UserEntity queryByMobile(String mobile);
+    HbbUser queryByMobile(String mobile);
 
 	/**
 	 * 用户登录
@@ -23,7 +23,8 @@ public interface UserService {
 	 */
 	int login(String mobile, String password);
 
-	void save(String mobile, String password);
+	int save(HbbUser hbbUser);
 
-	int updateFen(UserEntity userEntity);
+    HbbUser queryByEmail(String email);
+
 }

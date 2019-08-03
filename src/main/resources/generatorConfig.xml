@@ -26,26 +26,25 @@
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
-	    <!-- 逆向生成的实体类  保存位置 -->
-		<javaModelGenerator targetPackage="com.zjwm.wyx.user.entity"
-			targetProject=".\src">
-			<property name="enableSubPackages" value="false" />
-			<property name="trimStrings" value="true" />  
-		</javaModelGenerator>
-		<!-- 逆向生成的  mapper接口位置  -->
-		<sqlMapGenerator targetPackage="main.java.com.zjwm.wyx.user.dao"
-			targetProject=".\src">
-			<property name="enableSubPackages" value="false" />
-		</sqlMapGenerator>
-		<!-- 逆向生成的  mapperxml位置  -->
-		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="main.java.com.zjwm.wyx.user.dao"
-			targetProject=".\src">
-			<property name="enableSubPackages" value="false" />
-		</javaClientGenerator>
-		<!-- 逆向哪些表 -->
+        <!--指定javaBean生成的位置 javaBean生成的位置-->
+        <javaModelGenerator targetPackage="com.zjwm.wyx.login.entity" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!--sql映射文件生成的位置-->
+        <sqlMapGenerator targetPackage="user"  targetProject="./src/main/resources/mapper">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!--指定dao接口生成的位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.zjwm.wyx.login.dao"  targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 逆向哪些表 -->
 		
-		<table tableName="hbb_student"></table>
+		<table tableName="hbb_user"></table>
 		<!-- 有些表的字段需要指定java类型
 		 <table schema="" tableName="">
 			<columnOverride column="" javaType="" />

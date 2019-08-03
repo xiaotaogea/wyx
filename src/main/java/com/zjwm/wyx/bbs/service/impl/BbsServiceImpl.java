@@ -3,8 +3,8 @@ package com.zjwm.wyx.bbs.service.impl;
 import com.zjwm.wyx.bbs.dao.BbsMapper;
 import com.zjwm.wyx.bbs.entity.Bbs;
 import com.zjwm.wyx.bbs.service.BbsService;
-import com.zjwm.wyx.login.dao.UserDao;
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.dao.HbbUserMapper;
+import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.point.dao.UserPointMapper;
 import com.zjwm.wyx.point.entity.UserPoint;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class BbsServiceImpl implements BbsService {
     @Resource
     private UserPointMapper pointMapper;
     @Resource
-    private UserDao userDao;
+    private HbbUserMapper userDao;
 
 
     @Override
@@ -56,10 +56,10 @@ public class BbsServiceImpl implements BbsService {
 
     @Transactional
     @Override
-    public int save(Bbs bbs, UserPoint userPoint, UserEntity userEntity) {
+    public int save(Bbs bbs, UserPoint userPoint, HbbUser hbbUser) {
         int res1 = bbsMapper.save(bbs);
         int res2 = pointMapper.save(userPoint);
-        int res3 = userDao.updateFen(userEntity);
+        int res3 = userDao.updateFen(hbbUser);
         return res1 + res2 + res3;
     }
 

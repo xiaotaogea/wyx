@@ -1,7 +1,7 @@
 package com.zjwm.wyx.bbs.service;
 
 import com.zjwm.wyx.bbs.entity.Bbs;
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.point.entity.UserPoint;
 
 import java.util.List;
@@ -47,6 +47,6 @@ public interface BbsService {
      * @param bbs
      * @return
      */
-    int save(Bbs bbs, UserPoint userPoint, UserEntity userEntity);
+    int save(Bbs bbs, UserPoint userPoint, HbbUser hbbUser);
 
 }

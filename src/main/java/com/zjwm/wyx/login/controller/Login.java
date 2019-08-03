@@ -1,6 +1,6 @@
 package com.zjwm.wyx.login.controller;
 
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.utils.R;
 import io.swagger.annotations.Api;
@@ -45,10 +45,10 @@ public class Login {
 		// 验证手机号和密码
 		int userid = userService.login(mobile, pwd);
 //		返回token user信息（用户名、用户头像、userId）
-		UserEntity userEntity = userService.queryObject(userid);
+		HbbUser hbbUser = userService.queryObject(userid);
 		//把用户id存到session里
 		request.getSession().setAttribute("userId",userid);
-		return R.ok().put("data", userEntity);
+		return R.ok().put("data", hbbUser);
 	}
 
 

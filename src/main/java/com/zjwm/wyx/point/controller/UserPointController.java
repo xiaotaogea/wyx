@@ -10,7 +10,7 @@ package com.zjwm.wyx.point.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.point.entity.UserSign;
@@ -95,8 +95,8 @@ public class UserPointController {
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如15443", required = true, dataType = "int"),
     })
     public String getSumPoint(int uid){
-        UserEntity userEntity = userService.queryObject(uid);
-        return userEntity.getFen();
+        HbbUser hbbUser = userService.queryObject(uid);
+        return hbbUser.getFen();
     }
 
     /**

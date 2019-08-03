@@ -8,6 +8,21 @@ spring:
   swagger:
     base-package: com.zjwm.wyx
     enabled: true
+  #redis
+  redis:
+    #redis机器ip
+    host: 192.168.1.67
+    #redis端口
+    port: 6379
+    timeout: 5000
+    database: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    password: 123456
 mybatis:
    mapper-locations: classpath:mapper/*/*.xml
 
@@ -15,11 +30,8 @@ mybatis:
 pagehelper:
    helperDialect: mysql
 
+server:
+  port: 8989
 
-#redis
-#redis:
-#  #redis机器ip
-#  hostname: 192.168.
-#  #redis端口
-#  port: 6379
+
 

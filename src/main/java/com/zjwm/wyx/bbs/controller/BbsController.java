@@ -12,7 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zjwm.wyx.bbs.entity.Bbs;
 import com.zjwm.wyx.bbs.service.BbsService;
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.point.service.UserPointService;
@@ -118,7 +118,7 @@ public class BbsController {
                 userPoint.setFen("-10");
                 break;
         }
-        UserEntity userEntity = userService.queryObject(uid);
+        HbbUser hbbUser = userService.queryObject(uid);
         List<String> points = pointService.queryFen(uid);
         StringBuilder builder = null;
         for (String point : points) {
@@ -126,8 +126,8 @@ public class BbsController {
         }
         //计算总积分，set到用户表
         Object total = CountUtil.total(new String(builder));
-        userEntity.setFen((String) total);
-        int res = bbsService.save(bbs,userPoint,userEntity);
+        hbbUser.setFen((String) total);
+        int res = bbsService.save(bbs,userPoint,hbbUser);
         if (res == 3) {
             map.put("data", "发表成功");
         } else {

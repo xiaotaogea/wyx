@@ -1,6 +1,6 @@
 package com.zjwm.wyx.bbs.entity;
 
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.entity.HbbUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +27,7 @@ public class Bbs implements Serializable {
 	private String label;//标签
 	private int createTime;
 	
-	private UserEntity userEntity;//用户
+	private HbbUser hbbUser;//用户
 	private BbsReply bbsReply;//参与
 	private BbsCategory bbsCategory;//帖子种类
 

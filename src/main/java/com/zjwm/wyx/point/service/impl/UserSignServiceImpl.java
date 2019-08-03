@@ -3,16 +3,15 @@ package com.zjwm.wyx.point.service.impl;
 import com.zjwm.wyx.point.dao.UserSignMapper;
 import com.zjwm.wyx.point.entity.UserSign;
 import com.zjwm.wyx.point.service.UserSignService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import javax.annotation.Resource;
 
 
 @Service("userSignService")
 public class UserSignServiceImpl implements UserSignService {
 	
-	@Autowired
+	@Resource
 	private UserSignMapper userSignMapper;
 
 	

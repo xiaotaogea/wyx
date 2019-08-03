@@ -1,6 +1,6 @@
 package com.zjwm.wyx.course.entity;
 
-import com.zjwm.wyx.login.entity.UserEntity;
+import com.zjwm.wyx.login.entity.HbbUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +32,7 @@ public class Comment implements Serializable {
 	//课程
 	private UserHClass userHClass;
 	
-	private UserEntity userEntity;
+	private HbbUser hbbUser;
 	
 
 }
