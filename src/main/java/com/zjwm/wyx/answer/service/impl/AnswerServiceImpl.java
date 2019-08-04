@@ -13,7 +13,7 @@ public class AnswerServiceImpl implements AnswerService {
 	@Resource
 	private AnswerMapper answerMapper;
 
-	@Resource
+	@Override
 	public List<Answer> queryQList(int uid) {
 		// TODO Auto-generated method stub
 		return answerMapper.queryQList(uid);
