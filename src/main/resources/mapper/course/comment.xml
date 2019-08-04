@@ -32,33 +32,16 @@
 		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
 		= a.clid and
 		a.uid=#{uid}
+		<if test='type!=null and type=="good"'>
+			and a.star>=4
+		</if>
+		<if test='type!=null and type=="mid"'>
+			and a.star between 2 and 3
+		</if>
+		<if test='type!=null and type=="bad"'>
+			and a.star=1
+		</if>
 	</select>
-	<select id="queryGoodList" resultMap="commentMap">
-		select
-		a.uid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
-		hbb_comment a
-		join
-		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
-		= a.clid and
-		a.uid=#{uid} and a.star>=4
-	</select>
-	<select id="queryMidList" resultMap="commentMap">
-		select
-		a.uid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
-		hbb_comment a
-		join
-		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
-		= a.clid and
-		a.uid=#{uid} and a.star between 2 and 3
-	</select>
-	<select id="queryBadList" resultMap="commentMap">
-		select
-		a.uid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
-		hbb_comment a
-		join
-		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
-		= a.clid and
-		a.uid=#{uid} and a.star=1
-	</select>
+
 
 </mapper>

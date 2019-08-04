@@ -14,27 +14,10 @@ public class CommentServiceImpl implements CommentService {
 	private CommentMapper commentMapper;
 
 	@Override
-	public List<Comment> queryList(int uid) {
+	public List<Comment> queryList(int uid,String type) {
 		// TODO Auto-generated method stub
-		return commentMapper.queryList(uid);
+		return commentMapper.queryList(uid,type);
 	}
 
-	@Override
-	public List<Comment> queryGoodList(int uid) {
-		// TODO Auto-generated method stub
-		return commentMapper.queryGoodList(uid);
-	}
-
-	@Override
-	public List<Comment> queryMidList(int uid) {
-		// TODO Auto-generated method stub
-		return commentMapper.queryMidList(uid);
-	}
-
-	@Override
-	public List<Comment> queryBadList(int uid) {
-		// TODO Auto-generated method stub
-		return commentMapper.queryBadList(uid);
-	}
 
 }

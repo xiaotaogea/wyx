@@ -188,31 +188,13 @@ public class CourseController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id，如15443", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页,默认1", dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "type", value = "all:全部，good：好评，mid：中评,bad：差评  默认all",  dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "type", value = "good：好评，mid：中评,bad：差评  默认没有值，查全部",  dataType = "string"),
     })
     public PageInfo<Comment> getListComment(int uid, Integer currPage, String type) {
         currPage = (currPage == null) ? 1 : currPage;
         type = (type == null) ? "all" : type;
         PageHelper.startPage(currPage, 5);
-        List<Comment> comments = null;
-        switch (type) {
-            // 全部
-            case "all":
-                comments = commentService.queryList(uid);
-                break;
-            // 好评
-            case "good":
-                comments = commentService.queryGoodList(uid);
-                break;
-            // 中评
-            case "mid":
-                comments = commentService.queryMidList(uid);
-                break;
-            // 差评
-            case "bad":
-                comments = commentService.queryBadList(uid);
-                break;
-        }
+        List<Comment> comments = commentService.queryList(uid,type);;
         if (comments == null){
             return null;
         }

@@ -3,6 +3,7 @@ package com.zjwm.wyx.course.dao;
 import com.zjwm.wyx.course.entity.Comment;
 import com.zjwm.wyx.utils.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,34 +17,12 @@ import java.util.List;
 @Mapper
 public interface CommentMapper extends BaseDao<Comment> {
 	/**
-	 * 全部
-	 * 
-	 * @param uid
-	 * @return
+	 * 根据用户id查出不同的类型的列表
+	 * @param uid 用户id
+	 * @param type 评价类型
+	 * @return 列表
 	 */
-	List<Comment> queryList(int uid);
+	List<Comment> queryList(int uid, @Param("type") String type);
 
-	/**
-	 * 好评
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	List<Comment> queryGoodList(int uid);
 
-	/**
-	 * 中评
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	List<Comment> queryMidList(int uid);
-
-	/**
-	 * 差评
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	List<Comment> queryBadList(int uid);
 }
