@@ -24,5 +24,6 @@ public interface CommentMapper extends BaseDao<Comment> {
 	 */
 	List<Comment> queryList(int uid, @Param("type") String type);
 
+	int save(Comment comment);
 
 }

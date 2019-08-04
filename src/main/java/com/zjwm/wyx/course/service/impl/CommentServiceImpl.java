@@ -19,5 +19,10 @@ public class CommentServiceImpl implements CommentService {
 		return commentMapper.queryList(uid,type);
 	}
 
+	@Override
+	public int save(Comment comment) {
+		return commentMapper.save(comment);
+	}
+
 
 }

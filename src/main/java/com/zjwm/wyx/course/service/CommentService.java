@@ -9,5 +9,5 @@ public interface CommentService {
 	List<Comment> queryList(int uid,String type);
 
 
-
+	int save(Comment comment);
 }

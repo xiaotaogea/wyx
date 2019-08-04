@@ -194,11 +194,18 @@ public class CourseController {
         currPage = (currPage == null) ? 1 : currPage;
         type = (type == null) ? "all" : type;
         PageHelper.startPage(currPage, 5);
-        List<Comment> comments = commentService.queryList(uid,type);;
+        List<Comment> comments = commentService.queryList(uid,type);
         if (comments == null){
             return null;
         }
         return new PageInfo<>(comments);
+    }
+    @GetMapping("/addComment")
+    @ApiOperation(value = "添加课程评价接口")
+    @ApiImplicitParam(paramType = "query", name = "comment", value = "实体类对象", required = true, dataType = "Comment")
+    public int addComment(Comment comment){
+        comment.setAddTime((int) (System.currentTimeMillis()/1000));
+        return commentService.save(comment);
     }
 
     /**

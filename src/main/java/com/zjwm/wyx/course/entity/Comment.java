@@ -19,6 +19,10 @@ public class Comment implements Serializable {
 	private int id;
 	//课程
 	private int clid;
+	//网站id
+	private int wid;
+	//所有课程id
+	private int acid;
 	//视频id
 	private int vid;
 	//用户id

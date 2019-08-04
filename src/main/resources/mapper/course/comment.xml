@@ -3,45 +3,52 @@
 
 <mapper namespace="com.zjwm.wyx.course.dao.CommentMapper">
 
-	<resultMap type="com.zjwm.wyx.course.entity.Comment" id="commentMap">
-		<result property="id" column="id" />
-		<result property="clid" column="clid" />
-		<result property="vid" column="vid" />
-		<result property="uid" column="uid" />
-		<result property="content" column="content" />
-		<result property="addTime" column="addtime" />
-		<result property="star" column="star" />
-		<association property="userHClass"
-			javaType="com.zjwm.wyx.course.entity.UserHClass">
-			<result property="id" column="id" />
-			<result property="name" column="name" />
-		</association>
-		<association property="hbbUser"
-			javaType="com.zjwm.wyx.login.entity.HbbUser">
-			<result property="id" column="id" />
-			<result property="nick" column="nick" />
-			<result property="pic" column="pic" />
-		</association>
-	</resultMap>
+    <resultMap type="com.zjwm.wyx.course.entity.Comment" id="commentMap">
+        <result property="id" column="id"/>
+        <result property="clid" column="clid"/>
+        <result property="wid" column="wid"/>
+        <result property="acid" column="acid"/>
+        <result property="vid" column="vid"/>
+        <result property="uid" column="uid"/>
+        <result property="content" column="content"/>
+        <result property="addTime" column="addtime"/>
+        <result property="star" column="star"/>
+        <association property="userHClass"
+                     javaType="com.zjwm.wyx.course.entity.UserHClass">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+        <association property="hbbUser"
+                     javaType="com.zjwm.wyx.login.entity.HbbUser">
+            <result property="id" column="id"/>
+            <result property="nick" column="nick"/>
+            <result property="pic" column="pic"/>
+        </association>
+    </resultMap>
 
-	<select id="queryList" resultMap="commentMap">
-		select
-		a.uid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
-		hbb_comment a
-		join
-		hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
-		= a.clid and
-		a.uid=#{uid}
-		<if test='type!=null and type=="good"'>
-			and a.star>=4
-		</if>
-		<if test='type!=null and type=="mid"'>
-			and a.star between 2 and 3
-		</if>
-		<if test='type!=null and type=="bad"'>
-			and a.star=1
-		</if>
-	</select>
+    <select id="queryList" resultMap="commentMap">
+        select
+        a.uid,a.acid,a.wid,a.clid,a.vid,a.content,a.addtime,a.star,b.nick,b.pic,c.name from
+        hbb_comment a
+        join
+        hbb_user b JOIN hbb_class c on b.id = a.uid and c.id
+        = a.clid and
+        a.uid=#{uid}
+        <if test='type!=null and type=="good"'>
+            and a.star>=4
+        </if>
+        <if test='type!=null and type=="mid"'>
+            and a.star between 2 and 3
+        </if>
+        <if test='type!=null and type=="bad"'>
+            and a.star=1
+        </if>
+    </select>
 
+    <insert id="save">
+        insert into hbb_comment(wid, acid, clid, vid, uid,
+                                content, star, addtime)
+        values (#{wid}, #{acid}, #{clid}, #{vid}, #{uid}, #{content}, #{star}, #{addTime})
+    </insert>
 
 </mapper>
