@@ -4,9 +4,7 @@ import com.zjwm.wyx.login.dao.HbbUserMapper;
 import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.dao.UserPointMapper;
-import com.zjwm.wyx.point.entity.UserPoint;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -30,12 +28,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.queryByMobile(mobile);
     }
 
-
-    @Transactional
-    @Override
-    public int save(HbbUser hbbUser, UserPoint userPoint) {
-        return userMapper.save(hbbUser) + pointMapper.save(userPoint);
-    }
 
     @Override
     public int save(HbbUser hbbUser) {

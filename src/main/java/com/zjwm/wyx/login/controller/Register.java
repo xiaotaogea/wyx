@@ -4,6 +4,7 @@ import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.RedisService;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
+import com.zjwm.wyx.point.service.UserPointService;
 import com.zjwm.wyx.utils.CountUtil;
 import com.zjwm.wyx.utils.Md5Util;
 import com.zjwm.wyx.utils.R;
@@ -39,6 +40,10 @@ public class Register {
     private UserService userService;
     @Resource
     private MessageUser messageUser;
+    @Resource
+    private UserPointService pointService;
+    //把当前时间设置成key
+    public static String KEY = UUIDS.getDateTime();
 
     /**
      * 短信验证码发送
@@ -64,7 +69,7 @@ public class Register {
         //验证码
         String phoneCode = CountUtil.verifyCode();
         // 放redis设置储存时间五分钟
-        redisService.setKey(UUIDS.getDateTime(), phoneCode);
+        redisService.setKey(KEY, phoneCode);
         // 单条发送
         singleSend(userid, pwd, phoneCode, mobile);
 
@@ -157,16 +162,8 @@ public class Register {
         if (code == null) {
             return R.error("验证码不能为空");
         }
-//        if (!"/^1[3-9][0-9]\\d{8}$/".matches(mobile)){
-//            return R.error("手机号格式不正确");
-//        }
-
-        // 验证输入验证码
-        //从redis取出验证
-        String phoneCode = redisService.getValue(UUIDS.getDateTime());
-        System.out.println(phoneCode);
-        if (phoneCode != null && !phoneCode.equals(code)) {
-            return R.error("验证码不正确");
+        if (!"/^1[3-9][0-9]\\d{8}$/".matches(mobile)){
+            return R.error("手机号格式不正确");
         }
         HbbUser mobileUser = userService.queryByMobile(mobile);
         if (mobileUser != null) {
@@ -180,6 +177,16 @@ public class Register {
         if (password.length() < 6) {
             return R.error("密码不能少于6位");
         }
+        // 验证输入验证码
+        //从redis取出验证
+        String phoneCode = redisService.getValue(KEY);
+        if (phoneCode == null){
+            return R.error("验证码已失效，请重新发送");
+        }
+        if (!phoneCode.equals(code)) {
+            return R.error("验证码不正确");
+        }
+
         //密码强度
         int streng;
         if ("/^[0-9]+$/".matches(password) || "/^[a-zA-Z]+$/".matches(password) && password.length() < 14) {
@@ -193,20 +200,20 @@ public class Register {
         }
         HbbUser hbbUser = new HbbUser();
         hbbUser.setMobile(mobile);
-        hbbUser.setWxUnionid(null);
-        hbbUser.setUsername(null);
-        hbbUser.setTruename(null);
+        hbbUser.setWxUnionid("");
+        hbbUser.setUsername("");
+        hbbUser.setTruename("");
         hbbUser.setNick(nick);
         hbbUser.setEmail(email);
         hbbUser.setStreng(streng);
-        hbbUser.setPassword(Md5Util.md5(Md5Util.md5("zjwam"+password)));
+        hbbUser.setPassword(Md5Util.md5(Md5Util.md5("zjwam" + password)));
         hbbUser.setType(type);
-        hbbUser.setPic(null);
+        hbbUser.setPic("");
         hbbUser.setFen("10");
         hbbUser.setMethod("页面注册");
         hbbUser.setCreateTime((int) (System.currentTimeMillis() / 1000));
         hbbUser.setUpdateTime((int) (System.currentTimeMillis() / 1000));
-
+        int res1 = userService.save(hbbUser);
 
         //加积分
         UserPoint userPoint = new UserPoint();
@@ -217,12 +224,13 @@ public class Register {
         userPoint.setContent("注册成功");
         userPoint.setFen("+10");
         userPoint.setAddTime((int) (System.currentTimeMillis() / 1000));
-        int res = userService.save(hbbUser,userPoint);
-        if (res==2){
-            // 返回token
+        int res2 = pointService.insertUserPoint(userPoint);
+
+        if (res1+res2==2){
             return R.ok().put("data", hbbUser);
         }
-        return R.error("注册失败");
+        return R.error("未知原因，注册失败");
+
     }
 
 }
