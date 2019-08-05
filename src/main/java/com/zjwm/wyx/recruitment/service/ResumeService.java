@@ -54,9 +54,11 @@ public interface ResumeService {
     String queryNameByUid(int uid);
 
     /**
-     * 保存  同时三张表
+     * 保存 三张表
      */
-    int save(Resume resume, Employment employment, Project project);
+    int save(Resume resume);
+    int save(Employment employment);
+    int save(Project project);
 
     /**
      * 删除

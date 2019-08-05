@@ -64,13 +64,19 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeMapper.queryNameByUid(uid);
     }
 
-    @Transactional
     @Override
-    public int save(Resume resume, Employment employment, Project project) {
-        int res1 = resumeMapper.save(resume);
-        int res2 = employmentMapper.save(employment);
-        int res3 = projectMapper.save(project);
-        return res1 + res2 + res3;
+    public int save(Resume resume) {
+        return resumeMapper.save(resume);
+    }
+
+    @Override
+    public int save(Employment employment) {
+        return employmentMapper.save(employment);
+    }
+
+    @Override
+    public int save(Project project) {
+        return projectMapper.save(project);
     }
 
     @Transactional

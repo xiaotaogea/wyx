@@ -154,21 +154,23 @@ public class ResumeController {
             map.put("msg","该简历名称已存在！");
             return map;
         }
-        //创建简历对象
 
-		resume.setCreateTime((int) (System.currentTimeMillis()/1000));
-		resume.setUpdateTime((int) (System.currentTimeMillis()/1000));
+		int now = (int) (System.currentTimeMillis()/1000);
+        //创建简历对象
+		resume.setCreateTime(now);
+		resume.setUpdateTime(now);
+		int res1 = resumeService.save(resume);
         //创建工作经验对象
 		employment.setResumeId(resume.getId());
-		employment.setCreateTime((int) (System.currentTimeMillis()/1000));
-		employment.setUpdateTime((int) (System.currentTimeMillis()/1000));
+		employment.setCreateTime(now);
+		employment.setUpdateTime(now);
+		int res2 = resumeService.save(employment);
         //创建项目经验对象
 		project.setResumeId(resume.getId());
-		project.setCreateTime((int) (System.currentTimeMillis()/1000));
-		project.setUpdateTime((int) (System.currentTimeMillis()/1000));
-
-        int rest = resumeService.save(resume,employment,project);
-        if (rest!=3){
+		project.setCreateTime(now);
+		project.setUpdateTime(now);
+        int res3 = resumeService.save(project);
+        if ((res1+res2+res3)!=3){
             map.put("data","发布失败");
         }else {
             map.put("data","发布成功");
