@@ -162,7 +162,7 @@ public class Register {
         if (code == null) {
             return R.error("验证码不能为空");
         }
-        if (!"/^1[3-9][0-9]\\d{8}$/".matches(mobile)){
+        if (!"/^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/".matches(mobile)) {
             return R.error("手机号格式不正确");
         }
         HbbUser mobileUser = userService.queryByMobile(mobile);
@@ -180,7 +180,7 @@ public class Register {
         // 验证输入验证码
         //从redis取出验证
         String phoneCode = redisService.getValue(KEY);
-        if (phoneCode == null){
+        if (phoneCode == null) {
             return R.error("验证码已失效，请重新发送");
         }
         if (!phoneCode.equals(code)) {
@@ -224,7 +224,7 @@ public class Register {
         userPoint.setAddTime((int) (System.currentTimeMillis() / 1000));
         int res2 = pointService.insertUserPoint(userPoint);
 
-        if (res1+res2==2){
+        if (res1 + res2 == 2) {
             return R.ok().put("data", hbbUser);
         }
         return R.error("未知原因，注册失败");
