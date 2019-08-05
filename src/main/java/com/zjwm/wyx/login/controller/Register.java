@@ -5,6 +5,7 @@ import com.zjwm.wyx.login.service.RedisService;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.utils.CountUtil;
+import com.zjwm.wyx.utils.Md5Util;
 import com.zjwm.wyx.utils.R;
 import com.zjwm.wyx.utils.UUIDS;
 import com.zjwm.wyx.utils.smsUtil.CHttpPost;
@@ -198,7 +199,7 @@ public class Register {
         hbbUser.setNick(nick);
         hbbUser.setEmail(email);
         hbbUser.setStreng(streng);
-        hbbUser.setPassword(password);
+        hbbUser.setPassword(Md5Util.md5(Md5Util.md5("zjwam"+password)));
         hbbUser.setType(type);
         hbbUser.setPic(null);
         hbbUser.setFen("10");

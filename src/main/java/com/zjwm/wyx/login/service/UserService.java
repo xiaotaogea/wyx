@@ -16,16 +16,10 @@ public interface UserService {
 
     HbbUser queryByMobile(String mobile);
 
-	/**
-	 * 用户登录
-	 * @param mobile    手机号
-	 * @param password  密码
-	 * @return          返回用户ID
-	 */
-	int login(String mobile, String password);
 
 	int save(HbbUser hbbUser, UserPoint userPoint);
-
+    int save(HbbUser hbbUser);
     HbbUser queryByEmail(String email);
+    int updateFen(HbbUser hbbUser);
 
 }
