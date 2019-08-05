@@ -4,7 +4,6 @@ import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.RedisService;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
-import com.zjwm.wyx.point.service.UserPointService;
 import com.zjwm.wyx.utils.CountUtil;
 import com.zjwm.wyx.utils.R;
 import com.zjwm.wyx.utils.UUIDS;
@@ -39,8 +38,6 @@ public class Register {
     private UserService userService;
     @Resource
     private MessageUser messageUser;
-    @Resource
-    private UserPointService pointService;
 
     /**
      * 短信验证码发送
@@ -65,10 +62,11 @@ public class Register {
 //        boolean isEncryptPwd = true;
         //验证码
         String phoneCode = CountUtil.verifyCode();
+        // 放redis设置储存时间五分钟
+        redisService.setKey(UUIDS.getDateTime(), phoneCode);
         // 单条发送
         singleSend(userid, pwd, phoneCode, mobile);
-        // 验证码放redis设置储存时间五分钟
-        redisService.setKey(mobile + "phoneCode", phoneCode);
+
         //返回验证
         return R.ok().put("data", phoneCode);
     }
@@ -163,18 +161,18 @@ public class Register {
 //        }
 
         // 验证输入验证码
-
-        String phoneCode = redisService.getValue(mobile + "phoneCode");
+        //从redis取出验证
+        String phoneCode = redisService.getValue(UUIDS.getDateTime());
         System.out.println(phoneCode);
         if (phoneCode != null && !phoneCode.equals(code)) {
             return R.error("验证码不正确");
         }
-        HbbUser user = userService.queryByMobile(mobile);
-        if (user != null) {
+        HbbUser mobileUser = userService.queryByMobile(mobile);
+        if (mobileUser != null) {
             return R.error("用户已存在");
         }
-        HbbUser user1 = userService.queryByEmail(email);
-        if (user1 != null) {
+        HbbUser emailUser = userService.queryByEmail(email);
+        if (emailUser != null) {
             return R.error("邮箱已存在");
         }
 
@@ -221,7 +219,7 @@ public class Register {
         int res = userService.save(hbbUser,userPoint);
         if (res==2){
             // 返回token
-            return R.ok().put("data", phoneCode);
+            return R.ok().put("data", hbbUser);
         }
         return R.error("注册失败");
     }
