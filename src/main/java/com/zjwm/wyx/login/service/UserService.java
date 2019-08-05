@@ -18,6 +18,6 @@ public interface UserService {
 
     int save(HbbUser hbbUser);
     HbbUser queryByEmail(String email);
-    int updateFen(HbbUser hbbUser);
+    int update(HbbUser hbbUser);
 
 }

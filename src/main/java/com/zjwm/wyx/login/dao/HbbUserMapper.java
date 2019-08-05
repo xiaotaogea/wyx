@@ -10,5 +10,5 @@ public interface HbbUserMapper extends BaseDao<HbbUser> {
     HbbUser queryByMobile(String mobile);
     HbbUser queryByEmail(String Email);
 
-    int updateFen(HbbUser hbbUser);
+
 }

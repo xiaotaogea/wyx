@@ -3,7 +3,6 @@ package com.zjwm.wyx.login.service.impl;
 import com.zjwm.wyx.login.dao.HbbUserMapper;
 import com.zjwm.wyx.login.entity.HbbUser;
 import com.zjwm.wyx.login.service.UserService;
-import com.zjwm.wyx.point.dao.UserPointMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,8 +14,6 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private HbbUserMapper userMapper;
-    @Resource
-    private UserPointMapper pointMapper;
 
     @Override
     public HbbUser queryObject(int userId) {
@@ -40,8 +37,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateFen(HbbUser hbbUser) {
-        return userMapper.updateFen(hbbUser);
+    public int update(HbbUser hbbUser) {
+        return userMapper.update(hbbUser);
     }
 
 

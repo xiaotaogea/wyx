@@ -43,7 +43,7 @@ public class Register {
     @Resource
     private UserPointService pointService;
     //把当前时间设置成key
-    public static String KEY = UUIDS.getDateTime();
+    static String KEY = UUIDS.getDateTime();
 
     /**
      * 短信验证码发送
@@ -191,9 +191,7 @@ public class Register {
         int streng;
         if ("/^[0-9]+$/".matches(password) || "/^[a-zA-Z]+$/".matches(password) && password.length() < 14) {
             streng = 1;
-        } else if ("/^[0-9a-z]+$/".matches(password)) {
-            streng = 2;
-        } else if ("/^[0-9A-Z]+$/".matches(password) && (password.length() <= 10)) {
+        } else if ("/^[0-9a-z]+$/".matches(password) || "/^[0-9A-Z]+$/".matches(password) && (password.length() <= 10)) {
             streng = 2;
         } else {
             streng = 3;

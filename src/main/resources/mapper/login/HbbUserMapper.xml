@@ -97,7 +97,7 @@
     </insert>
 
 
-    <update id="updateByPrimaryKey">
+    <update id="update">
         update hbb_user
         set wx_unionid  = #{wxUnionid,jdbcType=VARCHAR},
             mobile      = #{mobile,jdbcType=VARCHAR},
@@ -126,7 +126,5 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
-    <update id="updateFen">
-        update hbb_user set fen=#{fen} where id=#{id}
-    </update>
+
 </mapper>

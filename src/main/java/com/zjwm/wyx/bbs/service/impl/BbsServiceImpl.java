@@ -66,7 +66,7 @@ public class BbsServiceImpl implements BbsService {
     public int save(Bbs bbs, UserPoint userPoint, HbbUser hbbUser) {
         int res1 = bbsMapper.save(bbs);
         int res2 = pointMapper.save(userPoint);
-        int res3 = userDao.updateFen(hbbUser);
+        int res3 = userDao.update(hbbUser);
         return res1 + res2 + res3;
     }
 
