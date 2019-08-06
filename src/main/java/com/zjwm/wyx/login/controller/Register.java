@@ -45,6 +45,8 @@ public class Register {
     @ApiImplicitParam(paramType = "query", name = "mobile", value = "手机号", required = true, dataType = "string")
     public R code(String mobile) {
         String phoneCode = SendSmsUtil.getCode(mobile);
+        // 放redis设置储存时间五分钟
+        redisService.setKey(SendSmsUtil.KEY, phoneCode);
         //返回验证
         return R.ok().put("data", phoneCode);
     }

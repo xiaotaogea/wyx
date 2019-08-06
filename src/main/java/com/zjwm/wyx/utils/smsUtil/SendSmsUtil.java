@@ -15,10 +15,8 @@ import java.util.Calendar;
  */
 public class SendSmsUtil {
 
-    @Resource
-    private static MessageUser messageUser;
-    @Resource
-    private static RedisService redisService;
+
+
 
     //把当前时间设置成key
     public static String KEY = UUIDS.getDateTime();
@@ -31,12 +29,12 @@ public class SendSmsUtil {
     public static String getCode(String mobile) {
 
         // 用户账号
-        String userid = messageUser.getMessageUserId();
+        String userid = MessageUser.messageUserId;
         // 用户密码
-        String pwd = messageUser.getMessageUserPwd();
+        String pwd = MessageUser.messageUserPwd;
 
         //主IP信息  必填
-        String masterIpAddress = messageUser.getMasterIpAddress();
+        String masterIpAddress = MessageUser.masterIpAddress;
         //设置IP
         ConfigManager.setIpInfo(masterIpAddress, "", null, null);
 
@@ -45,8 +43,7 @@ public class SendSmsUtil {
 //        boolean isEncryptPwd = true;
         //验证码
         String phoneCode = CountUtil.verifyCode();
-        // 放redis设置储存时间五分钟
-        redisService.setKey(KEY, phoneCode);
+
         // 单条发送
         if (singleSend(userid, pwd, phoneCode, mobile)){
             //返回验证码
