@@ -5,14 +5,9 @@ import com.zjwm.wyx.login.service.RedisService;
 import com.zjwm.wyx.login.service.UserService;
 import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.point.service.UserPointService;
-import com.zjwm.wyx.utils.CountUtil;
 import com.zjwm.wyx.utils.Md5Util;
 import com.zjwm.wyx.utils.R;
-import com.zjwm.wyx.utils.UUIDS;
-import com.zjwm.wyx.utils.smsUtil.CHttpPost;
-import com.zjwm.wyx.utils.smsUtil.ConfigManager;
-import com.zjwm.wyx.utils.smsUtil.Message;
-import com.zjwm.wyx.utils.smsUtil.MessageUser;
+import com.zjwm.wyx.utils.smsUtil.SendSmsUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.regex.Pattern;
 
 /**
@@ -39,12 +32,10 @@ public class Register {
     private RedisService redisService;
     @Resource
     private UserService userService;
-    @Resource
-    private MessageUser messageUser;
+
     @Resource
     private UserPointService pointService;
-    //把当前时间设置成key
-    static String KEY = UUIDS.getDateTime();
+
 
     /**
      * 短信验证码发送
@@ -53,92 +44,11 @@ public class Register {
     @ApiOperation(value = "手机发送验证码")
     @ApiImplicitParam(paramType = "query", name = "mobile", value = "手机号", required = true, dataType = "string")
     public R code(String mobile) {
-
-        // 用户账号
-        String userid = messageUser.getMessageUserId();
-        // 用户密码
-        String pwd = messageUser.getMessageUserPwd();
-
-        //主IP信息  必填
-        String masterIpAddress = messageUser.getMasterIpAddress();
-        //设置IP
-        ConfigManager.setIpInfo(masterIpAddress, "", null, null);
-
-        //密码是否加密   true：密码加密;false：密码不加密
-//        ConfigManager.IS_ENCRYPT_PWD = true;
-//        boolean isEncryptPwd = true;
-        //验证码
-        String phoneCode = CountUtil.verifyCode();
-        // 放redis设置储存时间五分钟
-        redisService.setKey(KEY, phoneCode);
-        // 单条发送
-        singleSend(userid, pwd, phoneCode, mobile);
-
+        String phoneCode = SendSmsUtil.getCode(mobile);
         //返回验证
         return R.ok().put("data", phoneCode);
     }
 
-    /**
-     * @param userid 用户账号
-     * @param pwd    用户密码
-     * @description 单条发送
-     */
-    private static void singleSend(String userid, String pwd, String phoneCode, String mobile) {
-        // 日期格式定义
-        SimpleDateFormat sdf = new SimpleDateFormat("MMddHHmmss");
-        try {
-            // 参数类
-            Message message = new Message();
-            // 实例化短信处理对象
-            CHttpPost cHttpPost = new CHttpPost();
-
-            // 设置账号   将 userid转成大写,以防大小写不一致
-            message.setUserid(userid.toUpperCase());
-
-            //密码加密，则对密码进行加密
-
-            // 设置时间戳
-            String timestamp = sdf.format(Calendar.getInstance().getTime());
-            message.setTimestamp(timestamp);
-
-            // 对密码进行加密
-            String encryptPwd = cHttpPost.encryptPwd(message.getUserid(), pwd, message.getTimestamp());
-            // 设置加密后的密码
-            message.setPwd(encryptPwd);
-
-
-            // 设置手机号码 此处只能设置一个手机号码
-            message.setMobile(mobile);
-            // 设置内容
-            message.setContent("您的验证码是" + phoneCode + "，在10分钟内输入有效。如非本人操作请忽略此短信。");
-            // 设置扩展号
-            message.setExno("11");
-            // 用户自定义流水编号
-            message.setCustid(UUIDS.getDateUUID());
-            // 自定义扩展数据
-            message.setExdata("abcdef");
-            //业务类型
-            message.setSvrtype("SMS001");
-
-            // 返回的平台流水编号等信息
-            StringBuffer msgId = new StringBuffer();
-            // 返回值
-            // 发送短信
-            int result = cHttpPost.singleSend(message, msgId);
-            // result为0:成功;非0:失败
-            if (result == 0) {
-                System.out.println("单条发送提交成功！");
-
-                System.out.println(msgId.toString());
-
-            } else {
-                System.out.println("单条发送提交失败,错误码：" + result);
-            }
-        } catch (Exception e) {
-            //异常处理
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 手机号注册
@@ -156,46 +66,45 @@ public class Register {
     public R register(String nick, String mobile, String password, String email, String code, Integer type) {
 
 
-        if (mobile == null) {
+        if (mobile == null)
             return R.error("手机号不能为空");
-        }
-        if (password == null) {
-            return R.error("密码不能为空");
-        }
-        if (code == null) {
-            return R.error("验证码不能为空");
-        }
-        if (!Pattern.compile("^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9]))\\d{8}$").matcher(mobile).matches()) {
-            return R.error("手机号格式不正确");
-        }
-        HbbUser mobileUser = userService.queryByMobile(mobile);
-        if (mobileUser != null) {
-            return R.error("用户已存在");
-        }
-        HbbUser emailUser = userService.queryByEmail(email);
-        if (emailUser != null) {
-            return R.error("邮箱已存在");
-        }
 
-        if (password.length() < 6) {
+        if (password == null)
+            return R.error("密码不能为空");
+
+        if (code == null)
+            return R.error("验证码不能为空");
+
+        if (!Pattern.compile("^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9]))\\d{8}$").matcher(mobile).matches())
+            return R.error("手机号格式不正确");
+
+        HbbUser mobileUser = userService.queryByMobile(mobile);
+        if (mobileUser != null)
+            return R.error("用户已存在");
+
+        HbbUser emailUser = userService.queryByEmail(email);
+        if (emailUser != null)
+            return R.error("邮箱已存在");
+
+
+        if (password.length() < 6)
             return R.error("密码不能少于6位");
-        }
+
         // 验证输入验证码
         //从redis取出验证
-        String phoneCode = redisService.getValue(KEY);
-        if (phoneCode == null) {
+        String phoneCode = redisService.getValue(SendSmsUtil.KEY);
+        if (phoneCode == null)
             return R.error("验证码已失效，请重新发送");
-        }
-        if (!phoneCode.equals(code)) {
+
+        if (!phoneCode.equals(code))
             return R.error("验证码不正确");
-        }
 
 
-        /**
-         * 密码强度判断
-         * 1：差 ，小于8位全是数字或者字母
-         * 2：中，小于8位且包含小写字母或者大写字母
-         * 3：强，大于14位，或者大于8位包含大写跟小写字母
+        /*
+          密码强度判断
+          1：差 ，小于8位全是数字或者字母
+          2：中，小于8位且包含小写字母或者大写字母
+          3：强，大于14位，或者大于8位包含大写跟小写字母
          */
         int streng;
         if (Pattern.compile("^[0-9]+$").matcher(password).matches() || Pattern.compile("^[a-zA-Z]+$").matcher(password).matches() && password.length() < 8) {
@@ -233,9 +142,9 @@ public class Register {
         userPoint.setAddTime((int) (System.currentTimeMillis() / 1000));
         int res2 = pointService.insertUserPoint(userPoint);
 
-        if (res1 + res2 == 2) {
+        if (res1 + res2 == 2)
             return R.ok().put("data", hbbUser);
-        }
+
         return R.error("未知原因，注册失败");
 
     }

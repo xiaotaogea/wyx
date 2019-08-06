@@ -7,6 +7,7 @@ import com.zjwm.wyx.point.entity.UserPoint;
 import com.zjwm.wyx.point.service.UserPointService;
 import com.zjwm.wyx.utils.Md5Util;
 import com.zjwm.wyx.utils.R;
+import com.zjwm.wyx.utils.smsUtil.SendSmsUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -55,22 +56,22 @@ public class Login {
             @ApiImplicitParam(paramType = "query", name = "pwd", value = "密码", required = true, dataType = "string"),
     })
     public R pwd(@RequestParam String mobile, @RequestParam String pwd, HttpServletRequest request) {
-        if (mobile == null) {
+        if (mobile == null)
             return R.error("请输入账号");
-        }
-        if (pwd == null) {
+
+        if (pwd == null)
             return R.error("请输入密码");
-        }
+
         // 验证手机号和密码
         HbbUser hbbUser = userService.queryByMobile(mobile);
-        if (hbbUser == null) {
+        if (hbbUser == null)
             return R.error("账号不存在");
-        }
+
         System.out.println(hbbUser.getPassword());
         System.out.println(Md5Util.md5(Md5Util.md5("zjwam" + pwd)));
-        if (!hbbUser.getPassword().equals(Md5Util.md5(Md5Util.md5("zjwam" + pwd)))) {
+        if (!hbbUser.getPassword().equals(Md5Util.md5(Md5Util.md5("zjwam" + pwd))))
             return R.error("密码错误");
-        }
+
         //根据最后登录时间判断是否是第一次登录，如果为null，就是第一次，加积分
         boolean firstLogin = hbbUser.getLogintime() == null;
         if (firstLogin) {
@@ -113,9 +114,9 @@ public class Login {
             @ApiImplicitParam(paramType = "query", name = "type", value = "验证类型：1手机号，2：邮箱", required = true, dataType = "int")
     })
     public R findPwd(String mobile, String newPwd, String email, String code, Integer type) {
-        if (newPwd.length() < 6) {
+        if (newPwd.length() < 6)
             return R.error("密码不能少于6位");
-        }
+
         //密码强度
         int streng;
         if (Pattern.compile("^[0-9]+$").matcher(newPwd).matches() || Pattern.compile("^[a-zA-Z]+$").matcher(newPwd).matches() && newPwd.length() < 8) {
@@ -130,34 +131,33 @@ public class Login {
         switch (type) {
             //手机验证
             case 1:
-                if (mobile == null && code == null) {
+                if (mobile == null && code == null)
                     return R.error("请填写完整信息");
-                }
+
                 hbbUser = userService.queryByMobile(mobile);
-                if (hbbUser == null) {
+                if (hbbUser == null)
                     return R.error("手机号不存在");
-                }
+
                 //发送验证码
-                new Register().code(mobile);
-                // 验证输入验证码
+                SendSmsUtil.getCode(mobile);
                 //从redis取出验证
-                String phoneCode = redisService.getValue(Register.KEY);
-                if (phoneCode == null) {
+                String phoneCode = redisService.getValue(SendSmsUtil.KEY);
+                if (phoneCode == null)
                     return R.error("验证码已失效，请重新发送");
-                }
-                if (!phoneCode.equals(code)) {
+
+                if (!phoneCode.equals(code))
                     return R.error("验证码不正确");
-                }
+
                 break;
             //邮箱验证
             case 2:
-                if (email == null && code == null) {
+                if (email == null && code == null)
                     return R.error("请填写完整信息");
-                }
+
                 hbbUser = userService.queryByEmail(email);
-                if (hbbUser == null) {
+                if (hbbUser == null)
                     return R.error("邮箱不存在");
-                }
+
                 break;
         }
         if (hbbUser != null) {
@@ -177,21 +177,21 @@ public class Login {
             @ApiImplicitParam(paramType = "query", name = "oldPwd", value = "老密码", required = true, dataType = "string"),
             @ApiImplicitParam(paramType = "query", name = "newPwd", value = "新密码", required = true, dataType = "string"),
     })
-    public R updatePwd(Integer uid,String oldPwd,String newPwd) {
-        if (oldPwd==null && newPwd==null){
+    public R updatePwd(Integer uid, String oldPwd, String newPwd) {
+        if (oldPwd == null && newPwd == null)
             return R.error("请填写完整信息");
-        }
+
         HbbUser hbbUser = userService.queryObject(uid);
-        if (!hbbUser.getPassword().equals(Md5Util.md5(Md5Util.md5("zjwam" + oldPwd)))){
+        if (!hbbUser.getPassword().equals(Md5Util.md5(Md5Util.md5("zjwam" + oldPwd))))
             return R.error("密码不正确");
-        }
+
         //修改密码
-        if (newPwd.length() < 6) {
+        if (newPwd.length() < 6)
             return R.error("密码不能少于6位");
-        }
+
         //密码强度
         int streng;
-        if ((Pattern.compile("^[0-9]+$").matcher(newPwd).matches() || Pattern.compile("^[a-zA-Z]+$").matcher(newPwd).matches() )&& newPwd.length() < 8) {
+        if ((Pattern.compile("^[0-9]+$").matcher(newPwd).matches() || Pattern.compile("^[a-zA-Z]+$").matcher(newPwd).matches()) && newPwd.length() < 8) {
             streng = 1;
         } else if ((Pattern.compile("^[0-9a-z]+$").matcher(newPwd).matches() || Pattern.compile("^[0-9A-Z]+$").matcher(newPwd).matches()) && (newPwd.length() <= 8)) {
             streng = 2;
