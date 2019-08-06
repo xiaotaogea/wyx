@@ -11,13 +11,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.regex.Pattern;
 
 /**
  * @ClassName: Login
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date: 2019/7/28 0028 15:54
  * @Copyright: 2019 www.zjwm.com Inc. All rights reserved.
  */
-@Controller
+@RestController
 @RequestMapping("/login")
 @Api(description = "手机号登录，退出，找回密码")
 public class Login {
@@ -47,7 +48,7 @@ public class Login {
      * @date: 2019年6月10日 上午11:48:03
      * @return: R
      */
-    @RequestMapping("/pwd")
+    @GetMapping("/pwd")
     @ApiOperation(value = "登录验证，首次登录加积分")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "mobile", value = "手机号", required = true, dataType = "string"),
@@ -65,7 +66,9 @@ public class Login {
         if (hbbUser == null) {
             return R.error("账号不存在");
         }
-        if (hbbUser.getPassword().equals(Md5Util.md5(Md5Util.md5("zjwam" + pwd)))) {
+        System.out.println(hbbUser.getPassword());
+        System.out.println(Md5Util.md5(Md5Util.md5("zjwam" + pwd)));
+        if (!hbbUser.getPassword().equals(Md5Util.md5(Md5Util.md5("zjwam" + pwd)))) {
             return R.error("密码错误");
         }
         //根据最后登录时间判断是否是第一次登录，如果为null，就是第一次，加积分
@@ -80,11 +83,10 @@ public class Login {
             userPoint.setType(0);
             pointService.insertUserPoint(userPoint);
             hbbUser.setFen("20");
-            userService.update(hbbUser);
         }
         //更新最后登录时间
         hbbUser.setLogintime((int) (System.currentTimeMillis() / 1000));
-        int res = userService.save(hbbUser);
+        int res = userService.update(hbbUser);
         if (res == 1) {
             //		返回token user信息（用户名、用户头像、userId）
             //把用户id存到session里
@@ -116,9 +118,9 @@ public class Login {
         }
         //密码强度
         int streng;
-        if ("/^[0-9]+$/".matches(newPwd) || "/^[a-zA-Z]+$/".matches(newPwd) && newPwd.length() < 14) {
+        if (Pattern.compile("^[0-9]+$").matcher(newPwd).matches() || Pattern.compile("^[a-zA-Z]+$").matcher(newPwd).matches() && newPwd.length() < 8) {
             streng = 1;
-        } else if ("/^[0-9a-z]+$/".matches(newPwd) || "/^[0-9A-Z]+$/".matches(newPwd) && (newPwd.length() <= 10)) {
+        } else if (Pattern.compile("^[0-9a-z]+$").matcher(newPwd).matches() || Pattern.compile("^[0-9A-Z]+$").matcher(newPwd).matches() && (newPwd.length() <= 8)) {
             streng = 2;
         } else {
             streng = 3;
@@ -184,6 +186,20 @@ public class Login {
             return R.error("密码不正确");
         }
         //修改密码
+        if (newPwd.length() < 6) {
+            return R.error("密码不能少于6位");
+        }
+        //密码强度
+        int streng;
+        if ((Pattern.compile("^[0-9]+$").matcher(newPwd).matches() || Pattern.compile("^[a-zA-Z]+$").matcher(newPwd).matches() )&& newPwd.length() < 8) {
+            streng = 1;
+        } else if ((Pattern.compile("^[0-9a-z]+$").matcher(newPwd).matches() || Pattern.compile("^[0-9A-Z]+$").matcher(newPwd).matches()) && (newPwd.length() <= 8)) {
+            streng = 2;
+        } else {
+            streng = 3;
+        }
+        System.out.println(streng);
+        hbbUser.setStreng(streng);
         hbbUser.setPassword(Md5Util.md5(Md5Util.md5("zjwam" + newPwd)));
         userService.update(hbbUser);
         return R.ok();
