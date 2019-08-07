@@ -1,10 +1,8 @@
 package com.zjwm.wyx.utils.smsUtil;
 
-import com.zjwm.wyx.login.service.RedisService;
 import com.zjwm.wyx.utils.CountUtil;
 import com.zjwm.wyx.utils.UUIDS;
 
-import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -42,7 +40,7 @@ public class SendSmsUtil {
 //        ConfigManager.IS_ENCRYPT_PWD = true;
 //        boolean isEncryptPwd = true;
         //验证码
-        String phoneCode = CountUtil.verifyCode();
+        String phoneCode = CountUtil.verifyCode(6);
 
         // 单条发送
         if (singleSend(userid, pwd, phoneCode, mobile)){

@@ -14,7 +14,22 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<Order> queryPay(int uid,Integer status) {
-        return orderMapper.queryPay(uid,status);
+    public List<Order> queryCar(int uid,Integer status) {
+        return orderMapper.queryCar(uid,status);
+    }
+
+    @Override
+    public List<Order> queryOrder(int uid, String orderNo) {
+        return orderMapper.queryOrder(uid,orderNo);
+    }
+
+    @Override
+    public int save(Order order) {
+        return orderMapper.save(order);
+    }
+
+    @Override
+    public int update(Order order) {
+        return orderMapper.update(order);
     }
 }

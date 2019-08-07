@@ -5,22 +5,55 @@
 
     <resultMap type="com.zjwm.wyx.order.entity.Order" id="orderMap">
         <result property="id" column="id"/>
-        <result property="clid" column="clid"/>
-        <result property="cName" column="cname"/>
         <result property="orderNo" column="orderno"/>
-        <result property="price" column="price"/>
         <result property="status" column="status"/>
         <result property="payMent" column="payment"/>
         <result property="addTime" column="addtime"/>
         <result property="payTime" column="paytime"/>
         <result property="uid" column="uid"/>
+
+        <association property="userHClass" javaType="com.zjwm.wyx.course.entity.UserHClass">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="img" column="img"/>
+            <result property="price" column="price"/>
+        </association>
     </resultMap>
-    <select id="queryPay" resultMap="orderMap">
-        select * from hbb_order where uid=#{uid}
+    <select id="queryCar" resultMap="orderMap">
+        select o.*,c.id,c.name,c.price,c.img
+        from hbb_order o
+        join hbb_class c
+        on o.clid=c.id
+        where o.uid=#{uid}
         <if test="status!=null">
-            and status=#{status}
+            and o.status=#{status}
         </if>
 
     </select>
+    <select id="queryOrder" resultMap="orderMap">
+        select o.*,c.id,c.name,c.price,c.img
+        from hbb_order o
+        join hbb_class c
+        on o.clid=c.id
+        where o.uid=#{uid}
+        and o.orderno=#{orderNo}
+        and o.status=1
+
+    </select>
+
+    <insert id="save">
+        insert into hbb_order(clid, cname, orderno, price, status, payment, addtime, paytime, uid)
+        values (#{c.id}, #{c.name}, #{orderNo}, #{c.price}, #{status}, #{payMent}, #{addTime},
+                #{payTime}, #{uid})
+    </insert>
+
+    <update id="update">
+        update hbb_order
+        set orderno=#{orderNo},
+            status=#{status},
+            payment=#{payMent},
+            paytime=#{payTime}
+        where id = #{id}
+    </update>
 
 </mapper>

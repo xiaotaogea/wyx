@@ -44,7 +44,7 @@
 
         <!-- 逆向哪些表 -->
 		
-		<table tableName="hbb_user"></table>
+		<table tableName="hbb_order"></table>
 		<!-- 有些表的字段需要指定java类型
 		 <table schema="" tableName="">
 			<columnOverride column="" javaType="" />

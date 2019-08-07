@@ -33,10 +33,10 @@ public class CountUtil {
     /**
      * @return 验证码:数字、大写字母、小写字母拆分来随机
      */
-    public static String verifyCode() {
+    public static String verifyCode(int n) {
         Random random = new Random();
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < n; i++) {
             int key = random.nextInt(3);
             switch (key) {
                 case 0:
