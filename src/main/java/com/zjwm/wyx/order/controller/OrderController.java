@@ -43,13 +43,13 @@ public class OrderController {
             @ApiImplicitParam(paramType = "query", name = "status", value = "1:未付款，2:已付款", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "type", value = "提交订单时用，值为order", dataType = "string")
     })
-    public PageInfo<Order> getList(int uid, Integer currPage, Integer status,String type) {
+    public PageInfo<Order> getList(int uid, Integer currPage, Integer status, String type) {
         currPage = currPage == null ? 1 : currPage;
         type = type == null ? "" : type;
         String orderNo = "zjwam" + CountUtil.verifyCode(3) + UUIDS.getDateTime();
         PageHelper.startPage(currPage, 5);
         List<Order> orders = orderService.queryCar(uid, status);
-        if (type.equals("order")){
+        if (type.equals("order")) {
             for (Order order : orders) {
                 order.setOrderNo(orderNo);
                 orderService.update(order);
@@ -75,6 +75,16 @@ public class OrderController {
         return R.error("加入购物车失败!");
     }
 
+    @GetMapping("delCar")
+    @ApiOperation(value = "删除商品")
+    @ApiImplicitParam(paramType = "query", name = "id", value = "商品id", required = true, dataType = "int")
+    public R delete(int id) {
+        if (orderService.delete(id) == 1) {
+            return R.ok("删除成功");
+        }
+        return R.error("删除失败");
+    }
+
     @GetMapping("order")
     @ApiOperation(value = "订单列表")
     @ApiImplicitParams({
@@ -82,10 +92,10 @@ public class OrderController {
             @ApiImplicitParam(paramType = "query", name = "orderNo", value = "订单号", dataType = "string"),
             @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int")
     })
-    public PageInfo<Order> getOrder(int uid,String orderNo, Integer currPage){
+    public PageInfo<Order> getOrder(int uid, String orderNo, Integer currPage) {
         currPage = currPage == null ? 1 : currPage;
         PageHelper.startPage(currPage, 5);
-        List<Order> orders = orderService.queryOrder(uid,orderNo);
+        List<Order> orders = orderService.queryOrder(uid, orderNo);
 
         return new PageInfo<>(orders);
     }

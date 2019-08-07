@@ -56,4 +56,8 @@
         where id = #{id}
     </update>
 
+    <delete id="delete">
+        delete from hbb_order where id=#{id}
+    </delete>
+
 </mapper>

@@ -32,4 +32,9 @@ public class OrderServiceImpl implements OrderService {
     public int update(Order order) {
         return orderMapper.update(order);
     }
+
+    @Override
+    public int delete(int id) {
+        return orderMapper.delete(id);
+    }
 }
