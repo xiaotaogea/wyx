@@ -14,13 +14,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<Order> queryCar(int uid,Integer status) {
-        return orderMapper.queryCar(uid,status);
+    public List<Order> queryCar(int uid) {
+        return orderMapper.queryCar(uid);
     }
 
     @Override
-    public List<Order> queryOrder(int uid, String orderNo) {
-        return orderMapper.queryOrder(uid,orderNo);
+    public List<Order> queryOrder(int uid, String orderNo,Integer status) {
+        return orderMapper.queryOrder(uid,orderNo,status);
     }
 
     @Override
@@ -36,5 +36,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int delete(int id) {
         return orderMapper.delete(id);
+    }
+
+    @Override
+    public int queryCount(int uid,int clid) {
+        return orderMapper.queryCount(uid,clid);
     }
 }

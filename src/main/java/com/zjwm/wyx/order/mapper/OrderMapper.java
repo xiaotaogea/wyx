@@ -11,19 +11,24 @@ import java.util.List;
 public interface OrderMapper extends BaseDao<Order> {
 
     /**
-     *
      * @param uid 用户id
-     * @param status 付款状态
      * @return 购物车
      */
-    List<Order> queryCar(@Param("uid") int uid,@Param("status") Integer status);
+    List<Order> queryCar(@Param("uid") int uid);
+
+    /**
+     * @param uid     用户id
+     * @param orderNo 订单号
+     * @param status  付款状态
+     * @return 订单
+     */
+
+    List<Order> queryOrder(@Param("uid") int uid, @Param("orderNo") String orderNo, @Param("status") Integer status);
 
     /**
      *
      * @param uid 用户id
-     * @param orderNo 订单号
-     * @return 订单
+     * @return 购物车中购买单个商品的个数
      */
-
-    List<Order> queryOrder(@Param("uid") int uid,@Param("orderNo") String orderNo);
+    int queryCount(@Param("uid") int uid,@Param("clid") int clid);
 }

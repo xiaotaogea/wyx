@@ -13,37 +13,37 @@
         <result property="uid" column="uid"/>
 
         <association property="userHClass" javaType="com.zjwm.wyx.course.entity.UserHClass">
-            <result property="id" column="id"/>
+            <result property="id" column="cid"/>
             <result property="name" column="name"/>
             <result property="img" column="img"/>
             <result property="price" column="price"/>
         </association>
     </resultMap>
     <select id="queryCar" resultMap="orderMap">
-        select o.*,c.id,c.name,c.price,c.img
+        select o.*,c.id cid,c.name,c.price,c.img
         from hbb_order o
         join hbb_class c
         on o.clid=c.id
         where o.uid=#{uid}
-        <if test="status!=null">
-            and o.status=#{status}
-        </if>
+        and o.status=1
 
     </select>
     <select id="queryOrder" resultMap="orderMap">
-        select o.*,c.id,c.name,c.price,c.img
+        select o.*,c.id clid,c.name,c.price
         from hbb_order o
         join hbb_class c
         on o.clid=c.id
         where o.uid=#{uid}
         and o.orderno=#{orderNo}
-        and o.status=1
+        <if test="status!=null">
+            and o.status=#{status}
+        </if>
 
     </select>
 
     <insert id="save">
         insert into hbb_order(clid, cname, orderno, price, status, payment, addtime, paytime, uid)
-        values (#{c.id}, #{c.name}, #{orderNo}, #{c.price}, #{status}, #{payMent}, #{addTime},
+        values (#{clid}, #{name}, #{orderNo}, #{price}, #{status}, #{payMent}, #{addTime},
                 #{payTime}, #{uid})
     </insert>
 

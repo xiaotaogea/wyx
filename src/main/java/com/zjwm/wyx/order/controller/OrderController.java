@@ -35,32 +35,36 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
+
     @GetMapping("car")
     @ApiOperation(value = "购物车、提交订单")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如887", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "status", value = "1:未付款，2:已付款", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "type", value = "提交订单时用，值为order", dataType = "string")
     })
-    public PageInfo<Order> getList(int uid, Integer currPage, Integer status, String type) {
+    public PageInfo<Order> getList(int uid, Integer currPage, String type) {
         currPage = currPage == null ? 1 : currPage;
         type = type == null ? "" : type;
+        //订单编号
         String orderNo = "zjwam" + CountUtil.verifyCode(3) + UUIDS.getDateTime();
         PageHelper.startPage(currPage, 5);
-        List<Order> orders = orderService.queryCar(uid, status);
+        //购物车
+        List<Order> orders = orderService.queryCar(uid);
         if (type.equals("order")) {
             for (Order order : orders) {
+                //订单处理
                 order.setOrderNo(orderNo);
                 orderService.update(order);
             }
         }
+
         return new PageInfo<>(orders);
     }
 
     @GetMapping("addCar")
     @ApiOperation(value = "加入购物车")
-    @ApiImplicitParam(paramType = "query", name = "order", value = "购物车对象", required = true, dataType = "Order")
+    @ApiImplicitParam(paramType = "query", name = "order", value = "购物车对象", required = true, dataType = "com.zjwm.wyx.order.entity.Order")
     public R addOrder(Order order) {
         order.setOrderNo("zjwam" + CountUtil.verifyCode(3) + UUIDS.getDateTime());
         order.setStatus(1);
@@ -90,13 +94,13 @@ public class OrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "uid", value = "用户id,如887", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "orderNo", value = "订单号", dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "status", value = "1:未付款，2:已付款", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "currPage", value = "当前页，默认是1", dataType = "int")
     })
-    public PageInfo<Order> getOrder(int uid, String orderNo, Integer currPage) {
+    public PageInfo<Order> getOrder(int uid, String orderNo, Integer status, Integer currPage) {
         currPage = currPage == null ? 1 : currPage;
         PageHelper.startPage(currPage, 5);
-        List<Order> orders = orderService.queryOrder(uid, orderNo);
-
+        List<Order> orders = orderService.queryOrder(uid, orderNo, status);
         return new PageInfo<>(orders);
     }
 
